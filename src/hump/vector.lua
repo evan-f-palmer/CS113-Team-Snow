@@ -185,6 +185,20 @@ function vector:trimmed(maxLen)
 	return self:clone():trim_inplace(maxLen)
 end
 
+function vector:scale_inplace(maxLen)
+  self.x = self.x * maxLen
+  self.y = self.y * maxLen
+end
+
+function vector:mul_inplace(vec2)
+  self.x = self.x * vec2.x
+  self.y = self.y * vec2.y
+end
+
+function vector:add_inplace(vec2)
+  self.x = self.x + vec2.x
+  self.y = self.y + vec2.y
+end
 
 -- the module
 return setmetatable({new = new, isvector = isvector, zero = zero},

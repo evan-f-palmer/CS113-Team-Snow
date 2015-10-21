@@ -1,18 +1,18 @@
-local _PACKAGE = ... and (...):match("^(.+)%.[^%.]+") and (...):match("^(.+)%.[^%.]+") .. '.' or ''
+local Game = require('Game')
 
-require (_PACKAGE .. 'subfolder.test')
-local Class = require ('hump.class')
+local game
 
-local Foo = Class {
-  x,
-}
-
-function Foo:init(y)
-  self.x = y
+function love.load(arg)
+  if arg[#arg] == '-debug' then require('mobdebug').start() end
+  io.stdout:setvbuf('no')
+  
+  game = Game()
 end
 
-local bar = Foo(10)
+function love.update(dt)
+  game:update(dt)
+end
 
-print(bar.x)
-
-print('Hello World')
+function love.draw()
+  game:draw()  
+end
