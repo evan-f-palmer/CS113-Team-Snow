@@ -5,7 +5,7 @@ local game
 function love.load(arg)
   if arg[#arg] == '-debug' then require('mobdebug').start() end
   io.stdout:setvbuf('no')
-  
+
   game = Game()
 end
 

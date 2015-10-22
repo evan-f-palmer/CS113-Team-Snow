@@ -3,10 +3,11 @@ local Vector = require('hump.vector')
 
 local Player = Class{}
 
-function Player:init(playerInput)
+function Player:init(playerInput, playerGameData)
   self.loc = Vector(0, 0)
   self.vel = Vector(0, 0)
   self.playerInput = playerInput
+  self.playerGameData = playerGameData
   self.maxSpeed = 100
 end
 
@@ -40,7 +41,12 @@ function Player:firePrimaryWeapon()
 end
 
 function Player:fireSecondaryWeapon()
-  print("Firing Secondary Weapon")
+  if self.playerGameData.bombs > 0 then
+    self.playerGameData.bombs = self.playerGameData.bombs - 1
+    print("Firing Secondary Weapon")
+  else
+    print("No Secondary Weapon Remaining")
+  end
   --TODO
 end
 
