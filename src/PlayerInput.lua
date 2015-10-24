@@ -12,6 +12,7 @@ PlayerInput.blindSpotRadius = 50
 
 function PlayerInput:init()
   self.movementVec = Vector(0, 0)
+  self.directionVec = Vector(0, 0)
   self.primaryWeaponFire  = false
   self.secondaryWeaponFire = false
 end
@@ -28,6 +29,9 @@ function PlayerInput:update(dt)
   self.secondaryWeaponFire = love.keyboard.isDown(" ") or love.mouse.isDown(PlayerInput.rightMouseButton)
   
   local x, y = getMouseOffsetRelativeToCenter()
+
+  self.directionVec.y = -y
+  self.directionVec.x = -x
 
   if math.abs(y) >= self.blindSpotRadius then
     self.movementVec.y = -y

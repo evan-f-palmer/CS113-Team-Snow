@@ -6,9 +6,10 @@ local Player = Class{}
 function Player:init(playerInput, playerGameData)
   self.loc = Vector(0, 0)
   self.vel = Vector(0, 0)
+  self.dir = Vector(0, 0)
   self.playerInput = playerInput
   self.playerGameData = playerGameData
-  self.maxSpeed = 100
+  self.maxSpeed = 450
 end
 
 function Player:update(dt)
@@ -20,6 +21,7 @@ function Player:update(dt)
     self:fireSecondaryWeapon()
   end
 
+  self.dir = self.playerInput.directionVec
   self.vel = self.playerInput.movementVec
 
   self.vel:trim_inplace(self.maxSpeed)

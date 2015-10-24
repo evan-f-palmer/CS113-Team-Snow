@@ -12,7 +12,7 @@ local Renderer = Class {}
 function Renderer:init(world)
   self.camera = Camera()
   self.world = world
-  self.camera.scale = 1 / 3
+  self.camera.scale = 1 / 5
   
   self.playerShip = love.graphics.newImage("assets/ship.png")
 
@@ -40,22 +40,36 @@ function Renderer:draw()
   
   local playerX, playerY = self.world.player.loc.x, self.world.player.loc.y
   local playerCenterX, playerCenterY = (playerX + self.playerShip:getWidth() / 2), (playerY + self.playerShip:getHeight() / 2)
-  local playerAngle = getAngle(self.world.player.vel)
+  local playerAngle = getAngle(self.world.player.dir)
   
+  -- ALWAYS LOOK AT THE PLAYER
   self.camera:lookAt(playerCenterX, playerCenterY)
   self.camera:attach()
   
+  -- THE PLAYER
   love.graphics.setColor(255,255,255)
   drawRotatedImage(self.playerShip, playerX, playerY, playerAngle)
   
-  love.graphics.setColor(255, 0, 0)
-  love.graphics.circle("fill", 0, 0, 10, 20)
+--  -- THIS SHOWS US WHERE THE MOUSE CONTROLS ARE INACTIVE FOR PROPULSION (but it implemented as a rectangle, so it doesn't)
+  love.graphics.setColor(0, 255, 0)
+  local blindSpotRadius = self.world.player.playerInput.blindSpotRadius
+  love.graphics.push()
+  love.graphics.translate(playerCenterX, playerCenterY)
+  love.graphics.scale(1 / self.camera.scale, 1 / self.camera.scale)
+  love.graphics.translate(-playerCenterX, -playerCenterY)
+  love.graphics.circle("line", playerCenterX, playerCenterY, blindSpotRadius, 50)
+  love.graphics.pop()
   
+  -- SOME INFO THAT FOLLOWS THE PLAYER
   love.graphics.setColor(255, 255, 0)
   local loc = 'LOC:['.. math.floor(self.world.player.loc.x) .. ', ' .. math.floor(self.world.player.loc.y) .. ']'
-  love.graphics.print(loc, 50, 50, 0, 5, 5)
+  love.graphics.print(loc, playerCenterX + 50, playerCenterY + 50, 0, 5, 5)
   local vel = 'VEL:['.. math.floor(self.world.player.vel.x) .. ', ' .. math.floor(self.world.player.vel.y) .. ']'
-  love.graphics.print(vel, 50, 100, 0, 5, 5)
+  love.graphics.print(vel, playerCenterX + 50, playerCenterY + 100, 0, 5, 5)
+  
+  -- THE ORIGIN
+  love.graphics.setColor(255, 0, 0)
+  love.graphics.circle("fill", 0, 0, 30, 20)
   
   self.camera:detach()  
 end
