@@ -6,7 +6,7 @@ PlayerGameData.crystalScoreValue = 10
 
 function PlayerGameData:init()
   self.health  = 0
-  self.sheilds = 0
+  self.shields = 0
   self.score   = 0
   self.bombs   = 0
   self.time    = 0
