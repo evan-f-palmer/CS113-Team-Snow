@@ -54,28 +54,25 @@ function Renderer:draw(xWorld)
   love.graphics.setColor(255,255,255)
   drawRotatedImage(self.playerShip, playerX, playerY, playerAngle)
   
-  -- THIS BLOCK BRINGS US UP TO SCREEN SPACE
-  love.graphics.push()
-    love.graphics.translate(playerCenterX, playerCenterY)
-    love.graphics.scale(1 / self.camera.scale, 1 / self.camera.scale)
-    love.graphics.translate(-playerCenterX, -playerCenterY)
-
-    -- THIS SHOWS US WHERE THE MOUSE CONTROLS ARE INACTIVE FOR PROPULSION
+  self:BEGIN_SCREENSPACE()
+    -- THIS SHOWS US WHERE THE MOUSE CONTROLS ARE INACTIVE FOR PROPULSION, (but still active for rotation)
     love.graphics.setColor(0, 255, 0)
     love.graphics.circle("line", playerCenterX, playerCenterY, blindSpotRadius, 50)
     
     love.graphics.setColor(255, 255, 0)
     self:drawPlayerDebugInfo(xWorld.player, playerCenterX + blindSpotRadius, playerCenterY)
-  love.graphics.pop()
+  self:END_SCREENSPACE()
   
   self.camera:detach()  
 end
 
 function Renderer:drawPlayerDebugInfo(xPlayer, xLoc, yLoc)
-  local loc = 'LOC:['.. math.floor(xPlayer.loc.x) .. ', ' .. math.floor(xPlayer.loc.y) .. ']'
-  local vel = 'VEL:['.. math.floor(xPlayer.vel.x) .. ', ' .. math.floor(xPlayer.vel.y) .. ']'
+  local info = {}
   
-  local info = {loc, vel}
+  local loc = 'LOC:['.. math.floor(xPlayer.loc.x) .. ', ' .. math.floor(xPlayer.loc.y) .. ']'
+  table.insert(info, loc)
+  local vel = 'VEL:['.. math.floor(xPlayer.vel.x) .. ', ' .. math.floor(xPlayer.vel.y) .. ']'  
+  table.insert(info, vel)
   
   if xPlayer.playerInput.primaryWeaponFire then
     table.insert(info, '[PRIMARY   FIRE]')
@@ -93,6 +90,17 @@ function Renderer:drawDebugInfo(xInfo, xLoc, yLoc, yOffset)
     love.graphics.print(infoString, xLoc, yLoc)
     yLoc = yLoc + yOffset
   end
+end
+
+function Renderer:BEGIN_SCREENSPACE()
+  love.graphics.push()
+  love.graphics.translate(self.camera.x, self.camera.y)
+  love.graphics.scale(1 / self.camera.scale, 1 / self.camera.scale)
+  love.graphics.translate(-self.camera.x, -self.camera.y)
+end
+
+function Renderer:END_SCREENSPACE()
+  love.graphics.pop()
 end
 
 return Renderer
