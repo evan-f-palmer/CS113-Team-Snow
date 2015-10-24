@@ -21,7 +21,7 @@ local function getMouseOffsetRelativeToCenter()
   local width, height = love.graphics.getDimensions()
   local centerX, centerY = width/2, height/2
   local mouseX, mouseY = love.mouse.getPosition()
-  return centerX - mouseX, centerY - mouseY
+  return -(centerX - mouseX), -(centerY - mouseY)
 end
 
 function PlayerInput:update(dt)
@@ -30,18 +30,14 @@ function PlayerInput:update(dt)
   
   local x, y = getMouseOffsetRelativeToCenter()
 
-  self.directionVec.y = -y
-  self.directionVec.x = -x
+  self.directionVec.y = y
+  self.directionVec.x = x
 
-  if math.abs(y) >= self.blindSpotRadius then
-    self.movementVec.y = -y
+  if (y*y) + (x*x) >= (self.blindSpotRadius*self.blindSpotRadius) then
+    self.movementVec.y = y
+    self.movementVec.x = x
   else
     self.movementVec.y = 0
-  end
-  
-  if math.abs(x) >= self.blindSpotRadius then
-    self.movementVec.x = -x
-  else
     self.movementVec.x = 0
   end
   
