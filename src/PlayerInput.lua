@@ -5,9 +5,7 @@ local PlayerInput = Class{}
 
 PlayerInput.leftMouseButton  = 1
 PlayerInput.rightMouseButton = 2
-
 PlayerInput.inputAmplifier = 100
-
 PlayerInput.blindSpotRadius = 50
 
 function PlayerInput:init()
@@ -36,12 +34,11 @@ function PlayerInput:update(dt)
   if (y*y) + (x*x) >= (self.blindSpotRadius*self.blindSpotRadius) then
     self.movementVec.y = y
     self.movementVec.x = x
+    self.movementVec:scale_inplace(PlayerInput.inputAmplifier)
   else
     self.movementVec.y = 0
     self.movementVec.x = 0
   end
-  
-  self.movementVec:scale_inplace(PlayerInput.inputAmplifier)
 end
 
 return PlayerInput

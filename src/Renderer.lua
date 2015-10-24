@@ -11,7 +11,7 @@ local Renderer = Class {}
 
 function Renderer:init()
   self.camera = Camera()
-  self.camera.scale = 1 / 5
+  self.camera.scale = 1 / 10
   self.camera:lookAt(0, 0)  
   
   self.playerShip = love.graphics.newImage("assets/ship.png")
@@ -40,36 +40,58 @@ function Renderer:draw(xWorld)
   local playerCenterX, playerCenterY = (playerX + self.playerShip:getWidth() / 2), (playerY + self.playerShip:getHeight() / 2)
   local playerAngle = getAngle(xWorld.player.dir)
   
+  local blindSpotRadius = xWorld.player.playerInput.blindSpotRadius
+  
   -- ALWAYS LOOK AT THE PLAYER
   self.camera:lookAt(playerCenterX, playerCenterY)
   self.camera:attach()
+  
+  -- THE ORIGIN
+  love.graphics.setColor(255, 0, 0)
+  love.graphics.circle("fill", 0, 0, 30, 20)
   
   -- THE PLAYER
   love.graphics.setColor(255,255,255)
   drawRotatedImage(self.playerShip, playerX, playerY, playerAngle)
   
 --  -- THIS SHOWS US WHERE THE MOUSE CONTROLS ARE INACTIVE FOR PROPULSION (but it implemented as a rectangle, so it doesn't)
-  love.graphics.setColor(0, 255, 0)
-  local blindSpotRadius = xWorld.player.playerInput.blindSpotRadius
   love.graphics.push()
-  love.graphics.translate(playerCenterX, playerCenterY)
-  love.graphics.scale(1 / self.camera.scale, 1 / self.camera.scale)
-  love.graphics.translate(-playerCenterX, -playerCenterY)
-  love.graphics.circle("line", playerCenterX, playerCenterY, blindSpotRadius, 50)
+    love.graphics.translate(playerCenterX, playerCenterY)
+    love.graphics.scale(1 / self.camera.scale, 1 / self.camera.scale)
+    love.graphics.translate(-playerCenterX, -playerCenterY)
+
+    love.graphics.setColor(0, 255, 0)
+    love.graphics.circle("line", playerCenterX, playerCenterY, blindSpotRadius, 50)
+    
+    love.graphics.setColor(255, 255, 0)
+    self:drawPlayerDebugInfo(xWorld.player, playerCenterX + blindSpotRadius, playerCenterY)
   love.graphics.pop()
   
-  -- SOME INFO THAT FOLLOWS THE PLAYER
-  love.graphics.setColor(255, 255, 0)
-  local loc = 'LOC:['.. math.floor(xWorld.player.loc.x) .. ', ' .. math.floor(xWorld.player.loc.y) .. ']'
-  love.graphics.print(loc, playerCenterX + 50, playerCenterY + 50, 0, 5, 5)
-  local vel = 'VEL:['.. math.floor(xWorld.player.vel.x) .. ', ' .. math.floor(xWorld.player.vel.y) .. ']'
-  love.graphics.print(vel, playerCenterX + 50, playerCenterY + 100, 0, 5, 5)
-  
-  -- THE ORIGIN
-  love.graphics.setColor(255, 0, 0)
-  love.graphics.circle("fill", 0, 0, 30, 20)
-  
   self.camera:detach()  
+end
+
+function Renderer:drawPlayerDebugInfo(xPlayer, xLoc, yLoc)
+  local loc = 'LOC:['.. math.floor(xPlayer.loc.x) .. ', ' .. math.floor(xPlayer.loc.y) .. ']'
+  local vel = 'VEL:['.. math.floor(xPlayer.vel.x) .. ', ' .. math.floor(xPlayer.vel.y) .. ']'
+  
+  local info = {loc, vel}
+  
+  if xPlayer.playerInput.primaryWeaponFire then
+    table.insert(info, '[PRIMARY   FIRE]')
+  end
+  
+  if xPlayer.playerInput.secondaryWeaponFire then
+    table.insert(info, '[SECONDARY FIRE]')
+  end
+  
+  self:drawDebugInfo(info, xLoc, yLoc, 10)
+end
+
+function Renderer:drawDebugInfo(xInfo, xLoc, yLoc, yOffset)
+  for k, infoString in pairs(xInfo) do
+    love.graphics.print(infoString, xLoc, yLoc)
+    yLoc = yLoc + yOffset
+  end
 end
 
 return Renderer

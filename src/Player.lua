@@ -22,10 +22,11 @@ function Player:update(dt)
   end
 
   self.dir = self.playerInput.directionVec
+  
   self.vel = self.playerInput.movementVec
-
   self.vel:trim_inplace(self.maxSpeed)
   self.vel:scale_inplace(dt)
+  
   self.loc:add_inplace(self.vel)
 end
 

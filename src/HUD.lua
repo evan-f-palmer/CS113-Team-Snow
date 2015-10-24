@@ -17,12 +17,11 @@ function HUD:draw(xPlayerGameData)
   local screenWidth  = love.graphics.getWidth()
   local screenHeight = love.graphics.getHeight()
   
-  local zeroRotation = 0
-  
+  local rotation = 0
   local width  = screenWidth / self.background:getWidth()
   local height = screenHeight / self.background:getHeight()
   
-  love.graphics.draw(self.background, 0, 0, zeroRotation, width, height) 
+  love.graphics.draw(self.background, 0, 0, rotation, width, height) 
 
   self.camera:detach()
 end
