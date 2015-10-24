@@ -54,12 +54,13 @@ function Renderer:draw(xWorld)
   love.graphics.setColor(255,255,255)
   drawRotatedImage(self.playerShip, playerX, playerY, playerAngle)
   
---  -- THIS SHOWS US WHERE THE MOUSE CONTROLS ARE INACTIVE FOR PROPULSION (but it implemented as a rectangle, so it doesn't)
+  -- THIS BLOCK BRINGS US UP TO SCREEN SPACE
   love.graphics.push()
     love.graphics.translate(playerCenterX, playerCenterY)
     love.graphics.scale(1 / self.camera.scale, 1 / self.camera.scale)
     love.graphics.translate(-playerCenterX, -playerCenterY)
 
+    -- THIS SHOWS US WHERE THE MOUSE CONTROLS ARE INACTIVE FOR PROPULSION
     love.graphics.setColor(0, 255, 0)
     love.graphics.circle("line", playerCenterX, playerCenterY, blindSpotRadius, 50)
     
