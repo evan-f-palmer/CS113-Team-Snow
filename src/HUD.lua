@@ -3,14 +3,13 @@ local Camera = require('hump.camera')
 
 local HUD = Class {}
 
-function HUD:init(playerGameData)
+function HUD:init()
   self.camera = Camera()
 
   self.background = love.graphics.newImage("assets/hud.png")
-  self.playerGameData = playerGameData
 end
 
-function HUD:draw()
+function HUD:draw(xPlayerGameData)
   self.camera:attach()
   
   love.graphics.setColor(255,255,255)

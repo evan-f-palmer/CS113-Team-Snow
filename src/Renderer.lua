@@ -9,14 +9,12 @@ end
 
 local Renderer = Class {}
 
-function Renderer:init(world)
+function Renderer:init()
   self.camera = Camera()
-  self.world = world
   self.camera.scale = 1 / 5
+  self.camera:lookAt(0, 0)  
   
   self.playerShip = love.graphics.newImage("assets/ship.png")
-
-  self.camera:lookAt(0, 0)  
 end
 
 local function rotateAboutPointAtAngle(centerX, centerY, angle)
@@ -34,13 +32,13 @@ local function drawRotatedImage(image, x, y, angle)
   love.graphics.pop()
 end
 
-function Renderer:draw()
+function Renderer:draw(xWorld)
   local screenWidth  = love.graphics.getWidth()
   local screenHeight = love.graphics.getHeight()
   
-  local playerX, playerY = self.world.player.loc.x, self.world.player.loc.y
+  local playerX, playerY = xWorld.player.loc.x, xWorld.player.loc.y
   local playerCenterX, playerCenterY = (playerX + self.playerShip:getWidth() / 2), (playerY + self.playerShip:getHeight() / 2)
-  local playerAngle = getAngle(self.world.player.dir)
+  local playerAngle = getAngle(xWorld.player.dir)
   
   -- ALWAYS LOOK AT THE PLAYER
   self.camera:lookAt(playerCenterX, playerCenterY)
@@ -52,7 +50,7 @@ function Renderer:draw()
   
 --  -- THIS SHOWS US WHERE THE MOUSE CONTROLS ARE INACTIVE FOR PROPULSION (but it implemented as a rectangle, so it doesn't)
   love.graphics.setColor(0, 255, 0)
-  local blindSpotRadius = self.world.player.playerInput.blindSpotRadius
+  local blindSpotRadius = xWorld.player.playerInput.blindSpotRadius
   love.graphics.push()
   love.graphics.translate(playerCenterX, playerCenterY)
   love.graphics.scale(1 / self.camera.scale, 1 / self.camera.scale)
@@ -62,9 +60,9 @@ function Renderer:draw()
   
   -- SOME INFO THAT FOLLOWS THE PLAYER
   love.graphics.setColor(255, 255, 0)
-  local loc = 'LOC:['.. math.floor(self.world.player.loc.x) .. ', ' .. math.floor(self.world.player.loc.y) .. ']'
+  local loc = 'LOC:['.. math.floor(xWorld.player.loc.x) .. ', ' .. math.floor(xWorld.player.loc.y) .. ']'
   love.graphics.print(loc, playerCenterX + 50, playerCenterY + 50, 0, 5, 5)
-  local vel = 'VEL:['.. math.floor(self.world.player.vel.x) .. ', ' .. math.floor(self.world.player.vel.y) .. ']'
+  local vel = 'VEL:['.. math.floor(xWorld.player.vel.x) .. ', ' .. math.floor(xWorld.player.vel.y) .. ']'
   love.graphics.print(vel, playerCenterX + 50, playerCenterY + 100, 0, 5, 5)
   
   -- THE ORIGIN

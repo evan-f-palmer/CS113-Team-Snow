@@ -11,8 +11,8 @@ function Game:init()
   self.playerInput    = PlayerInput()
   self.playerGameData = PlayerGameData()
   self.world          = World(self.playerInput, self.playerGameData)
-  self.hud            = HUD(self.playerGameData)
-  self.renderer       = Renderer(self.world)
+  self.hud            = HUD()
+  self.renderer       = Renderer()
 end
 
 function Game:update(dt)
@@ -28,8 +28,8 @@ end
 function Game:draw()
   love.graphics.setBackgroundColor(0,0,0,0)
   
-  self.renderer:draw()
-  self.hud:draw()
+  self.renderer:draw(self.world)
+  self.hud:draw(self.playerGameData)
 end
 
 return Game
