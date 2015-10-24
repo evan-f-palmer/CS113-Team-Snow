@@ -1,7 +1,5 @@
 local Class  = require('hump.class')
 local Player = require('Player')
-local HC     = require "HardonCollider"
-
 
 local World = Class{}
 
