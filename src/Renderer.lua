@@ -25,6 +25,15 @@ local function rotateAboutPointAtAngle(centerX, centerY, angle)
   love.graphics.translate(-centerX, -centerY)
 end
 
+local function drawRotatedImage(image, x, y, angle)  
+  local centerX = x + image:getWidth()/2
+  local centerY = y + image:getHeight()/2
+  love.graphics.push()
+  rotateAboutPointAtAngle(centerX, centerY, angle)
+  love.graphics.draw(image, x, y)
+  love.graphics.pop()
+end
+
 function Renderer:draw()
   local screenWidth  = love.graphics.getWidth()
   local screenHeight = love.graphics.getHeight()
@@ -37,14 +46,10 @@ function Renderer:draw()
   self.camera:attach()
   
   love.graphics.setColor(255,255,255)
-  love.graphics.push()
-  rotateAboutPointAtAngle(playerCenterX, playerCenterY, playerAngle)
-  love.graphics.draw(self.playerShip, playerX, playerY)
-  --love.graphics.rectangle("line", playerX, playerY, self.playerShip:getWidth(), self.playerShip:getHeight())
-  love.graphics.pop()
+  drawRotatedImage(self.playerShip, playerX, playerY, playerAngle)
   
   love.graphics.setColor(255, 0, 0)
-  love.graphics.circle("fill", 0, 0, 10, 50)
+  love.graphics.circle("fill", 0, 0, 10, 20)
   
   love.graphics.setColor(255, 255, 0)
   local loc = 'LOC:['.. math.floor(self.world.player.loc.x) .. ', ' .. math.floor(self.world.player.loc.y) .. ']'
