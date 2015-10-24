@@ -19,30 +19,34 @@ function Renderer:init(world)
   self.camera:lookAt(0, 0)  
 end
 
-function Renderer:drawOnCenter(image, rotation)
-  love.graphics.push()
-  love.graphics.rotate(rotation)
-  love.graphics.translate(-image:getWidth() / 2, -image:getHeight() / 2)
-  love.graphics.draw(image, 0, 0)  
-  love.graphics.pop()  
+local function rotate(centerX, centerY, angle)
+  love.graphics.translate(centerX, centerY)
+  love.graphics.rotate(angle)
+  love.graphics.translate(-centerX, -centerY)
 end
 
 function Renderer:draw()
   local screenWidth  = love.graphics.getWidth()
   local screenHeight = love.graphics.getHeight()
   
+  local playerX, playerY = self.world.player.loc.x, self.world.player.loc.y
+  local playerCenterX, playerCenterY = (playerX + self.playerShip:getWidth() / 2), (playerY + self.playerShip:getHeight() / 2)
+  local playerAngle = getAngle(self.world.player.vel)
+  
+  self.camera:lookAt(playerCenterX, playerCenterY)
   self.camera:attach()
   
   love.graphics.setColor(255,255,255)
-  
-  local playerVel = self.world.player.vel
-  local playerAngle = getAngle(playerVel)
-
-  self:drawOnCenter(self.playerShip, playerAngle)
+  love.graphics.push()
+  rotate(playerCenterX, playerCenterY, playerAngle)
+  love.graphics.draw(self.playerShip, playerX, playerY)
+  --love.graphics.rectangle("line", playerX, playerY, self.playerShip:getWidth(), self.playerShip:getHeight())
+  love.graphics.pop()
   
   love.graphics.setColor(255, 0, 0)
   love.graphics.circle("fill", 0, 0, 10, 50)
   
+  love.graphics.setColor(255, 255, 0)
   local loc = 'LOC:['.. math.floor(self.world.player.loc.x) .. ', ' .. math.floor(self.world.player.loc.y) .. ']'
   love.graphics.print(loc, 50, 50, 0, 5, 5)
   local vel = 'VEL:['.. math.floor(self.world.player.vel.x) .. ', ' .. math.floor(self.world.player.vel.y) .. ']'
