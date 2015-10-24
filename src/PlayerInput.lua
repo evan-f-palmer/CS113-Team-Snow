@@ -8,32 +8,36 @@ PlayerInput.rightMouseButton = 2
 
 PlayerInput.inputAmplifier = 100
 
+PlayerInput.blindSpotRadius = 50
+
 function PlayerInput:init()
   self.movementVec = Vector(0, 0)
   self.primaryWeaponFire  = false
   self.secondaryWeaponFire = false
 end
 
+local function getMouseOffsetRelativeToCenter()
+  local width, height = love.graphics.getDimensions()
+  local centerX, centerY = width/2, height/2
+  local mouseX, mouseY = love.mouse.getPosition()
+  return centerX - mouseX, centerY - mouseY
+end
+
 function PlayerInput:update(dt)
   self.primaryWeaponFire   = love.keyboard.isDown("f") or love.keyboard.isDown("j") or love.mouse.isDown(PlayerInput.leftMouseButton)
   self.secondaryWeaponFire = love.keyboard.isDown(" ") or love.mouse.isDown(PlayerInput.rightMouseButton)
   
-  local x, y = love.mouse.getPosition()
-  
-  -- Replace with mouse
-  if love.keyboard.isDown("w") then
-    self.movementVec.y = -1
-  elseif love.keyboard.isDown("s") then
-    self.movementVec.y = 1
+  local x, y = getMouseOffsetRelativeToCenter()
+
+  if math.abs(y) >= self.blindSpotRadius then
+    self.movementVec.y = -y
   else
     self.movementVec.y = 0
   end
   
-  if love.keyboard.isDown("a") then
-    self.movementVec.x = -1
-  elseif love.keyboard.isDown("d") then
-    self.movementVec.x = 1
-  else 
+  if math.abs(x) >= self.blindSpotRadius then
+    self.movementVec.x = -x
+  else
     self.movementVec.x = 0
   end
   
