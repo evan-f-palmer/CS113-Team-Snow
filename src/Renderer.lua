@@ -2,11 +2,6 @@ local Class  = require('hump.class')
 local Camera = require('hump.camera')
 local Vector = require('hump.vector')
 
-local UP_VECTOR = Vector(0, 1)
-local function getAngle(xVec)
-  return math.pi - UP_VECTOR:angleTo(xVec)
-end
-
 local Renderer = Class {}
 
 function Renderer:init()
@@ -17,19 +12,9 @@ function Renderer:init()
   self.playerShip = love.graphics.newImage("assets/ship.png")
 end
 
-local function rotateAboutPointAtAngle(centerX, centerY, angle)
-  love.graphics.translate(centerX, centerY)
-  love.graphics.rotate(angle)
-  love.graphics.translate(-centerX, -centerY)
-end
-
-local function drawRotatedImage(image, x, y, angle)  
-  local centerX = x + image:getWidth()/2
-  local centerY = y + image:getHeight()/2
-  love.graphics.push()
-  rotateAboutPointAtAngle(centerX, centerY, angle)
-  love.graphics.draw(image, x, y)
-  love.graphics.pop()
+local UP_VECTOR = Vector(0, 1)
+local function getAngle(xVec)
+  return math.pi - UP_VECTOR:angleTo(xVec)
 end
 
 function Renderer:draw(xWorld)
@@ -52,7 +37,7 @@ function Renderer:draw(xWorld)
   
   -- THE PLAYER
   love.graphics.setColor(255,255,255)
-  drawRotatedImage(self.playerShip, playerX, playerY, playerAngle)
+  self:drawRotatedImage(self.playerShip, playerX, playerY, playerAngle)
   
   self:BEGIN_SCREENSPACE()
     -- THIS SHOWS US WHERE THE MOUSE CONTROLS ARE INACTIVE FOR PROPULSION, (but still active for rotation)
@@ -100,6 +85,21 @@ function Renderer:BEGIN_SCREENSPACE()
 end
 
 function Renderer:END_SCREENSPACE()
+  love.graphics.pop()
+end
+
+local function rotateAboutPointAtAngle(centerX, centerY, angle)
+  love.graphics.translate(centerX, centerY)
+  love.graphics.rotate(angle)
+  love.graphics.translate(-centerX, -centerY)
+end
+
+function Renderer:drawRotatedImage(image, x, y, angle)  
+  local centerX = x + image:getWidth()/2
+  local centerY = y + image:getHeight()/2
+  love.graphics.push()
+  rotateAboutPointAtAngle(centerX, centerY, angle)
+  love.graphics.draw(image, x, y)
   love.graphics.pop()
 end
 
