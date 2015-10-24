@@ -18,13 +18,9 @@ local function getAngle(xVec)
 end
 
 function Renderer:draw(xWorld)
-  local screenWidth  = love.graphics.getWidth()
-  local screenHeight = love.graphics.getHeight()
-  
   local playerX, playerY = xWorld.player.loc.x, xWorld.player.loc.y
   local playerCenterX, playerCenterY = (playerX + self.playerShip:getWidth() / 2), (playerY + self.playerShip:getHeight() / 2)
   local playerAngle = getAngle(xWorld.player.dir)
-  
   local blindSpotRadius = xWorld.player.playerInput.blindSpotRadius
   
   -- ALWAYS LOOK AT THE PLAYER
@@ -46,9 +42,17 @@ function Renderer:draw(xWorld)
     
     love.graphics.setColor(255, 255, 0)
     self:drawPlayerDebugInfo(xWorld.player, playerCenterX + blindSpotRadius, playerCenterY)
-  self:END_SCREENSPACE()
+  self:END()
   
   self.camera:detach()  
+end
+
+function Renderer:drawRotatedImage(image, x, y, angle)  
+  local centerX = x + image:getWidth()/2
+  local centerY = y + image:getHeight()/2
+  self:BEGIN_ROTATE_ABOUT_POINT_AT_ANGLE(centerX, centerY, angle)
+    love.graphics.draw(image, x, y)
+  self:END()
 end
 
 function Renderer:drawPlayerDebugInfo(xPlayer, xLoc, yLoc)
@@ -84,22 +88,14 @@ function Renderer:BEGIN_SCREENSPACE()
   love.graphics.translate(-self.camera.x, -self.camera.y)
 end
 
-function Renderer:END_SCREENSPACE()
-  love.graphics.pop()
-end
-
-local function rotateAboutPointAtAngle(centerX, centerY, angle)
+function Renderer:BEGIN_ROTATE_ABOUT_POINT_AT_ANGLE(centerX, centerY, angle)
+  love.graphics.push()
   love.graphics.translate(centerX, centerY)
   love.graphics.rotate(angle)
   love.graphics.translate(-centerX, -centerY)
 end
 
-function Renderer:drawRotatedImage(image, x, y, angle)  
-  local centerX = x + image:getWidth()/2
-  local centerY = y + image:getHeight()/2
-  love.graphics.push()
-  rotateAboutPointAtAngle(centerX, centerY, angle)
-  love.graphics.draw(image, x, y)
+function Renderer:END()
   love.graphics.pop()
 end
 
