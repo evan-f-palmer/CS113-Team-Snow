@@ -19,7 +19,7 @@ function Renderer:init(world)
   self.camera:lookAt(0, 0)  
 end
 
-local function rotate(centerX, centerY, angle)
+local function rotateAboutPointAtAngle(centerX, centerY, angle)
   love.graphics.translate(centerX, centerY)
   love.graphics.rotate(angle)
   love.graphics.translate(-centerX, -centerY)
@@ -38,7 +38,7 @@ function Renderer:draw()
   
   love.graphics.setColor(255,255,255)
   love.graphics.push()
-  rotate(playerCenterX, playerCenterY, playerAngle)
+  rotateAboutPointAtAngle(playerCenterX, playerCenterY, playerAngle)
   love.graphics.draw(self.playerShip, playerX, playerY)
   --love.graphics.rectangle("line", playerX, playerY, self.playerShip:getWidth(), self.playerShip:getHeight())
   love.graphics.pop()
