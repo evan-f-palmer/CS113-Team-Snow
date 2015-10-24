@@ -16,7 +16,7 @@ end
 
 function PlayerInput:update(dt)
   self.primaryWeaponFire   = love.keyboard.isDown("f") or love.keyboard.isDown("j") or love.mouse.isDown(PlayerInput.leftMouseButton)
-  self.secondaryWeaponFire = love.keyboard.isDown(" ")                          or love.mouse.isDown(PlayerInput.rightMouseButton)
+  self.secondaryWeaponFire = love.keyboard.isDown(" ") or love.mouse.isDown(PlayerInput.rightMouseButton)
   
   local x, y = love.mouse.getPosition()
   

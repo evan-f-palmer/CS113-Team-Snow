@@ -1,5 +1,5 @@
 local Class          = require('hump.class')
-local World           = require('World')
+local World          = require('World')
 local PlayerInput    = require('PlayerInput')
 local PlayerGameData = require('PlayerGameData')
 local Renderer       = require('Renderer')
