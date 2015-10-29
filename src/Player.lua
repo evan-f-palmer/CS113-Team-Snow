@@ -1,5 +1,10 @@
 local Class  = require('hump.class')
 local Vector = require('hump.vector')
+local AlertMachine = require('AlertMachine')
+
+local PRIMARY_FIRE_MESSAGE   = {message = "[Primary Fire]", lifespan = 0.5}
+local SECONDARY_FIRE_MESSAGE = {message = "[Secondary Fire]", lifespan = 0.5}
+local OUT_OF_SINIBOMBS_ALERT = {message = "[Out of Sinibombs]", lifespan = 1.5, priority = 2}
 
 local Player = Class{}
 
@@ -10,14 +15,18 @@ function Player:init(playerInput, playerGameData)
   self.playerInput = playerInput
   self.playerGameData = playerGameData
   self.maxSpeed = 450
+  self.alertMachine = AlertMachine()
+  self.secondaryWeaponWarmupTimer = 0
 end
 
 function Player:update(dt)
-  if self.playerInput.primaryWeaponFire and self.canFirePrimaryWeapon() then
+  self.secondaryWeaponWarmupTimer = self.secondaryWeaponWarmupTimer + dt
+
+  if self.playerInput.primaryWeaponFire and self:canFirePrimaryWeapon() then
     self:firePrimaryWeapon()
   end
-  
-  if self.playerInput.secondaryWeaponFire and self.canFireSecondaryWeapon() then
+    
+  if self.playerInput.secondaryWeaponFire and self:canFireSecondaryWeapon() then
     self:fireSecondaryWeapon()
   end
 
@@ -31,24 +40,27 @@ function Player:update(dt)
 end
 
 function Player:canFirePrimaryWeapon()
-  return true --TODO
+  --TODO
+  return true 
 end
 
 function Player:canFireSecondaryWeapon()
-  return true --TODO
+  --TODO
+  return (self.secondaryWeaponWarmupTimer >= self.playerGameData.secondaryWeaponWarmupTime)
 end
 
 function Player:firePrimaryWeapon()
-  print("Firing Primary Weapon")
+  self.alertMachine:set(PRIMARY_FIRE_MESSAGE)
   --TODO
 end
 
 function Player:fireSecondaryWeapon()
-  if self.playerGameData.bombs > 0 then
+  self.secondaryWeaponWarmupTimer = 0
+  if (self.playerGameData.bombs > 0) then
+    self.alertMachine:set(SECONDARY_FIRE_MESSAGE)
     self.playerGameData.bombs = self.playerGameData.bombs - 1
-    print("Firing Secondary Weapon")
   else
-    print("No Secondary Weapon Remaining")
+    self.alertMachine:set(OUT_OF_SINIBOMBS_ALERT)
   end
   --TODO
 end

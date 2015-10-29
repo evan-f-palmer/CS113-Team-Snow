@@ -6,13 +6,13 @@ local PlayerInput = Class{}
 PlayerInput.leftMouseButton  = 1
 PlayerInput.rightMouseButton = 2
 PlayerInput.inputAmplifier = 100
-PlayerInput.blindSpotRadius = 50
 
-function PlayerInput:init()
+function PlayerInput:init(xPlayerGameData)
   self.movementVec = Vector(0, 0)
   self.directionVec = Vector(0, 0)
   self.primaryWeaponFire  = false
   self.secondaryWeaponFire = false
+  self.blindSpotRadius = xPlayerGameData.blindSpotRadius
 end
 
 local function getMouseOffsetRelativeToCenter()

@@ -41,14 +41,9 @@ function Renderer:draw(xWorld)
   self:drawRotatedImage(self.playerShip, playerX, playerY, playerAngle)
   
   self:BEGIN_SCREENSPACE()
-    -- THIS SHOWS US WHERE THE MOUSE CONTROLS ARE INACTIVE FOR PROPULSION, (but still active for rotation)
-    love.graphics.setColor(0, 255, 0)
-    love.graphics.circle("line", playerCenterX, playerCenterY, blindSpotRadius, 50)
-    
     love.graphics.setColor(255, 255, 0)
     self:drawPlayerDebugInfo(xWorld.player, playerCenterX + blindSpotRadius, playerCenterY)
-    
-    --self:drawDebugInfo(xWorld.player.playerGameData, playerCenterX, playerCenterY + blindSpotRadius)
+    self:drawDebugInfo(xWorld.player.playerGameData, playerCenterX, playerCenterY + blindSpotRadius)
   self:END()
   
   self.camera:detach()  
@@ -66,8 +61,8 @@ function Renderer:drawPlayerDebugInfo(xPlayer, xLoc, yLoc)
   local info = {}
   info["LOC"] = '['.. math.floor(xPlayer.loc.x) .. ', ' .. math.floor(xPlayer.loc.y) .. ']'
   info["VEL"] = '['.. math.floor(xPlayer.vel.x) .. ', ' .. math.floor(xPlayer.vel.y) .. ']'  
-  info["[PRIMARY FIRE]"] = xPlayer.playerInput.primaryWeaponFire
-  info["[SECONDARY FIRE]"] = xPlayer.playerInput.secondaryWeaponFire
+  info["[PRIMARY FIRE PRESSED]"] = xPlayer.playerInput.primaryWeaponFire
+  info["[SECONDARY FIRE PRESSED]"] = xPlayer.playerInput.secondaryWeaponFire
   self:drawDebugInfo(info, xLoc, yLoc)
 end
 
@@ -78,7 +73,7 @@ function Renderer:drawDebugInfo(xInfo, xLoc, yLoc)
       if type(infoData) == 'boolean' then
         love.graphics.print(key, xLoc, yLoc)
       else
-        local toPrint = key .. ':' .. infoData
+        local toPrint = key .. ':' .. tostring(infoData)
         love.graphics.print(toPrint, xLoc, yLoc)
       end
       yLoc = yLoc + yOffset
