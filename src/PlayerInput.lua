@@ -39,6 +39,31 @@ function PlayerInput:update(dt)
     self.movementVec.y = 0
     self.movementVec.x = 0
   end
+  
+  self:debugStuff()
+end
+
+local AlertMachine = require('AlertMachine')
+local alertMachine = AlertMachine()
+local BRIEF_MESSAGE = { message = "", lifespan = 0.1, priority = 4 }
+local MEDIUM_PRIORITY_ALERT = {message = "Medium Priority Alert", lifespan = 0.1, priority = 2}
+local HIGH_PRIORITY_ALERT = {message = "High Priority Alert", lifespan = 0.1, priority = 3}
+
+function PlayerInput:debugStuff()
+  if love.keyboard.isDown("d") then
+    BRIEF_MESSAGE.message = "DIRECTION: " .. self.directionVec.x .. ", " .. self.directionVec.y
+    alertMachine:set(BRIEF_MESSAGE)
+  end
+  if love.keyboard.isDown("v") then
+    BRIEF_MESSAGE.message = "VELOCITY: " .. self.movementVec.x .. ", " .. self.movementVec.y
+    alertMachine:set(BRIEF_MESSAGE)
+  end
+  if love.keyboard.isDown("h") then
+    alertMachine:set(HIGH_PRIORITY_ALERT)
+  end
+  if love.keyboard.isDown("m") then
+    alertMachine:set(MEDIUM_PRIORITY_ALERT)
+  end
 end
 
 return PlayerInput

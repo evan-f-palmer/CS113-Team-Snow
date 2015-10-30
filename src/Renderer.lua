@@ -43,9 +43,6 @@ end
 function Renderer:drawPlayerDebugInfo(xPlayer, xLoc, yLoc)
   local info = {}
   info["LOC"] = '['.. math.floor(xPlayer.loc.x) .. ', ' .. math.floor(xPlayer.loc.y) .. ']'
-  info["VEL"] = '['.. math.floor(xPlayer.vel.x) .. ', ' .. math.floor(xPlayer.vel.y) .. ']'  
-  info["[PRIMARY FIRE PRESSED]"] = xPlayer.playerInput.primaryWeaponFire
-  info["[SECONDARY FIRE PRESSED]"] = xPlayer.playerInput.secondaryWeaponFire
   self.GU:drawDebugInfo(info, xLoc, yLoc)
 end
 

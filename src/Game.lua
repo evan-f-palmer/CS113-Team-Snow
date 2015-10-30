@@ -18,9 +18,7 @@ function Game:init()
   self.renderer       = Renderer()
   self.blinker        = Blinker()
   
-  self.alertMachine:set({message = "Hello World", lifespan = 6})
-  self.alertMachine:set({message = "High Priority Message", lifespan = 4, priority = 2})
-  self.alertMachine:set({message = "Higher Priority Message", lifespan = 2, priority = 3})
+  self.alertMachine:set({message = "Hello World!", lifespan = 3})
 end
 
 function Game:update(dt)

@@ -10,7 +10,7 @@ function PlayerGameData:init()
   self.health  = 0
   self.lives   = 0
   self.score   = 0
-  self.bombs   = 3
+  self.bombs   = 0
   self.alertMessage = ""
   self.alertPriority = 0
 end

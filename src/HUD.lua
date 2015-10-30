@@ -6,10 +6,11 @@ local DrawCommon = require('DrawCommon')
 local ALERT_DIM_COLOR = {150,150,150,200}
 
 local ALERT_PRIORITY_COLORS = {
-  [0] = {{255,255,255,225},},
-  [1] = {{255,255,255,225},},
-  [2] = {{255,255,0,225}, ALERT_DIM_COLOR,},
-  [3] = {{255,0,0,225}, ALERT_DIM_COLOR, {255,0,0,225}, ALERT_DIM_COLOR,},
+  [0] = {{255,255,255,225},}, -- DEFAULT
+  [1] = {{255,255,255,225},}, -- STANDARD MESSAGE
+  [2] = {{255,255,0,225}, ALERT_DIM_COLOR,}, -- MEDIUM PRIORITY
+  [3] = {{255,0,0,225}, ALERT_DIM_COLOR, {255,0,0,225}, ALERT_DIM_COLOR,}, -- HIGH PRIORITY
+  [4] = {{160,185,225,225},}, -- FOR DEBUG MESSAGES
 }
 
 local HUD_COLORS = {
