@@ -1,6 +1,7 @@
 local Class  = require('hump.class')
 local Camera = require('hump.camera')
 local Blinker = require('Blinker')
+local DrawCommon = require('DrawCommon')
 
 local ALERT_DIM_COLOR = {150,150,150,200}
 
@@ -22,30 +23,29 @@ local HUD = Class {}
 
 function HUD:init()
   self.camera = Camera()
-  self.background = love.graphics.newImage("assets/hud.png")
   self.blinker = Blinker()
-  self.blinker:setPeriod(1)
+  self.GU = DrawCommon()
+
+  self.background = love.graphics.newImage("assets/hud.png")
 end
 
 function HUD:draw(xPlayerGameData)
   self.camera:attach()
   
-  love.graphics.setColor(255,255,255)
-  
   local screenWidth  = love.graphics.getWidth()
-  local screenHeight = love.graphics.getHeight()
-  
-  local rotation = 0
+  local screenHeight = love.graphics.getHeight()    
   local width  = screenWidth / self.background:getWidth()
   local height = screenHeight / self.background:getHeight()
+  local rotation = 0
   
+  love.graphics.setColor(255,255,255)
   love.graphics.draw(self.background, 0, 0, rotation, width, height) 
 
-  -- THIS SHOWS US WHERE THE MOUSE CONTROLS ARE INACTIVE FOR PROPULSION, (but still active for rotation)
   local HUDcolor = self:getHeadsUpDisplayColor()
   love.graphics.setColor(unpack(HUDcolor))
+  
+  self.GU:drawDebugInfo(xPlayerGameData, screenWidth/2, screenHeight/2 + xPlayerGameData.blindSpotRadius)
   love.graphics.circle("line", screenWidth/2, screenHeight/2, xPlayerGameData.blindSpotRadius, 50)
-
   self:drawAlertMessage(xPlayerGameData)
 
   self.camera:detach()
