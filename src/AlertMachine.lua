@@ -1,4 +1,5 @@
-local Class  = require('hump.class')
+local Class = require('hump.class')
+local Singleton = require('Singleton')
 
 local MESSAGE_PRIORITY = 1
 local LOWEST_PRIORITY = 0
@@ -77,9 +78,4 @@ function AlertMachine:cleanup(toKill)
   end
 end
 
-local singletonInstance = AlertMachine()
-local function fakeConstructor()
-  return singletonInstance
-end
-
-return fakeConstructor
+return Singleton(AlertMachine)
