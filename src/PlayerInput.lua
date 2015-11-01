@@ -1,10 +1,10 @@
 local Class = require('hump.class')
 local Vector = require('hump.vector')
 
-local PlayerInput = Class{}
+local LEFT_MOUSE_BUTTON = 'l'
+local RIGHT_MOUSE_BUTTON = 'r'
 
-PlayerInput.leftMouseButton  = 1
-PlayerInput.rightMouseButton = 2
+local PlayerInput = Class{}
 PlayerInput.inputAmplifier = 100
 
 function PlayerInput:init(xPlayerGameData)
@@ -23,8 +23,8 @@ local function getMouseOffsetRelativeToCenter()
 end
 
 function PlayerInput:update(dt)
-  self.primaryWeaponFire   = love.keyboard.isDown("f") or love.keyboard.isDown("j") or love.mouse.isDown(PlayerInput.leftMouseButton)
-  self.secondaryWeaponFire = love.keyboard.isDown(" ") or love.mouse.isDown(PlayerInput.rightMouseButton)
+  self.primaryWeaponFire   = love.keyboard.isDown("f") or love.keyboard.isDown("j") or love.mouse.isDown(LEFT_MOUSE_BUTTON)
+  self.secondaryWeaponFire = love.keyboard.isDown(" ") or love.mouse.isDown(RIGHT_MOUSE_BUTTON)
   
   local x, y = getMouseOffsetRelativeToCenter()
 
