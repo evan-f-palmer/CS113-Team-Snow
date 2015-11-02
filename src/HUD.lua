@@ -2,6 +2,7 @@ local Class  = require('hump.class')
 local Camera = require('hump.camera')
 local Blinker = require('Blinker')
 local DrawCommon = require('DrawCommon')
+local AlertMachine = require('AlertMachine')
 
 local ALERT_DIM_COLOR = {150,150,150,200}
 
@@ -26,6 +27,7 @@ function HUD:init()
   self.camera = Camera()
   self.blinker = Blinker()
   self.GU = DrawCommon()
+  self.alertMachine = AlertMachine()
 
   self.background = love.graphics.newImage("assets/hud.png")
 end
@@ -47,7 +49,10 @@ function HUD:draw(xPlayerGameData)
   
   self.GU:drawDebugInfo(xPlayerGameData, screenWidth/2, screenHeight/2 + xPlayerGameData.blindSpotRadius)
   love.graphics.circle("line", screenWidth/2, screenHeight/2, xPlayerGameData.blindSpotRadius, 50)
-  self:drawAlertMessage(xPlayerGameData)
+
+  local primaryAlert = self.alertMachine:getPrimaryAlert()
+  self:drawAlertMessage(primaryAlert, love.graphics.getWidth() * (2/5), love.graphics.getHeight() * (4/5))
+  --self:drawAlerts()
 
   self.camera:detach()
 end
@@ -56,10 +61,20 @@ function HUD:getHeadsUpDisplayColor()
   return self.blinker:blink(unpack(HUD_COLORS))
 end
 
-function HUD:drawAlertMessage(xPlayerGameData)
-  local color = self:getAlertColor(xPlayerGameData.alertPriority)
+function HUD:drawAlerts()
+  local alerts = self.alertMachine.alertsInOrder
+  local x, y = love.graphics.getWidth() * (2/5), love.graphics.getHeight() * (4/5)
+  local yOff = self.GU.FONT_SIZE
+  for i, alert in ipairs(alerts) do
+    self:drawAlertMessage(alert, x, y)
+    y = y - yOff
+  end
+end
+
+function HUD:drawAlertMessage(xAlert, x, y)
+  local color = self:getAlertColor(xAlert.priority)
   love.graphics.setColor(unpack(color))
-  love.graphics.print(xPlayerGameData.alertMessage, love.graphics.getWidth() * (2/5), love.graphics.getHeight() * (4/5))
+  love.graphics.print(xAlert.message, x, y)
 end
 
 function HUD:getAlertColor(xPriority)

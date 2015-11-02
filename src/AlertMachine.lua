@@ -8,7 +8,7 @@ local ALWAYS_ACTIVE = function() return true end
 local NULL_ALERT = { message = "", priority = LOWEST_PRIORITY, lifespan = LONGEST_LIFESPAN, isActive = ALWAYS_ACTIVE, }
 
 --[[
-  ALERT: {string message, num priority, sec lifespan, func isActive}
+  ALERT: {string message, num priority, time lifespan, func isActive}
   AlertMachine API:
     getPrimaryAlert() -> ALERT
     update(dt)
@@ -20,6 +20,7 @@ function AlertMachine:init()
   self.timeToLiveFor = {}
   self.alerts = {}
   self.primaryAlert = NULL_ALERT
+  self.alertsInOrder = {}
 end
 
 function AlertMachine:getPrimaryAlert()
@@ -29,7 +30,7 @@ end
 function AlertMachine:update(dt)
   self:updateTimeToLiveForAlerts(dt)
   local currentPrimaryAlert = NULL_ALERT
-  
+    
   local toKill = {}
   for k, alert in pairs(self.alerts) do
     if self:isDead(alert) then
@@ -41,6 +42,8 @@ function AlertMachine:update(dt)
   
   self.primaryAlert = currentPrimaryAlert
   self:cleanup(toKill)
+  
+  self.alertsInOrder = self:getAlertsInOrder()
 end
 
 local function alertID(xAlert)
@@ -76,6 +79,25 @@ function AlertMachine:cleanup(toKill)
   for _, alertToRemoveKey in ipairs(toKill) do
     self.alerts[alertToRemoveKey] = nil
   end
+end
+
+function AlertMachine:alertsSort(A, B)
+  if not A or not B then return end
+  if A.priority == B.priority then
+    local Aid, Bid = alertID(A), alertID(B)    
+    return self.timeToLiveFor[Aid] < self.timeToLiveFor[Bid]
+  else
+    return A.priority >= B.priority
+  end
+end
+
+function AlertMachine:getAlertsInOrder()
+  local inOrder = {}
+  for k, alert in pairs(self.alerts) do
+    table.insert(inOrder, alert)
+  end
+  table.sort(inOrder, self.alertsSort)
+  return inOrder
 end
 
 return Singleton(AlertMachine)

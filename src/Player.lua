@@ -1,6 +1,7 @@
 local Class  = require('hump.class')
 local Vector = require('hump.vector')
 local AlertMachine = require('AlertMachine')
+local Combat = require('Combat')
 
 local PRIMARY_FIRE_MESSAGE   = {message = "[Primary Fire]", lifespan = 0.5}
 local SECONDARY_FIRE_MESSAGE = {message = "[Secondary Fire]", lifespan = 0.5}
@@ -16,18 +17,26 @@ function Player:init(playerInput, playerGameData)
   self.playerGameData = playerGameData
   self.maxSpeed = 450
   self.alertMachine = AlertMachine()
-  self.secondaryWeaponWarmupTimer = 0
+  
+  self.combat = Combat()
+  self.combat:addCombatant("Player", {health = 100})
+  self.combat:addWeapon("Player Primary", {damage = 50, ammo = math.huge, projectile = "Player Bullet", debounceTime = 0.1})
+  self.combat:addWeapon("Player Secondary", {damage = 5000, ammo = 0, projectile = "Sinibomb", debounceTime = 1})  
 end
 
 function Player:update(dt)
-  self.secondaryWeaponWarmupTimer = self.secondaryWeaponWarmupTimer + dt
-
-  if self.playerInput.primaryWeaponFire and self:canFirePrimaryWeapon() then
-    self:firePrimaryWeapon()
+  if self.playerInput.primaryWeaponFire and self.combat:canFire("Player Primary") then
+    self.combat:fire("Player Primary", self.loc, self.dir)
+    self.alertMachine:set(PRIMARY_FIRE_MESSAGE)  
   end
     
-  if self.playerInput.secondaryWeaponFire and self:canFireSecondaryWeapon() then
-    self:fireSecondaryWeapon()
+  if self.playerInput.secondaryWeaponFire and self.combat:canFire("Player Secondary") then
+    self.combat:fire("Player Secondary", self.loc, self.dir)
+    self.alertMachine:set(SECONDARY_FIRE_MESSAGE)
+  end
+  
+  if self.playerInput.secondaryWeaponFire and self.combat:isOutOfAmmo("Player Secondary") then
+    self.alertMachine:set(OUT_OF_SINIBOMBS_ALERT)
   end
 
   self.dir = self.playerInput.directionVec
@@ -37,32 +46,9 @@ function Player:update(dt)
   self.vel:scale_inplace(dt)
   
   self.loc:add_inplace(self.vel)
-end
-
-function Player:canFirePrimaryWeapon()
-  --TODO
-  return true 
-end
-
-function Player:canFireSecondaryWeapon()
-  --TODO
-  return (self.secondaryWeaponWarmupTimer >= self.playerGameData.secondaryWeaponWarmupTime)
-end
-
-function Player:firePrimaryWeapon()
-  self.alertMachine:set(PRIMARY_FIRE_MESSAGE)
-  --TODO
-end
-
-function Player:fireSecondaryWeapon()
-  self.secondaryWeaponWarmupTimer = 0
-  if (self.playerGameData.bombs > 0) then
-    self.alertMachine:set(SECONDARY_FIRE_MESSAGE)
-    self.playerGameData.bombs = self.playerGameData.bombs - 1
-  else
-    self.alertMachine:set(OUT_OF_SINIBOMBS_ALERT)
-  end
-  --TODO
+  
+  self.bombs = self.combat:getAmmo("Player Secondary")
+  self.health = self.combat:getHealth("Player")
 end
 
 return Player
