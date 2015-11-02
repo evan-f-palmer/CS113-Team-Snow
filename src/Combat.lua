@@ -119,6 +119,7 @@ end
 Combat.ACTION_DISPATCH["FIRE"] = function(xFire)
   local newAmmo = xFire.weapon.ammo - 1
   xFire.weapon.ammo = newAmmo
+  xFire.weapon.timer = 0
   Combat.PROJECTILES:addProjectile(xFire.weapon.projectileID, xFire.pos, xFire.dir)
 end
 

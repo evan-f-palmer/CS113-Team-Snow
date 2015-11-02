@@ -21,7 +21,7 @@ function Player:init(playerInput, playerGameData)
   self.dir = Vector(0, 0)
   self.playerInput = playerInput
   self.playerGameData = playerGameData
-  self.maxSpeed = 450
+  self.maxSpeed = 950
   self.alertMachine = AlertMachine()
   
   self.combat = Combat()
