@@ -13,7 +13,7 @@ Player.primaryWeaponID = "Player Primary"
 Player.secondaryWeaponID = "Player Secondary"
 Player.combatant = {health = 100}
 Player.primaryWeapon = {damage = 50, ammo = math.huge, projectileID = "Player Bullet", debounceTime = 0.1}
-Player.secondaryWeapon = {damage = 5000, ammo = 0, projectileID = "Sinibomb", debounceTime = 1}
+Player.secondaryWeapon = {damage = 5000, ammo = 0, projectileID = "Sinibomb", debounceTime = 1, maxAmmo = 12}
 
 function Player:init(playerInput, playerGameData)
   self.loc = Vector(0, 0)
@@ -27,7 +27,7 @@ function Player:init(playerInput, playerGameData)
   self.combat = Combat()
   self.combat:addCombatant(Player.ID, Player.combatant)
   self.combat:addWeapon(Player.primaryWeaponID, Player.primaryWeapon)
-  self.combat:addWeapon(Player.secondaryWeaponID, Player.secondaryWeapon)  
+  self.combat:addWeapon(Player.secondaryWeaponID, Player.secondaryWeapon)
 end
 
 function Player:update(dt)
@@ -51,8 +51,8 @@ function Player:update(dt)
   
   self.loc:add_inplace(self.vel)
   
-  self.bombs = self.combat:getAmmo(Player.secondaryWeaponID)
-  self.health = self.combat:getHealth(Player.ID)
+  self.playerGameData.bombs = self.combat:getAmmo(Player.secondaryWeaponID)
+  self.playerGameData.health = self.combat:getHealth(Player.ID)
 end
 
 return Player

@@ -1,8 +1,11 @@
 local Class = require('hump.class')
 local Vector = require('hump.vector')
+local Combat = require("Combat")
 
 local LEFT_MOUSE_BUTTON = 'l'
 local RIGHT_MOUSE_BUTTON = 'r'
+
+local COMBAT = Combat()
 
 local PlayerInput = Class{}
 PlayerInput.inputAmplifier = 100
@@ -63,6 +66,10 @@ function PlayerInput:debugStuff()
   end
   if love.keyboard.isDown("m") then
     alertMachine:set(MEDIUM_PRIORITY_ALERT)
+  end
+  
+  if love.keyboard.isDown("b") then
+    COMBAT:supplyAmmo("Player Secondary", 1)
   end
 end
 

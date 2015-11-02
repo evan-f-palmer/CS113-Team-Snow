@@ -19,6 +19,7 @@ function Renderer:draw(xWorld)
   local playerCenterX, playerCenterY = (playerX + self.playerShip:getWidth() / 2), (playerY + self.playerShip:getHeight() / 2)
   local playerAngle = self.GU:getAngle(xWorld.player.dir)
   local blindSpotRadius = xWorld.player.playerInput.blindSpotRadius
+  local projectiles = xWorld.projectiles
   
   -- ALWAYS LOOK AT THE PLAYER
   self.camera:lookAt(playerCenterX, playerCenterY)
@@ -28,22 +29,22 @@ function Renderer:draw(xWorld)
   love.graphics.setColor(255, 0, 0)
   love.graphics.circle("fill", 0, 0, 30, 20)
   
-  -- THE PLAYER
-  love.graphics.setColor(255,255,255)
-  self.GU:drawRotatedImage(self.playerShip, playerX, playerY, playerAngle)
-  
-  local projectiles = xWorld.projectiles
   love.graphics.setColor(80, 80, 200)
   for i, projectile in ipairs(projectiles) do
-    love.graphics.circle("fill", projectile.pos.x, projectile.pos.y, 20, 8)
+    local angle = self.GU:getAngle(projectile.dir)
+    self.GU:drawRotatedImage(self.playerShip, projectile.pos.x, projectile.pos.y, angle) 
   end
+  
+    -- THE PLAYER
+  love.graphics.setColor(255,255,255)
+  self.GU:drawRotatedImage(self.playerShip, playerX, playerY, playerAngle)
   
   self.GU:BEGIN_SCREENSPACE(self.camera)
     love.graphics.setColor(255, 255, 0)
     self:drawPlayerDebugInfo(xWorld.player, playerCenterX + blindSpotRadius, playerCenterY)
     
     love.graphics.setColor(255, 255, 255) 
-    love.graphics.circle("fill", 0, 0, 2, 3)
+    love.graphics.print("ORIGIN", 0, 0)
     
     love.graphics.setColor(80, 80, 200)
     for i, projectile in ipairs(projectiles) do

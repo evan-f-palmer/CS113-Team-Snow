@@ -38,7 +38,7 @@ function Combat:addWeapon(xWeaponID, xWeaponData)
   local weapon = xWeaponData or {}
   weapon.damage = weapon.damage or Combat.DEFAULT_DAMAGE
   weapon.ammo = weapon.ammo or Combat.DEFAULT_AMMO
-  weapon.maxAmmo = weapon.ammo
+  weapon.maxAmmo = weapon.maxAmmo or weapon.ammo
   weapon.debounceTime = weapon.debounceTime or Combat.DEFAULT_WEAPON_DEBOUNCE
   weapon.timer = 0
   weapon.projectileID = weapon.projectileID or Combat.DEFAULT_PROJECTILE_ID
@@ -129,12 +129,12 @@ Combat.ACTION_DISPATCH["ATTACK"] = function(xAttack)
 end
 
 Combat.ACTION_DISPATCH["HEAL"] = function(xHeal)
-  local newHealth = xHeal.combatant.health - xHeal.amount
+  local newHealth = xHeal.combatant.health + xHeal.amount
   xHeal.combatant.health = math.min(newHealth, xHeal.combatant.maxHealth)
 end
 
 Combat.ACTION_DISPATCH["SUPPLY_AMMO"] = function(xSupplyAmmo)
-  local newAmmo = xSupplyAmmo.weapon.ammo - xSupplyAmmo.amount
+  local newAmmo = xSupplyAmmo.weapon.ammo + xSupplyAmmo.amount
   xSupplyAmmo.weapon.ammo = math.min(newAmmo, xSupplyAmmo.weapon.maxAmmo)
 end
 
