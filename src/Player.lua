@@ -8,6 +8,12 @@ local SECONDARY_FIRE_MESSAGE = {message = "[Secondary Fire]", lifespan = 0.5}
 local OUT_OF_SINIBOMBS_ALERT = {message = "[Out of Sinibombs]", lifespan = 1.5, priority = 2}
 
 local Player = Class{}
+Player.ID = "Player"
+Player.primaryWeaponID = "Player Primary"
+Player.secondaryWeaponID = "Player Secondary"
+Player.combatant = {health = 100}
+Player.primaryWeapon = {damage = 50, ammo = math.huge, projectileID = "Player Bullet", debounceTime = 0.1}
+Player.secondaryWeapon = {damage = 5000, ammo = 0, projectileID = "Sinibomb", debounceTime = 1}
 
 function Player:init(playerInput, playerGameData)
   self.loc = Vector(0, 0)
@@ -19,23 +25,21 @@ function Player:init(playerInput, playerGameData)
   self.alertMachine = AlertMachine()
   
   self.combat = Combat()
-  self.combat:addCombatant("Player", {health = 100})
-  self.combat:addWeapon("Player Primary", {damage = 50, ammo = math.huge, projectile = "Player Bullet", debounceTime = 0.1})
-  self.combat:addWeapon("Player Secondary", {damage = 5000, ammo = 0, projectile = "Sinibomb", debounceTime = 1})  
+  self.combat:addCombatant(Player.ID, Player.combatant)
+  self.combat:addWeapon(Player.primaryWeaponID, Player.primaryWeapon)
+  self.combat:addWeapon(Player.secondaryWeaponID, Player.secondaryWeapon)  
 end
 
 function Player:update(dt)
-  if self.playerInput.primaryWeaponFire and self.combat:canFire("Player Primary") then
-    self.combat:fire("Player Primary", self.loc, self.dir)
-    self.alertMachine:set(PRIMARY_FIRE_MESSAGE)  
+  if self.playerInput.primaryWeaponFire then
+    self.combat:fire(Player.primaryWeaponID, self.loc, self.dir)
   end
     
-  if self.playerInput.secondaryWeaponFire and self.combat:canFire("Player Secondary") then
-    self.combat:fire("Player Secondary", self.loc, self.dir)
-    self.alertMachine:set(SECONDARY_FIRE_MESSAGE)
+  if self.playerInput.secondaryWeaponFire then
+    self.combat:fire(Player.secondaryWeaponID, self.loc, self.dir)
   end
   
-  if self.playerInput.secondaryWeaponFire and self.combat:isOutOfAmmo("Player Secondary") then
+  if self.playerInput.secondaryWeaponFire and self.combat:isOutOfAmmo(Player.secondaryWeaponID) then
     self.alertMachine:set(OUT_OF_SINIBOMBS_ALERT)
   end
 
@@ -47,8 +51,8 @@ function Player:update(dt)
   
   self.loc:add_inplace(self.vel)
   
-  self.bombs = self.combat:getAmmo("Player Secondary")
-  self.health = self.combat:getHealth("Player")
+  self.bombs = self.combat:getAmmo(Player.secondaryWeaponID)
+  self.health = self.combat:getHealth(Player.ID)
 end
 
 return Player

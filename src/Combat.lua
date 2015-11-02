@@ -1,6 +1,6 @@
 local Class = require('hump.class')
 local Singleton = require('Singleton')
-local ProjectileFactory = require('ProjectileFactory')
+local Projectiles = require('Projectiles')
 
 local Combat = Class{}
 Combat.DEFAULT_HEALTH = 100
@@ -8,18 +8,19 @@ Combat.DEFAULT_DAMAGE = 50
 Combat.DEFAULT_AMMO = math.huge
 Combat.DEFAULT_WEAPON_DEBOUNCE = 0
 Combat.ONE_HUNDRED_PERCENT = 1
+Combat.DEFAULT_PROJECTILE_ID = "Default Projectile"
 Combat.ACTION_DISPATCH = {}
+Combat.PROJECTILES = Projectiles()
 
 function Combat:init()
   self.combatants = {}  
   self.weapons = {}
   self.actions = {}
-  self.projectileFactory = ProjectileFactory()
 end
 
 function Combat:update(dt)
   while #self.actions > 0 do
-    local action = table.remove(self.actions)
+    local action = table.remove(self.actions, 1)
     Combat.ACTION_DISPATCH[action.type](action)
   end
   
@@ -40,6 +41,7 @@ function Combat:addWeapon(xWeaponID, xWeaponData)
   weapon.maxAmmo = weapon.ammo
   weapon.debounceTime = weapon.debounceTime or Combat.DEFAULT_WEAPON_DEBOUNCE
   weapon.timer = 0
+  weapon.projectileID = weapon.projectileID or Combat.DEFAULT_PROJECTILE_ID
   self.weapons[xWeaponID] = weapon
 end
 
@@ -57,10 +59,10 @@ function Combat:heal(xHealingCombatantID, xAmount)
   end
 end
 
-function Combat:fire(xWeaponID, xPosition, xVelocity)
-  if not self:canFire(xWeaponID) then
+function Combat:fire(xWeaponID, xPosition, xDirection)
+  if self:canFire(xWeaponID) then
     local weapon = self.weapons[xWeaponID]
-    table.insert(self.actions, {type = "FIRE", weapon = weapon, position = xPosition, velocity = xVelocity})
+    table.insert(self.actions, {type = "FIRE", weapon = weapon, pos = xPosition:clone(), dir = xDirection:clone()})
   end
 end
 
@@ -117,7 +119,7 @@ end
 Combat.ACTION_DISPATCH["FIRE"] = function(xFire)
   local newAmmo = xFire.weapon.ammo - 1
   xFire.weapon.ammo = newAmmo
-  self.projectileFactory:addProjectile(xFire.weapon.projectile, xFire.positition, xFire.velocity)
+  Combat.PROJECTILES:addProjectile(xFire.weapon.projectileID, xFire.pos, xFire.dir)
 end
 
 Combat.ACTION_DISPATCH["ATTACK"] = function(xAttack)

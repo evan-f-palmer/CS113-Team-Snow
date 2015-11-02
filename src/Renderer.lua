@@ -32,6 +32,13 @@ function Renderer:draw(xWorld)
   love.graphics.setColor(255,255,255)
   self.GU:drawRotatedImage(self.playerShip, playerX, playerY, playerAngle)
   
+  love.graphics.setColor(80, 80, 200)
+  local projectiles = xWorld.projectiles
+  for i, projectile in ipairs(projectiles) do
+    love.graphics.circle("fill", projectile.pos.x, projectile.pos.y, 20, 8)
+    love.graphics.print(projectile.id, projectile.pos.x, projectile.pos.y)
+  end
+  
   self.GU:BEGIN_SCREENSPACE(self.camera)
     love.graphics.setColor(255, 255, 0)
     self:drawPlayerDebugInfo(xWorld.player, playerCenterX + blindSpotRadius, playerCenterY)
