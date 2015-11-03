@@ -1,6 +1,7 @@
 local Class = require('hump.class')
 local Vector = require('hump.vector')
 local Combat = require("Combat")
+local PlayerInputParams = require("PlayerInputParams")
 
 local LEFT_MOUSE_BUTTON = 'l'
 local RIGHT_MOUSE_BUTTON = 'r'
@@ -10,31 +11,26 @@ local COMBAT = Combat()
 local PlayerInput = Class{}
 PlayerInput.inputAmplifier = 100
 
-function PlayerInput:init(xPlayerGameData)
+function PlayerInput:init()
   self.movementVec = Vector(0, 0)
   self.directionVec = Vector(0, 0)
   self.primaryWeaponFire  = false
   self.secondaryWeaponFire = false
-  self.blindSpotRadius = xPlayerGameData.blindSpotRadius
-end
-
-local function getMouseOffsetRelativeToCenter()
-  local width, height = love.graphics.getDimensions()
-  local centerX, centerY = width/2, height/2
-  local mouseX, mouseY = love.mouse.getPosition()
-  return -(centerX - mouseX), -(centerY - mouseY)
 end
 
 function PlayerInput:update(dt)
   self.primaryWeaponFire   = love.keyboard.isDown("f") or love.keyboard.isDown("j") or love.mouse.isDown(LEFT_MOUSE_BUTTON)
   self.secondaryWeaponFire = love.keyboard.isDown(" ") or love.mouse.isDown(RIGHT_MOUSE_BUTTON)
   
-  local x, y = getMouseOffsetRelativeToCenter()
-
+  local x, y, minR
+  
+  x, y = self:getMouseOffsetRelativeToCenter(PlayerInputParams.directionalJoystick)
   self.directionVec.y = y
   self.directionVec.x = x
-
-  if (y*y) + (x*x) >= (self.blindSpotRadius*self.blindSpotRadius) then
+  
+  x, y = self:getMouseOffsetRelativeToCenter(PlayerInputParams.movementJoystick)
+  minR = PlayerInputParams.movementJoystick.minR
+  if (y*y) + (x*x) >= (minR*minR) then
     self.movementVec.y = y
     self.movementVec.x = x
     self.movementVec:scale_inplace(PlayerInput.inputAmplifier)
@@ -44,6 +40,12 @@ function PlayerInput:update(dt)
   end
   
   self:debugStuff()
+end
+
+function PlayerInput:getMouseOffsetRelativeToCenter(xJoystick)
+  local centerX, centerY = xJoystick.x, xJoystick.y
+  local mouseX, mouseY = love.mouse.getPosition()
+  return -(centerX - mouseX), -(centerY - mouseY)
 end
 
 local AlertMachine = require('AlertMachine')

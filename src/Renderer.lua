@@ -2,6 +2,7 @@ local Class  = require('hump.class')
 local Camera = require('hump.camera')
 local Vector = require('hump.vector')
 local DrawCommon = require('DrawCommon')
+local PlayerInputParams = require("PlayerInputParams")
 
 local Renderer = Class {}
 
@@ -18,7 +19,7 @@ function Renderer:draw(xWorld)
   local playerX, playerY = xWorld.player.loc.x, xWorld.player.loc.y
   local playerCenterX, playerCenterY = (playerX + self.playerShip:getWidth() / 2), (playerY + self.playerShip:getHeight() / 2)
   local playerAngle = self.GU:getAngle(xWorld.player.dir)
-  local blindSpotRadius = xWorld.player.playerInput.blindSpotRadius
+  local movementJoystickMinR = PlayerInputParams.movementJoystick.minR
   local projectiles = xWorld.projectiles
   
   -- ALWAYS LOOK AT THE PLAYER
@@ -41,7 +42,7 @@ function Renderer:draw(xWorld)
   
   self.GU:BEGIN_SCREENSPACE(self.camera)
     love.graphics.setColor(255, 255, 0)
-    self:drawPlayerDebugInfo(xWorld.player, playerCenterX + blindSpotRadius, playerCenterY)
+    self:drawPlayerDebugInfo(xWorld.player, playerCenterX + movementJoystickMinR, playerCenterY)
     
     love.graphics.setColor(255, 255, 255) 
     love.graphics.print("ORIGIN", 0, 0)

@@ -3,7 +3,6 @@ local Class = require('hump.class')
 local PlayerGameData = Class{}
 
 PlayerGameData.crystalScoreValue = 10
-PlayerGameData.blindSpotRadius = 50
 PlayerGameData.secondaryWeaponWarmupTime = 2
 
 function PlayerGameData:init()

@@ -3,6 +3,7 @@ local Camera = require('hump.camera')
 local Blinker = require('Blinker')
 local DrawCommon = require('DrawCommon')
 local AlertMachine = require('AlertMachine')
+local PlayerInputParams = require("PlayerInputParams")
 
 local ALERT_DIM_COLOR = {150,150,150,200}
 
@@ -41,14 +42,17 @@ function HUD:draw(xPlayerGameData)
   local height = screenHeight / self.background:getHeight()
   local rotation = 0
   
+  local x, y, minR = PlayerInputParams.movementJoystick.x, PlayerInputParams.movementJoystick.y, PlayerInputParams.movementJoystick.minR
+  
   love.graphics.setColor(255,255,255)
-  love.graphics.draw(self.background, 0, 0, rotation, width, height) 
+  love.graphics.circle("line", x, y, 300)
+  --love.graphics.draw(self.background, 0, 0, rotation, width, height) 
 
   local HUDcolor = self:getHeadsUpDisplayColor()
   love.graphics.setColor(unpack(HUDcolor))
   
-  self.GU:drawDebugInfo(xPlayerGameData, screenWidth/2, screenHeight/2 + xPlayerGameData.blindSpotRadius)
-  love.graphics.circle("line", screenWidth/2, screenHeight/2, xPlayerGameData.blindSpotRadius, 50)
+  self.GU:drawDebugInfo(xPlayerGameData, x, y + minR)
+  love.graphics.circle("line", x, y, minR, 50)
 
   local primaryAlert = self.alertMachine:getPrimaryAlert()
   self:drawAlertMessage(primaryAlert, love.graphics.getWidth() * (2/5), love.graphics.getHeight() * (4/5))

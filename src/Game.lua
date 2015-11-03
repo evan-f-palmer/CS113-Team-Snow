@@ -14,7 +14,7 @@ local Game = Class{}
 function Game:init()
   self.projectiles    = Projectiles()
   self.playerGameData = PlayerGameData()
-  self.playerInput    = PlayerInput(self.playerGameData)
+  self.playerInput    = PlayerInput()
   self.world          = World(self.playerInput, self.playerGameData, self.projectiles)
   self.hud            = HUD()
   self.renderer       = Renderer()

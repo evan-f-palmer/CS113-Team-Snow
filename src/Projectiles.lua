@@ -3,15 +3,32 @@ local Singleton = require('Singleton')
 
 local Projectiles = Class{}
 Projectiles.MAX = 100
+Projectiles.DEFAULT_LIFETIME = 10
+Projectiles.DEFAULT_DEF = {lifetime = Projectiles.DEFAULT_LIFETIME}
 
 function Projectiles:init()
   self.projectileDefs = {}
 end
 
 function Projectiles:update(dt)
-  self:limit()
+  local toKill = {}
+  
+  self:limit()  
+  
   for i, projectile in ipairs(self) do
-    -- TODO  
+    projectile.time = projectile.time + dt
+    projectile.dist = projectile.dist + 0
+    
+    -- TODO -- 
+    
+    if projectile.time >= projectile.def.lifetime then
+      table.insert(toKill, i)
+    end
+  end
+  
+  while #toKill > 0 do
+    local indexToRemove = table.remove(toKill)
+    table.remove(self, indexToRemove)
   end
 end
 
@@ -21,13 +38,15 @@ function Projectiles:limit()
   end
 end
 
-function Projectiles:defProjectile(xProjectileID, xDefs)
-  self.projectileDefs[xProjectileID] = xDefs
+function Projectiles:defProjectile(xProjectileID, xDef)
+  xDef.lifetime = xDef.lifetime or Projectiles.DEFAULT_LIFETIME
+  self.projectileDefs[xProjectileID] = xDef
 end
 
 function Projectiles:addProjectile(xProjectileID, xPosition, xDirection)
-  local projectileDef = self.projectileDefs[xProjectileID]
-  table.insert(self, {def = projectileDef, pos = xPosition, dir = xDirection, id = xProjectileID})
+  local projectileDef = self.projectileDefs[xProjectileID] or Projectiles.DEFAULT_DEF
+  local projectile = {def = projectileDef, pos = xPosition, dir = xDirection, id = xProjectileID, time = 0, dist = 0}
+  table.insert(self, projectile)
 end
 
 return Singleton(Projectiles)
