@@ -63,19 +63,18 @@ function HUD:draw(xPlayerGameData)
   
   love.graphics.setColor(255,255,255)
   love.graphics.circle("line", x, y, 300)
-  --love.graphics.draw(self.background, 0, 0, rotation, width, height) 
 
+  --love.graphics.draw(self.background, 0, 0, rotation, width, height) 
   --love.graphics.setShader(self.bloomShader)
+  
   self:drawHealthBar(xPlayerGameData.health)
 
   local HUDcolor = self:getHeadsUpDisplayColor()
   love.graphics.setColor(unpack(HUDcolor))
 
-  love.graphics.circle("fill", self.layout.lives.x, self.layout.lives.y, self.GU.FONT_SIZE, 30)
-  love.graphics.circle("fill", self.layout.bombs.x, self.layout.bombs.y, self.GU.FONT_SIZE, 30)
-  
-  self.GU:drawDebugInfo(xPlayerGameData, x, y + minR)
   love.graphics.circle("line", x, y, minR, 50)
+  love.graphics.circle("fill", self.layout.lives.x, self.layout.lives.y, self.GU.FONT_SIZE, 30)
+  love.graphics.circle("fill", self.layout.bombs.x, self.layout.bombs.y, self.GU.FONT_SIZE, 30)  
   
   love.graphics.setColor(255,255,255)
   self.GU:centeredText(xPlayerGameData.lives, self.layout.lives.x, self.layout.lives.y)

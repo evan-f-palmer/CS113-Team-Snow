@@ -8,7 +8,7 @@ local Renderer = Class {}
 
 function Renderer:init()
   self.camera = Camera()
-  self.camera.scale = 1 / 10
+  self.camera.scale = 1 / 5
   self.camera:lookAt(0, 0)  
   self.GU = DrawCommon()
   
@@ -41,7 +41,7 @@ function Renderer:draw(xWorld)
   
   self.GU:BEGIN_SCREENSPACE(self.camera)
     love.graphics.setColor(255, 255, 0)
-    self:drawPlayerDebugInfo(xWorld.player, playerX + movementJoystickMinR, playerY)
+    --self:drawPlayerDebugInfo(xWorld.player, playerX + movementJoystickMinR, playerY)
     
     love.graphics.setColor(255, 255, 255) 
     self.GU:centeredText("ORIGIN", 0, 0)
