@@ -12,8 +12,8 @@ Player.ID = "Player"
 Player.primaryWeaponID = "Player Primary"
 Player.secondaryWeaponID = "Player Secondary"
 Player.combatant = {health = 100}
-Player.primaryWeapon = {damage = 50, ammo = math.huge, projectileID = "Player Bullet", debounceTime = 0.1}
-Player.secondaryWeapon = {damage = 5000, ammo = 0, projectileID = "Sinibomb", debounceTime = 1, maxAmmo = 12}
+Player.primaryWeapon = {ammo = math.huge, projectileID = "Player Bullet", debounceTime = 0.1}
+Player.secondaryWeapon = {ammo = 0, projectileID = "Sinibomb", debounceTime = 1, maxAmmo = 12}
 
 function Player:init(playerInput, playerGameData)
   self.loc = Vector(0, 0)

@@ -4,7 +4,6 @@ local Projectiles = require('Projectiles')
 
 local Combat = Class{}
 Combat.DEFAULT_HEALTH = 100
-Combat.DEFAULT_DAMAGE = 50
 Combat.DEFAULT_AMMO = math.huge
 Combat.DEFAULT_WEAPON_DEBOUNCE = 0
 Combat.ONE_HUNDRED_PERCENT = 1
@@ -36,7 +35,6 @@ end
 
 function Combat:addWeapon(xWeaponID, xWeaponData)
   local weapon = xWeaponData or {}
-  weapon.damage = weapon.damage or Combat.DEFAULT_DAMAGE
   weapon.ammo = weapon.ammo or Combat.DEFAULT_AMMO
   weapon.maxAmmo = weapon.maxAmmo or weapon.ammo
   weapon.debounceTime = weapon.debounceTime or Combat.DEFAULT_WEAPON_DEBOUNCE
@@ -117,8 +115,7 @@ function Combat:chargeAllWeapons(dt)
 end
 
 Combat.ACTION_DISPATCH["FIRE"] = function(xFire)
-  local newAmmo = xFire.weapon.ammo - 1
-  xFire.weapon.ammo = newAmmo
+  xFire.weapon.ammo = xFire.weapon.ammo - 1
   xFire.weapon.timer = 0
   Combat.PROJECTILES:addProjectile(xFire.weapon.projectileID, xFire.pos, xFire.dir)
 end
