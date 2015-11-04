@@ -29,7 +29,7 @@ function HUD:init()
   self.blinker = Blinker()
   self.GU = DrawCommon()
   self.alertMachine = AlertMachine()
-  self.bloomShader = love.graphics.newShader("bloom.c")
+  self.bloomShader = love.graphics.newShader("shaders/bloom.glsl")
 
   self.background = love.graphics.newImage("assets/hud.png")
 end
@@ -51,7 +51,7 @@ function HUD:draw(xPlayerGameData)
 
   local HUDcolor = self:getHeadsUpDisplayColor()
   love.graphics.setColor(unpack(HUDcolor))
-  --love.graphics.setShader(self.bloomShader)
+  love.graphics.setShader(self.bloomShader)
   
   self.GU:drawDebugInfo(xPlayerGameData, x, y + minR)
   love.graphics.circle("line", x, y, minR, 50)
