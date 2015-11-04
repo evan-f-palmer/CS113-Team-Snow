@@ -17,13 +17,12 @@ end
 
 function Renderer:draw(xWorld)
   local playerX, playerY = xWorld.player.loc.x, xWorld.player.loc.y
-  local playerCenterX, playerCenterY = (playerX + self.playerShip:getWidth() / 2), (playerY + self.playerShip:getHeight() / 2)
   local playerAngle = self.GU:getAngle(xWorld.player.dir)
   local movementJoystickMinR = PlayerInputParams.movementJoystick.minR
   local projectiles = xWorld.projectiles
   
   -- ALWAYS LOOK AT THE PLAYER
-  self.camera:lookAt(playerCenterX, playerCenterY)
+  self.camera:lookAt(playerX, playerY)
   self.camera:attach()
   
   -- THE ORIGIN
@@ -42,7 +41,7 @@ function Renderer:draw(xWorld)
   
   self.GU:BEGIN_SCREENSPACE(self.camera)
     love.graphics.setColor(255, 255, 0)
-    self:drawPlayerDebugInfo(xWorld.player, playerCenterX + movementJoystickMinR, playerCenterY)
+    self:drawPlayerDebugInfo(xWorld.player, playerX + movementJoystickMinR, playerY)
     
     love.graphics.setColor(255, 255, 255) 
     love.graphics.print("ORIGIN", 0, 0)

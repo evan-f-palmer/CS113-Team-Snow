@@ -18,10 +18,10 @@ function DrawCommon:init()
 end
 
 function DrawCommon:drawRotatedImage(image, x, y, angle)  
-  local centerX = x + image:getWidth()/2
-  local centerY = y + image:getHeight()/2
-  self:BEGIN_ROTATE_ABOUT_POINT_AT_ANGLE(centerX, centerY, angle)
-    love.graphics.draw(image, x, y)
+  local drawX = x - image:getWidth()/2
+  local drawY = y - image:getHeight()/2
+  self:BEGIN_ROTATE_ABOUT_POINT_AT_ANGLE(x, y, angle)
+    love.graphics.draw(image, drawX, drawY)
   self:END()
 end
 
