@@ -18,7 +18,7 @@ function Blinker:update(dt)
   if self.time > self.period then
     self.time = self.time - self.period
   end
-  self.periodPct = (self.time / self.period)
+  self.periodPct = math.min((self.time / self.period), 1.0)
 end
 
 function Blinker:blink(...)

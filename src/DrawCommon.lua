@@ -7,21 +7,26 @@ local DrawCommon = Class {}
 
 DrawCommon.UP_VECTOR = Vector(0, 1)
 DrawCommon.FONT_FILE = nil
-DrawCommon.FONT_SIZE = 12
+DrawCommon.FONT_SIZE = 14
 
 function DrawCommon:init()
   self.blinker = Blinker()
   self.blinker:setPeriod(1)  
   
-  self.font = love.graphics.newFont(DrawCommon.FONT_FILE, DrawCommon.FONT_SIZE)
+  self.font = love.graphics.newFont(DrawCommon.FONT_SIZE)
   love.graphics.setFont(self.font)
 end
 
-function DrawCommon:drawRotatedImage(image, x, y, angle)  
-  local centerX = x + image:getWidth()/2
-  local centerY = y + image:getHeight()/2
+function DrawCommon:centeredText(text, x, y)
+  local width, height = self.font:getWidth(text), self.font:getHeight()
+  love.graphics.print(text, x - width/2, y - height/2)
+end
+
+function DrawCommon:drawRotatedImage(image, centerX, centerY, angle)  
+  local drawX = centerX - image:getWidth()/2
+  local drawY = centerY - image:getHeight()/2
   self:BEGIN_ROTATE_ABOUT_POINT_AT_ANGLE(centerX, centerY, angle)
-    love.graphics.draw(image, x, y)
+    love.graphics.draw(image, drawX, drawY)
   self:END()
 end
 
