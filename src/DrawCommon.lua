@@ -17,10 +17,10 @@ function DrawCommon:init()
   love.graphics.setFont(self.font)
 end
 
-function DrawCommon:drawRotatedImage(image, x, y, angle)  
-  local drawX = x - image:getWidth()/2
-  local drawY = y - image:getHeight()/2
-  self:BEGIN_ROTATE_ABOUT_POINT_AT_ANGLE(x, y, angle)
+function DrawCommon:drawRotatedImage(image, centerX, centerY, angle)  
+  local drawX = centerX - image:getWidth()/2
+  local drawY = centerY - image:getHeight()/2
+  self:BEGIN_ROTATE_ABOUT_POINT_AT_ANGLE(centerX, centerY, angle)
     love.graphics.draw(image, drawX, drawY)
   self:END()
 end
