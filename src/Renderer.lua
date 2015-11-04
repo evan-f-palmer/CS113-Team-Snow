@@ -44,11 +44,11 @@ function Renderer:draw(xWorld)
     self:drawPlayerDebugInfo(xWorld.player, playerX + movementJoystickMinR, playerY)
     
     love.graphics.setColor(255, 255, 255) 
-    love.graphics.print("ORIGIN", 0, 0)
+    self.GU:centeredText("ORIGIN", 0, 0)
     
     love.graphics.setColor(80, 80, 200)
     for i, projectile in ipairs(projectiles) do
-      self.GU:drawDebugInfo({["ID"] = projectile.id}, projectile.pos.x, projectile.pos.y)  
+      self.GU:centeredText(projectile.id, projectile.pos.x, projectile.pos.y)      
     end
   self.GU:END()
   

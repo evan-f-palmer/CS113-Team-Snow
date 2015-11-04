@@ -52,7 +52,7 @@ function Player:update(dt)
   self.loc:add_inplace(self.vel)
   
   self.playerGameData.bombs = self.combat:getAmmo(Player.secondaryWeaponID)
-  self.playerGameData.health = self.combat:getHealth(Player.ID)
+  self.playerGameData.health = self.combat:getHealthPercent(Player.ID)
 end
 
 return Player
