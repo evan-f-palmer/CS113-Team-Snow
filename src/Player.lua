@@ -2,6 +2,7 @@ local Class  = require('hump.class')
 local Vector = require('hump.vector')
 local AlertMachine = require('AlertMachine')
 local Combat = require('Combat')
+local Projectiles = require('Projectiles')
 
 local PRIMARY_FIRE_MESSAGE   = {message = "[Primary Fire]", lifespan = 0.5}
 local SECONDARY_FIRE_MESSAGE = {message = "[Secondary Fire]", lifespan = 0.5}
@@ -24,10 +25,18 @@ function Player:init(playerInput, playerGameData)
   self.maxSpeed = 950
   self.alertMachine = AlertMachine()
   
+  self.projectiles = Projectiles()
+  self.projectiles:defProjectile("Player Bullet", {color = {0,220,150}, shouldRotate = true, })
+  self.projectiles:defProjectile("Sinibomb", {color = {180,50,0}})  
+
   self.combat = Combat()
   self.combat:addCombatant(Player.ID, Player.combatant)
   self.combat:addWeapon(Player.primaryWeaponID, Player.primaryWeapon)
   self.combat:addWeapon(Player.secondaryWeaponID, Player.secondaryWeapon)
+  
+  self.image = love.graphics.newImage("assets/ship.png")
+  self.color = {255,255,255}
+  self.shouldRotate = true
 end
 
 function Player:update(dt)
@@ -53,6 +62,10 @@ function Player:update(dt)
   
   self.playerGameData.bombs = self.combat:getAmmo(Player.secondaryWeaponID)
   self.playerGameData.health = self.combat:getHealthPercent(Player.ID)
+end
+
+function Player:onCollision(other, dx, dy)
+
 end
 
 return Player
