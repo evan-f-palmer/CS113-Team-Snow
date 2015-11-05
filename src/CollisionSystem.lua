@@ -1,5 +1,6 @@
 local Class  = require('hump.class')
 local HC     = require 'HardonCollider'
+local Singleton = require('Singleton')
 
 local CollisionSystem = Class {}
 
@@ -18,11 +19,9 @@ function CollisionSystem:init()
   self.collisionObjects = {}
 end
 
-function CollisionSystem:createCollisionObject(metaObject, radius, x, y)
+function CollisionSystem:createCollisionObject(metaObject, radius)
   local collisionObject = {}
-  x = x or 0
-  y = y or 0
-  collisionObject[MainObject] = self.hc:circle(x, y, radius)
+  collisionObject[MainObject] = self.hc:circle(metaObject.loc.x, metaObject.loc.y, radius)
   collisionObject[MainObject].metaObject = metaObject
   
   -- Create More objects here
@@ -45,8 +44,8 @@ function CollisionSystem:update()
   
     if self:hasMoved(collisionObject, metaObject.loc) then
       self:moveCollisionObject(collisionObject, metaObject.loc)
-      self:updateCollisions(collisionObject)
     end
+    self:updateCollisions(collisionObject)
   end
 end
 
@@ -82,4 +81,4 @@ function CollisionSystem:getNeighbors(metaObject)
   return self.hc.neighbors(self.collisionObjects[metaObject][MainObject])
 end
 
-return CollisionSystem
+return Singleton(CollisionSystem)
