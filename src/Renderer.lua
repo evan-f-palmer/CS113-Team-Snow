@@ -1,6 +1,5 @@
 local Class  = require('hump.class')
 local Camera = require('hump.camera')
-local Vector = require('hump.vector')
 local DrawCommon = require('DrawCommon')
 local PlayerInputParams = require("PlayerInputParams")
 local CollisionSystem = require('CollisionSystem')
@@ -16,15 +15,12 @@ function Renderer:init()
   
   self.captureDevice = {
     loc = {x = 0, y = 0},
-    onCollision = function(self, objInView, dx, dy)
-      -- I CAN INSERT IN SOME ORDER, S.T. THERE IS A LAYERING (Ex: I can insert into different layers)
-      table.insert(self.inView, objInView)
-    end,
-    inView = {},
     radius = 300 * (1/self.camera.scale),
+    type = "Capture Device",
   }
   self.collider:createCollisionObject(self.captureDevice, self.captureDevice.radius)
   
+  self.DEFAULT_COLOR = {255,255,255}
   self.DEFAULT_IMAGE = love.graphics.newImage("assets/worker.png")
 end
 
@@ -36,6 +32,7 @@ function Renderer:draw(xWorld)
   
   self.captureDevice.loc = xWorld.player.loc
   self.captureDevice.inView = xWorld.collider:getCollisions(self.captureDevice)
+  -- can sort self.captureDevice.inView by object "types" (EX: can insert into layers by type)
   
   -- ALWAYS LOOK AT THE PLAYER
   self.camera:lookAt(playerX, playerY)
@@ -47,35 +44,27 @@ function Renderer:draw(xWorld)
   
   for i = 1, #self.captureDevice.inView do
     local obj = self.captureDevice.inView[i]
-    local angle = 0
-    if obj.shouldRotate then
-      angle = self.GU:getAngle(obj.dir)
-    end
-    local color = obj.color or {255, 255, 255}
-    local image = obj.image or self.DEFAULT_IMAGE
+    local objRender = obj.render
+    local color = objRender.color or self.DEFAULT_COLOR
     love.graphics.setColor(unpack(color))
-    self.GU:drawRotatedImage(image, obj.loc.x, obj.loc.y, angle)
+    local image = objRender.image or self.DEFAULT_IMAGE 
+    local angle = 0
+    if objRender.shouldRotate then
+      angle = self.GU:getAngle(obj.dir)
+    end   
+    self.GU:drawRotatedImage(image, obj.loc.x, obj.loc.y, angle)  
   end
     
   self.GU:BEGIN_SCREENSPACE(self.camera)    
-    love.graphics.setColor(255, 255, 255) 
-    self.GU:centeredText("ORIGIN", 0, 0)
-    
     love.graphics.setColor(80, 80, 200)
-    for i, projectile in ipairs(projectiles) do
-      self.GU:centeredText(projectile.id, projectile.loc.x, projectile.loc.y)      
+    self.GU:centeredText("ORIGIN", 0, 0)    
+    for i = 1, #self.captureDevice.inView do
+      local obj = self.captureDevice.inView[i]
+      self.GU:centeredText(obj.type, obj.loc.x, obj.loc.y)       
     end
   self.GU:END()
-  
-  self.captureDevice.inView = {}
-  
+    
   self.camera:detach()  
-end
-
-function Renderer:drawPlayerDebugInfo(xPlayer, xLoc, yLoc)
-  local info = {}
-  info["LOC"] = '['.. math.floor(xPlayer.loc.x) .. ', ' .. math.floor(xPlayer.loc.y) .. ']'
-  self.GU:drawDebugInfo(info, xLoc, yLoc)
 end
 
 return Renderer

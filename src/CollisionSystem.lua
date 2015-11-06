@@ -6,6 +6,7 @@ local CollisionSystem = Class {}
 
 local MainObject = 'main'
 
+local EMPTY_FUNCTION = function() end
 --[[
 The metaObject passed in needs a loc with an x and y
 and needs an onCollision(metaObject) for collisions
@@ -21,6 +22,7 @@ end
 
 function CollisionSystem:createCollisionObject(metaObject, radius)
   local collisionObject = {}
+  metaObject.onCollision = metaObject.onCollision or EMPTY_FUNCTION
   collisionObject[MainObject] = self.hc:circle(metaObject.loc.x, metaObject.loc.y, radius)
   collisionObject[MainObject].metaObject = metaObject
   

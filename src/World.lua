@@ -5,16 +5,13 @@ local CollisionSystem = require('CollisionSystem')
 local World = Class{}
 
 function World:init(playerInput, playerGameData, projectiles)
+  self.collider = CollisionSystem()
   self.player = Player(playerInput, playerGameData)
   self.playerGameData = playerGameData
   self.projectiles = projectiles
+  self.bodies = {} -- Asteroids and Enemies?
   
-  self.collider = CollisionSystem()
- 
-  self.workers = {}
-  self.warriors = {}
-  
-  self.collider:createCollisionObject(self.player, 3)
+  self.collider:createCollisionObject(self.player, self.player.radius)
 end
 
 local function updateObjects(objects, dt)
@@ -30,11 +27,23 @@ end
 function World:update(dt)
   self.player:update(dt)
   self.projectiles:update(dt)
-  
-  updateObjects(self.workers)
-  updateObjects(self.warriors)
-  
+  self:moveAllWorldObjects(dt)
   self.collider:update()
+end
+
+local function move(xBody, dt)
+  local vel = (xBody.vel) * (dt) 
+  xBody.loc:add_inplace(vel) 
+end
+
+function World:moveAllWorldObjects(dt)
+  move(self.player, dt)
+  for i, projectile in ipairs(self.projectiles) do
+    move(projectile, dt)
+  end
+  for k, body in pairs(self.bodies) do
+    move(body, dt)
+  end
 end
 
 return World

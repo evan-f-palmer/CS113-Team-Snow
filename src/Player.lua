@@ -9,63 +9,65 @@ local SECONDARY_FIRE_MESSAGE = {message = "[Secondary Fire]", lifespan = 0.5}
 local OUT_OF_SINIBOMBS_ALERT = {message = "[Out of Sinibombs]", lifespan = 1.5, priority = 2}
 
 local Player = Class{}
-Player.ID = "Player"
-Player.primaryWeaponID = "Player Primary"
-Player.secondaryWeaponID = "Player Secondary"
-Player.combatant = {health = 100}
-Player.primaryWeapon = {ammo = math.huge, projectileID = "Player Bullet", debounceTime = 0.1}
-Player.secondaryWeapon = {ammo = 0, projectileID = "Sinibomb", debounceTime = 1, maxAmmo = 12}
+Player.type = "Player"
 
 function Player:init(playerInput, playerGameData)
+  self.playerInput = playerInput
+  self.playerGameData = playerGameData
+  
   self.loc = Vector(0, 0)
   self.vel = Vector(0, 0)
   self.dir = Vector(0, 0)
-  self.playerInput = playerInput
-  self.playerGameData = playerGameData
   self.maxSpeed = 950
-  self.alertMachine = AlertMachine()
+  self.radius = 10
   
   self.projectiles = Projectiles()
-  self.projectiles:defProjectile("Player Bullet", {color = {0,220,150}, shouldRotate = true, })
-  self.projectiles:defProjectile("Sinibomb", {color = {180,50,0}})  
+  self.projectiles:defProjectile("Player Bullet", {color = {0,220,150}, shouldRotate = true, speed = 800, lifespan = 3})
+  self.projectiles:defProjectile("Sinibomb", {color = {180,50,0}, speed = 1500, lifespan = 3})  
 
   self.combat = Combat()
-  self.combat:addCombatant(Player.ID, Player.combatant)
-  self.combat:addWeapon(Player.primaryWeaponID, Player.primaryWeapon)
-  self.combat:addWeapon(Player.secondaryWeaponID, Player.secondaryWeapon)
+  self.combat:addCombatant("Player", {health = 100})
+  self.combat:addWeapon("Player Primary", {ammo = math.huge, projectileID = "Player Bullet", debounceTime = 0.1})
+  self.combat:addWeapon("Player Secondary", {ammo = 0, projectileID = "Sinibomb", debounceTime = 1, maxAmmo = 12})
   
-  self.image = love.graphics.newImage("assets/ship.png")
-  self.color = {255,255,255}
-  self.shouldRotate = true
+  self.render = {
+    image = love.graphics.newImage("assets/ship.png"),
+    color = {255,255,255},
+    shouldRotate = true,
+  }
+  
+  self.alertMachine = AlertMachine()
 end
 
 function Player:update(dt)
+  self.dir = self.playerInput.directionVec
+  self.vel = self.playerInput.movementVec
+  self.vel:trim_inplace(self.maxSpeed)
+
   if self.playerInput.primaryWeaponFire then
-    self.combat:fire(Player.primaryWeaponID, self.loc, self.dir)
+    self.combat:fire("Player Primary", self.loc, self.dir, self.vel)
   end
     
   if self.playerInput.secondaryWeaponFire then
-    self.combat:fire(Player.secondaryWeaponID, self.loc, self.dir)
+    self.combat:fire("Player Secondary", self.loc, self.dir)
   end
   
-  if self.playerInput.secondaryWeaponFire and self.combat:isOutOfAmmo(Player.secondaryWeaponID) then
+  if self.playerInput.secondaryWeaponFire and self.combat:isOutOfAmmo("Player Secondary") then
     self.alertMachine:set(OUT_OF_SINIBOMBS_ALERT)
   end
 
-  self.dir = self.playerInput.directionVec
-  
-  self.vel = self.playerInput.movementVec
-  self.vel:trim_inplace(self.maxSpeed)
-  self.vel:scale_inplace(dt)
-  
-  self.loc:add_inplace(self.vel)
-  
-  self.playerGameData.bombs = self.combat:getAmmo(Player.secondaryWeaponID)
-  self.playerGameData.health = self.combat:getHealthPercent(Player.ID)
+  self.playerGameData.bombs = self.combat:getAmmo("Player Secondary")
+  self.playerGameData.health = self.combat:getHealthPercent("Player")
 end
 
-function Player:onCollision(other, dx, dy)
-
+function Player:onCollision(other)
+  local type = other.type
+  if type ~= "Capture Device" then
+    self.alertMachine:set({message = (type .. " Here!"), lifespan = 1, priority = 4})
+  end
+  if type == "Enemy Bullet" then
+    self.combat:attack("Player", 1)
+  end
 end
 
 return Player

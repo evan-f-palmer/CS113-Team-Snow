@@ -188,16 +188,19 @@ end
 function vector:scale_inplace(maxLen)
   self.x = self.x * maxLen
   self.y = self.y * maxLen
+  return self
 end
 
 function vector:mul_inplace(vec2)
   self.x = self.x * vec2.x
   self.y = self.y * vec2.y
+  return self
 end
 
 function vector:add_inplace(vec2)
   self.x = self.x + vec2.x
   self.y = self.y + vec2.y
+  return self
 end
 
 -- the module

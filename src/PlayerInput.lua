@@ -73,6 +73,13 @@ function PlayerInput:debugStuff()
   if love.keyboard.isDown("b") then
     COMBAT:supplyAmmo("Player Secondary", 1)
   end
+  
+  if love.keyboard.isDown("a") then
+    COMBAT:attack("Player", 1)
+  end
+  if love.keyboard.isDown("s") then
+    COMBAT:heal("Player", 1)
+  end
 end
 
 return PlayerInput
