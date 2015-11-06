@@ -35,6 +35,7 @@ function Renderer:draw(xWorld)
   local projectiles = xWorld.projectiles
   
   self.captureDevice.loc = xWorld.player.loc
+  self.captureDevice.inView = xWorld.collider:getCollisions(self.captureDevice)
   
   -- ALWAYS LOOK AT THE PLAYER
   self.camera:lookAt(playerX, playerY)

@@ -38,7 +38,7 @@ end
 
 function Projectiles:remove(i)
   local obj = table.remove(self, i)
-  --self.collider:removeObject(obj)
+  self.collider:removeObject(obj)
 end
 
 function Projectiles:defProjectile(xProjectileID, xDef)

@@ -8,7 +8,7 @@ local MainObject = 'main'
 
 --[[
 The metaObject passed in needs a loc with an x and y
-and needs an onCollision(metaObject, dx, dy) for collisions
+and needs an onCollision(metaObject) for collisions
 
 It will inject a getNeighbors function that returns the metaObjects
 that are neighboring this object
@@ -41,11 +41,10 @@ end
 
 function CollisionSystem:update()
   for metaObject, collisionObject in pairs(self.collisionObjects) do
-  
     if self:hasMoved(collisionObject, metaObject.loc) then
       self:moveCollisionObject(collisionObject, metaObject.loc)
+      self:updateCollisions(collisionObject)
     end
-    self:updateCollisions(collisionObject)
   end
 end
 
@@ -64,21 +63,32 @@ function CollisionSystem:updateCollisions(collisionObject)
   for _, neighbor in pairs(self.hc:neighbors(collisionObject[MainObject])) do
     local collides, dx, dy = collisionObject[MainObject]:collidesWith(neighbor)
     if collides then
-      collisionObject[MainObject].metaObject:onCollision(neighbor.metaObject, dx, dy)
-      neighbor.metaObject:onCollision(collisionObject[MainObject].metaObject, dx, dy)
+      collisionObject[MainObject].metaObject:onCollision(neighbor.metaObject)
+      neighbor.metaObject:onCollision(collisionObject[MainObject].metaObject)   
     end
   end
 end
 
 function CollisionSystem:removeObject(metaObject)
-  for _, shape in pairs(self.objects[metaObject]) do
-    self.hc.remove(shape)
+  for _, shape in pairs(self.collisionObjects[metaObject]) do
+    self.hc:remove(shape)
   end
-  self.objects[metaObject] = nil
+  self.collisionObjects[metaObject] = nil
 end
 
 function CollisionSystem:getNeighbors(metaObject)
-  return self.hc.neighbors(self.collisionObjects[metaObject][MainObject])
+  return self.hc:neighbors(self.collisionObjects[metaObject][MainObject])
+end
+
+function CollisionSystem:getCollisions(metaObject)
+  local collisions = {}
+  for object, collision in pairs(self.hc:collisions(self.collisionObjects[metaObject][MainObject])) do
+    if collision then
+      collisions[#collisions + 1] = object.metaObject
+    end
+  end
+
+  return collisions
 end
 
 return Singleton(CollisionSystem)
