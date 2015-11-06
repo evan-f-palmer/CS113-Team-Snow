@@ -20,10 +20,11 @@ function Player:init(playerInput, playerGameData)
   self.dir = Vector(0, 0)
   self.maxSpeed = 950
   self.radius = 10
+  self.primaryFireOffset = 30
   
   self.projectiles = Projectiles()
-  self.projectiles:defProjectile("Player Bullet", {color = {0,220,150}, shouldRotate = true, speed = 800, lifespan = 3})
-  self.projectiles:defProjectile("Sinibomb", {color = {180,50,0}, speed = 1500, lifespan = 3})  
+  self.projectiles:defProjectile("Player Bullet", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {0,180,50}, speed = 800, lifespan = 3})
+  self.projectiles:defProjectile("Sinibomb", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {180,50,0}, speed = 1500, lifespan = 3})  
 
   self.combat = Combat()
   self.combat:addCombatant("Player", {health = 100})
@@ -45,7 +46,11 @@ function Player:update(dt)
   self.vel:trim_inplace(self.maxSpeed)
 
   if self.playerInput.primaryWeaponFire then
-    self.combat:fire("Player Primary", self.loc, self.dir, self.vel)
+    local offset = self.dir:perpendicular()
+    offset = offset:normalize_inplace()
+    offset = offset:scale_inplace(self.primaryFireOffset)
+    self.combat:fire("Player Primary", self.loc + offset, self.dir, self.vel)
+    self.combat:fire("Player Primary", self.loc - offset, self.dir, self.vel)
   end
     
   if self.playerInput.secondaryWeaponFire then

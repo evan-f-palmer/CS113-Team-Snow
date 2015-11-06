@@ -21,7 +21,6 @@ function Renderer:init()
   self.collider:createCollisionObject(self.captureDevice, self.captureDevice.radius)
   
   self.DEFAULT_COLOR = {255,255,255}
-  self.DEFAULT_IMAGE = love.graphics.newImage("assets/worker.png")
   self.TEXT_Y_OFFSET = 2 * self.GU.FONT_SIZE
   self.TEXT_COLOR = {80, 80, 200}
 end
@@ -53,14 +52,16 @@ function Renderer:draw(xWorld)
   for i = 1, #self.captureDevice.inView do
     local obj = self.captureDevice.inView[i]
     local objRender = obj.render
-    local color = objRender.color or self.DEFAULT_COLOR
-    love.graphics.setColor(unpack(color))
-    local image = objRender.image or self.DEFAULT_IMAGE 
-    local angle = 0
-    if objRender.shouldRotate then
-      angle = self.GU:getAngle(obj.dir)
-    end   
-    self.GU:drawRotatedImage(image, obj.loc.x, obj.loc.y, angle)
+    local image = objRender.image
+    if image then
+      local color = objRender.color or self.DEFAULT_COLOR
+      love.graphics.setColor(unpack(color))
+      local angle = 0
+      if objRender.shouldRotate then
+        angle = self.GU:getAngle(obj.dir)
+      end   
+      self.GU:drawRotatedImage(image, obj.loc.x, obj.loc.y, angle)
+    end
 
     love.graphics.setColor(self.TEXT_COLOR[1], self.TEXT_COLOR[2], self.TEXT_COLOR[3], self.TEXT_COLOR[4])
     self.GU:BEGIN_SCALE(obj.loc, inverseCameraScale)
