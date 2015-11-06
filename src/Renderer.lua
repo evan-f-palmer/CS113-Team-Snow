@@ -22,6 +22,8 @@ function Renderer:init()
   
   self.DEFAULT_COLOR = {255,255,255}
   self.DEFAULT_IMAGE = love.graphics.newImage("assets/worker.png")
+  self.TEXT_Y_OFFSET = 2 * self.GU.FONT_SIZE
+  self.TEXT_COLOR = {80, 80, 200}
 end
 
 function Renderer:draw(xWorld)
@@ -38,9 +40,15 @@ function Renderer:draw(xWorld)
   self.camera:lookAt(playerX, playerY)
   self.camera:attach()
   
+  local inverseCameraScale = 1/self.camera.scale
+  
   -- THE ORIGIN
   love.graphics.setColor(255, 0, 0)
   love.graphics.circle("fill", 0, 0, 30, 20)
+  love.graphics.setColor(255,255,255)
+  self.GU:BEGIN_SCALE({x = 0, y = 0}, inverseCameraScale)
+    self.GU:centeredText("ORIGIN", 0, self.TEXT_Y_OFFSET)
+  self.GU:END()
   
   for i = 1, #self.captureDevice.inView do
     local obj = self.captureDevice.inView[i]
@@ -52,17 +60,13 @@ function Renderer:draw(xWorld)
     if objRender.shouldRotate then
       angle = self.GU:getAngle(obj.dir)
     end   
-    self.GU:drawRotatedImage(image, obj.loc.x, obj.loc.y, angle)  
+    self.GU:drawRotatedImage(image, obj.loc.x, obj.loc.y, angle)
+
+    love.graphics.setColor(self.TEXT_COLOR[1], self.TEXT_COLOR[2], self.TEXT_COLOR[3], self.TEXT_COLOR[4])
+    self.GU:BEGIN_SCALE(obj.loc, inverseCameraScale)
+      self.GU:centeredText(obj.type, obj.loc.x, obj.loc.y + self.TEXT_Y_OFFSET)
+    self.GU:END()
   end
-    
-  self.GU:BEGIN_SCREENSPACE(self.camera)    
-    love.graphics.setColor(80, 80, 200)
-    self.GU:centeredText("ORIGIN", 0, 0)    
-    for i = 1, #self.captureDevice.inView do
-      local obj = self.captureDevice.inView[i]
-      self.GU:centeredText(obj.type, obj.loc.x, obj.loc.y)       
-    end
-  self.GU:END()
     
   self.camera:detach()  
 end
