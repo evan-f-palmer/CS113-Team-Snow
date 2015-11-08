@@ -7,13 +7,6 @@ local LONGEST_LIFESPAN = math.huge
 local ALWAYS_ACTIVE = function() return true end
 local NULL_ALERT = { message = "", priority = LOWEST_PRIORITY, lifespan = LONGEST_LIFESPAN, isActive = ALWAYS_ACTIVE, }
 
---[[
-  ALERT: {string message, num priority, time lifespan, func isActive}
-  AlertMachine API:
-    getPrimaryAlert() -> ALERT
-    update(dt)
-    set(ALERT)
-]]--
 local AlertMachine = Class{}
 
 function AlertMachine:init()
@@ -62,11 +55,6 @@ function AlertMachine:isDead(xAlert)
   return not xAlert:isActive() or self.timeToLiveFor[ID] <= 0
 end
 
-function AlertMachine:clear(xAlert)
-  local ID = alertID(xAlert)
-  self.timeToLiveFor[ID] = 0
-end
-
 function AlertMachine:updateTimeToLiveForAlerts(dt)
   for k, ttl in pairs(self.timeToLiveFor) do
     self.timeToLiveFor[k] = ttl - dt
@@ -77,6 +65,11 @@ function AlertMachine:cleanup(toKill)
   for _, alertToRemoveKey in ipairs(toKill) do
     self.alerts[alertToRemoveKey] = nil
   end
+end
+
+function AlertMachine:clear(xAlert)
+  local ID = alertID(xAlert)
+  self.timeToLiveFor[ID] = 0
 end
 
 return Singleton(AlertMachine)

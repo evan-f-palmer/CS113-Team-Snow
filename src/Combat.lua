@@ -29,7 +29,7 @@ end
 function Combat:addCombatant(xCombatantID, xCombatantData)
   local combatant = xCombatantData or {}
   combatant.health = combatant.health or Combat.DEFAULT_HEALTH
-  combatant.maxHealth = combatant.health
+  combatant.maxHealth = combatant.maxHealth or combatant.health
   self.combatants[xCombatantID] = combatant
 end
 

@@ -1,6 +1,5 @@
 local Class  = require('hump.class')
 local Vector = require('hump.vector')
-local Blinker = require('Blinker')
 local Singleton = require('Singleton')
 
 local DrawCommon = Class {}
@@ -10,9 +9,6 @@ DrawCommon.FONT_FILE = nil
 DrawCommon.FONT_SIZE = 14
 
 function DrawCommon:init()
-  self.blinker = Blinker()
-  self.blinker:setPeriod(1)  
-  
   self.font = love.graphics.newFont(DrawCommon.FONT_SIZE)
   love.graphics.setFont(self.font)
 end

@@ -1,0 +1,86 @@
+=== AlertMachine class, Singleton ===
+
+method set(table alert)
+Description: Activates the set alert within the alert machine
+	alert fields: 
+	"message": string
+	"priority": number (optional)
+	"lifespan": number (optional)
+	"isActive": function (optional)
+
+method getPrimaryAlert() -> table alert
+Description: Returns the active alert of highest priority
+
+method update(number deltatime)
+Description: Inactivates alerts which have surpassed their lifespan, establishes the primary alert.
+
+=== Blinker class ===
+
+method blink([...]) -> argument
+Description: returns one of the arguments that was passed in, in accordance with % of the time traversal of the set period
+
+method setPeriod(number period)
+Description: sets the period of a full cycle for the blinker's "blink"
+
+method update(number deltatime)
+Description: Updates the % of time traversal through the set period
+
+=== Combat class, Singleton ===
+
+method addCombatant(* uniqueCombatantID, (optional)table combatant)
+Description:
+	combatant fields:
+	"health": number (optional)
+	"maxHealth": number (optional, autoset by "health")
+
+method addWeapon(* uniqueWeaponID, (optional)table weapon)
+Description:
+	weapon fields:
+	"ammo": number (optional)
+	"maxAmmo": number (optional, autoset by "ammo")
+	"debounceTime": number (optional)
+	"projectileID": * (optional)
+	
+	
+method attack(* defenderCombatantID, number damage)
+Description: Applies the specified damage to the combatant, if the combatant is not dead.  Health will not fall below 0.
+
+method heal(* healingCombatantID, number amountToHeal)
+Description: Heals the combatant by the specified amountToHeal, if the combatant is not dead.  Health will not fill beyond the specified "maxHealth".
+
+method fire(* weaponID, vector position, vector direction, (optional)vector momentum)
+Description: if the weapon can fire, fires the weapon's specified projectile at the given position, in the given direction, at the projectile's specified speed, with optional momentum to be applied to it's velocity.  Reduces weapon ammo by 1. 
+
+method supplyAmmo(* weaponID, number ammo)
+Description: Supplies ammo to the given weapon.  Ammo will not fill beyond the specified "maxAmmo".
+
+method update(number deltatime)
+Description: Performs all of the requested combat procedures, in call order.  Recharges weapons (debounceTime).
+
+methods getHealth, getHealthPercent, isDead (* uniqueCombatantID)
+methods getAmmo, getAmmoPercent, isOutOfAmmo (* uniqueWeaponID)
+
+method getRechargePercent(* uniqueWeaponID)
+Description: The percentage of recharge from weapon fire debounce.
+
+method canFire(* uniqueWeaponID)
+Description: A weapon can fire if it is fully recharged from a fire debounce, and has ammo.
+
+=== Projectiles class, Singleton ===
+
+method defProjectile(* projectileTypeUniqueID, table projectileDefinition)
+Description: Defines a projectile type, which can be referred to by the "addProjectile" method
+	projectileDefinition fields:
+	"lifespan": number (optional)
+	"speed": number (optional)
+	"onCollision": function (optional)
+	"radius": number (optional)
+	
+method addProjectile(* projectileTypeUniqueID, vector position, vector direction, (optional)vector momentum)
+Description: Creates a projectile with fields defined by the projectileDefinition, at the given position, in the given direction, at the projectile's specified speed, with optional momentum to be applied to it's velocity.
+
+method remove(number index)
+Description: Destroys the projectile at the given index
+
+method update(number deltatime)
+Description: Destroys projectiles which have surpassed their lifespan, limits the total number of projectiles.

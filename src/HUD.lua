@@ -35,6 +35,7 @@ local HUD = Class {}
 function HUD:init()
   self.camera = Camera()
   self.blinker = Blinker()
+  self.blinker:setPeriod(1)
   self.GU = DrawCommon()
   self.alertMachine = AlertMachine()
   
@@ -50,6 +51,10 @@ function HUD:init()
                w = love.graphics.getWidth() * (4/10), h = (self.GU.FONT_SIZE)},
     alert = { x = love.graphics.getWidth() * (1/2), y = love.graphics.getHeight() * (5/6)}
   }
+end
+
+function HUD:update(dt)
+  self.blinker:update(dt)
 end
 
 function HUD:draw(xPlayerGameData)

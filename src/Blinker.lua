@@ -1,5 +1,4 @@
 local Class = require('hump.class')
-local Singleton = require('Singleton')
 
 local Blinker = Class{}
 
@@ -27,4 +26,4 @@ function Blinker:blink(...)
   return args[zeroBasedIndex + 1]
 end
 
-return Singleton(Blinker)
+return Blinker
