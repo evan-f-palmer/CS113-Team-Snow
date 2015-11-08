@@ -3,6 +3,7 @@ local Vector = require('hump.vector')
 local AlertMachine = require('AlertMachine')
 local Combat = require('Combat')
 local Projectiles = require('Projectiles')
+local SoundSystem = require('SoundSystem')
 
 local PRIMARY_FIRE_MESSAGE   = {message = "[Primary Fire]", lifespan = 0.5}
 local SECONDARY_FIRE_MESSAGE = {message = "[Secondary Fire]", lifespan = 0.5}
@@ -38,6 +39,7 @@ function Player:init(playerInput, playerGameData)
   }
   
   self.alertMachine = AlertMachine()
+  self.soundSystem = SoundSystem()
 end
 
 function Player:update(dt)
@@ -51,14 +53,19 @@ function Player:update(dt)
     offset = offset:scale_inplace(self.primaryFireOffset)
     self.combat:fire("Player Primary", self.loc + offset, self.dir, self.vel)
     self.combat:fire("Player Primary", self.loc - offset, self.dir, self.vel)
+    self.soundSystem:play("sound/short.ogg")
   end
     
   if self.playerInput.secondaryWeaponFire then
+    if self.combat:canFire("Player Secondary") then
+      self.soundSystem:play("sound/laser.ogg")
+    end
     self.combat:fire("Player Secondary", self.loc, self.dir)
   end
   
   if self.playerInput.secondaryWeaponFire and self.combat:isOutOfAmmo("Player Secondary") then
     self.alertMachine:set(OUT_OF_SINIBOMBS_ALERT)
+    self.soundSystem:play("sound/marinealarm.ogg")
   end
 
   self.playerGameData.bombs = self.combat:getAmmo("Player Secondary")

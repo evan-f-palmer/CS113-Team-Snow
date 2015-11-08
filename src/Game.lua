@@ -7,6 +7,7 @@ local HUD            = require('HUD')
 local AlertMachine   = require('AlertMachine')
 local Projectiles    = require('Projectiles')
 local Combat         = require('Combat')
+local SoundSystem = require('SoundSystem')
 
 local Game = Class{}
 
@@ -20,8 +21,10 @@ function Game:init()
   self.alertMachine   = AlertMachine()
   self.combat         = Combat()
   self.combat:setProjectiles(self.projectiles)
+  self.soundSystem = SoundSystem()
   
   self.alertMachine:set({message = "Hello World!", lifespan = 3})
+  self.soundSystem:playMusic("music/TheFatRat-Dancing-Naked.mp3")
 end
 
 function Game:update(dt)
