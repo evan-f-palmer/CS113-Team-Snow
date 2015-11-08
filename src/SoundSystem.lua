@@ -27,7 +27,7 @@ function SoundSystem:playMusic(xMusicFileName)
   self.status[xMusicFileName] = "Playing"
 end
 
-function SoundSystem:getStatus(xFileName)
+function SoundSystem:getStateOf(xFileName)
   if not self.status[xFileName] then return "None" end
   local src = self.musicSources[xFileName] or self.soundSources[xFileName]
   if src:isStopped() then self.status[xFileName] = "Stopped" end

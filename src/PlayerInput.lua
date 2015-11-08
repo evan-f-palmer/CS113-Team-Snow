@@ -2,6 +2,7 @@ local Class = require('hump.class')
 local Vector = require('hump.vector')
 local Combat = require("Combat")
 local PlayerInputParams = require("PlayerInputParams")
+local SoundSystem = require('SoundSystem')
 
 local LEFT_MOUSE_BUTTON = 'l'
 local RIGHT_MOUSE_BUTTON = 'r'
@@ -16,6 +17,7 @@ function PlayerInput:init()
   self.directionVec = Vector(0, 0)
   self.primaryWeaponFire  = false
   self.secondaryWeaponFire = false
+  self.soundSystem = SoundSystem()
 end
 
 function PlayerInput:update(dt)
@@ -65,9 +67,11 @@ function PlayerInput:debugStuff()
   end
   if love.keyboard.isDown("h") then
     alertMachine:set(HIGH_PRIORITY_ALERT)
+    self.soundSystem:play("sound/arcadealarm.ogg")
   end
   if love.keyboard.isDown("m") then
     alertMachine:set(MEDIUM_PRIORITY_ALERT)
+    self.soundSystem:play("sound/marinealarm.ogg")
   end
   
   if love.keyboard.isDown("b") then
@@ -79,6 +83,19 @@ function PlayerInput:debugStuff()
   end
   if love.keyboard.isDown("s") then
     COMBAT:heal("Player", 1)
+  end
+  
+  if love.keyboard.isDown("p") then
+    self.soundSystem:pause("music/TheFatRat-Dancing-Naked.mp3")
+  end
+  if love.keyboard.isDown("r") then
+    self.soundSystem:resume("music/TheFatRat-Dancing-Naked.mp3")
+  end
+  if love.keyboard.isDown("l") then
+    self.soundSystem:loop("sound/short.ogg")
+  end
+  if love.keyboard.isDown('k') then
+    self.soundSystem:stop("sound/short.ogg")
   end
 end
 
