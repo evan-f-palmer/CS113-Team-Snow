@@ -66,10 +66,13 @@ Description: The percentage of recharge from weapon fire debounce.
 method canFire(* uniqueWeaponID)
 Description: A weapon can fire if it is fully recharged from a fire debounce, and has ammo.
 
-=== Projectiles class, Singleton ===
+method setProjectiles(object projectiles)
+Description: Sets the projectiles system to be used for adding projectiles on weapon fire
+
+=== Projectiles class ===
 
 method defProjectile(* projectileTypeUniqueID, table projectileDefinition)
-Description: Defines a projectile type, which can be referred to by the "addProjectile" method
+Description: Defines a projectile type (adds the definition to the Projectiles class), which can be referred to by the "addProjectile" method
 	projectileDefinition fields:
 	"lifespan": number (optional)
 	"speed": number (optional)
@@ -84,3 +87,6 @@ Description: Destroys the projectile at the given index
 
 method update(number deltatime)
 Description: Destroys projectiles which have surpassed their lifespan, limits the total number of projectiles.
+
+method setCollider(object collider)
+Description: Sets the collision system to be used for adding and removing projectile bodies

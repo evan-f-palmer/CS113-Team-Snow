@@ -1,6 +1,4 @@
 local Class  = require('hump.class')
-local Singleton = require('Singleton')
-local CollisionSystem = require('CollisionSystem')
 local Vector = require('hump.vector')
 
 local Projectiles = Class{}
@@ -14,15 +12,20 @@ Projectiles.DEFAULT_ON_COLLISION = function(other)
 end
 
 Projectiles.DEFAULT_DEF = {
-  lifetime = Projectiles.DEFAULT_LIFETIME,
+  lifespan = Projectiles.DEFAULT_LIFESPAN,
   radius = Projectiles.DEFAULT_RADIUS,
   speed = Projectiles.DEFAULT_SPEED,
   onCollision = Projectiles.DEFAULT_ON_COLLISION
 }
 
+Projectiles.DEFS = {}
+
 function Projectiles:init()
-  self.projectileDefs = {}
-  self.collider = CollisionSystem()
+
+end
+
+function Projectiles:setCollider(xCollider)
+  self.collider = xCollider
 end
 
 function Projectiles:update(dt)  
@@ -52,7 +55,7 @@ function Projectiles:defProjectile(xProjectileType, xDef)
   xDef.speed = xDef.speed or Projectiles.DEFAULT_SPEED  
   xDef.onCollision = xDef.onCollision or Projectiles.DEFAULT_ON_COLLISION
   xDef.radius = xDef.radius or Projectiles.DEFAULT_RADIUS
-  self.projectileDefs[xProjectileType] = xDef
+  self.DEFS[xProjectileType] = xDef
 end
 
 local function createProjectileVelocity(xSpeed, xDirection, xMomentum)
@@ -64,7 +67,7 @@ local function createProjectileVelocity(xSpeed, xDirection, xMomentum)
 end
 
 function Projectiles:addProjectile(xProjectileType, xPosition, xDirection, xMomentum)
-  local projectileDef = self.projectileDefs[xProjectileType] or Projectiles.DEFAULT_DEF
+  local projectileDef = self.DEFS[xProjectileType] or Projectiles.DEFAULT_DEF
   local projectile = {time = 0, lifespan = projectileDef.lifespan, type = xProjectileType, render = projectileDef,}
   projectile.loc = xPosition
   projectile.dir = xDirection
@@ -74,4 +77,4 @@ function Projectiles:addProjectile(xProjectileType, xPosition, xDirection, xMome
   self.collider:createCollisionObject(projectile, projectileDef.radius)
 end
 
-return Singleton(Projectiles)
+return Projectiles

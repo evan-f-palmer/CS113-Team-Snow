@@ -5,10 +5,11 @@ local CollisionSystem = require('CollisionSystem')
 local World = Class{}
 
 function World:init(playerInput, playerGameData, projectiles)
-  self.collider = CollisionSystem()
   self.player = Player(playerInput, playerGameData)
   self.playerGameData = playerGameData
   self.projectiles = projectiles
+  self.collider = CollisionSystem()
+  self.projectiles:setCollider(self.collider)
   self.bodies = {} -- Asteroids and Enemies?
   
   self.collider:createCollisionObject(self.player, self.player.radius)

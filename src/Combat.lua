@@ -1,6 +1,5 @@
 local Class = require('hump.class')
 local Singleton = require('Singleton')
-local Projectiles = require('Projectiles')
 
 local Combat = Class{}
 Combat.DEFAULT_HEALTH = 100
@@ -9,12 +8,15 @@ Combat.DEFAULT_WEAPON_DEBOUNCE = 0
 Combat.ONE_HUNDRED_PERCENT = 1
 Combat.DEFAULT_PROJECTILE_ID = "Default Projectile"
 Combat.ACTION_DISPATCH = {}
-Combat.PROJECTILES = Projectiles()
 
 function Combat:init()
   self.combatants = {}  
   self.weapons = {}
   self.actions = {}
+end
+
+function Combat:setProjectiles(xProjectiles)
+  Combat.PROJECTILES = xProjectiles
 end
 
 function Combat:update(dt)

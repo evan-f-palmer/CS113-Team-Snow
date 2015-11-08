@@ -19,6 +19,7 @@ function Game:init()
   self.renderer       = Renderer()
   self.alertMachine   = AlertMachine()
   self.combat         = Combat()
+  self.combat:setProjectiles(self.projectiles)
   
   self.alertMachine:set({message = "Hello World!", lifespan = 3})
 end
