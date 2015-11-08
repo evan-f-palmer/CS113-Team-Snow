@@ -22,7 +22,7 @@ end
 
 function Blinker:blink(...)
   local args = {...}
-  local zeroBasedIndex = math.floor((#args) * self.periodPct)
+  local zeroBasedIndex = math.floor((#args) * self.periodPct) or 0
   return args[zeroBasedIndex + 1]
 end
 

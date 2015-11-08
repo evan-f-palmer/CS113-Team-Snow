@@ -77,7 +77,7 @@ function HUD:draw(xPlayerGameData)
   self:drawHealthBar(xPlayerGameData.health)
 
   local HUDcolor = self:getHeadsUpDisplayColor()
-  love.graphics.setColor(unpack(HUDcolor))
+  love.graphics.setColor(HUDcolor[1], HUDcolor[2], HUDcolor[3], HUDcolor[4])
 
   love.graphics.circle("line", x, y, minR, 50)
   love.graphics.circle("fill", self.layout.lives.x, self.layout.lives.y, self.GU.FONT_SIZE, 30)
@@ -105,7 +105,7 @@ end
 
 function HUD:drawAlertMessage(xAlert, x, y)
   local color = self:getAlertColor(xAlert.priority)
-  love.graphics.setColor(unpack(color))
+  love.graphics.setColor(color[1], color[2], color[3], color[4])
   self.GU:centeredText(xAlert.message, x, y)
 end
 
@@ -117,7 +117,7 @@ end
 
 function HUD:drawHealthBar(xHealthPercent)
   local color = self:getHealthBarColor(xHealthPercent)
-  love.graphics.setColor(unpack(color))
+  love.graphics.setColor(color[1], color[2], color[3], color[4])
   love.graphics.rectangle("fill", self.layout.health.x, self.layout.health.y, self.layout.health.w * xHealthPercent, self.layout.health.h)
 end
 
