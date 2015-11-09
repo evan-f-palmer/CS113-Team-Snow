@@ -26,6 +26,12 @@ function Game:init()
   self.alertMachine:set({message = "Hello World!", lifespan = 3})
   self.soundSystem:playMusic("music/TheFatRat-Dancing-Naked.mp3")
   
+  self.projectiles = Projectiles()
+  self.projectiles:define("Player Bullet", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {0,180,50}, speed = 800, lifespan = 3})
+  self.projectiles:define("Sinibomb", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {180,50,0}, speed = 1500, lifespan = 3})
+  self.projectiles:define("Worker Bullet", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {115,115,0}, speed = 500, lifespan = 3}) 
+  self.projectiles:define("Warrior Bullet", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {200,100,0}, speed = 1000, lifespan = 3}) 
+  
   self.world:loadLevel("src/levels/1.lua")
 end
 

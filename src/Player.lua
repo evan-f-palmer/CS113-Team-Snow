@@ -2,7 +2,6 @@ local Class  = require('hump.class')
 local Vector = require('hump.vector')
 local AlertMachine = require('AlertMachine')
 local Combat = require('Combat')
-local Projectiles = require('Projectiles')
 local SoundSystem = require('SoundSystem')
 
 local PRIMARY_FIRE_MESSAGE   = {message = "[Primary Fire]", lifespan = 0.5}
@@ -20,13 +19,9 @@ function Player:init(playerInput, playerGameData)
   self.vel = Vector(0, 0)
   self.dir = Vector(0, 0)
   self.maxSpeed = 950
-  self.radius = 10
+  self.radius = 20
   self.primaryFireOffset = 30
   
-  self.projectiles = Projectiles()
-  self.projectiles:define("Player Bullet", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {0,180,50}, speed = 800, lifespan = 3})
-  self.projectiles:define("Sinibomb", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {180,50,0}, speed = 1500, lifespan = 3})  
-
   self.combat = Combat()
   self.combat:addCombatant("Player", {health = 100})
   self.combat:addWeapon("Player Primary", {ammo = math.huge, projectileID = "Player Bullet", debounceTime = 0.1})
@@ -77,9 +72,18 @@ function Player:onCollision(other)
   if type ~= "Capture Device" then
     self.alertMachine:set({message = (type .. " Here!"), lifespan = 1, priority = 4})
   end
-  if type == "Enemy Bullet" then
-    self.combat:attack("Player", 1)
+  if type == "Warrior Bullet" then
+    self.combat:attack("Player", 5)
+    other.isDead = true
   end
+  if type == "Worker Bullet" then
+    self.combat:attack("Player", 1)
+    other.isDead = true
+  end
+end
+
+function Player:isDead()
+  return self.combat:isDead("Player")
 end
 
 return Player

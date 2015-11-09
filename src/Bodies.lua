@@ -3,9 +3,7 @@ local Class  = require('hump.class')
 local Bodies = Class{}
 
 Bodies.DEFAULT_RADIUS = 1
-Bodies.DEFAULT_ON_COLLISION = function(other)
-  -- self v other logic
-end
+Bodies.DEFAULT_ON_COLLISION = function(other) end
 
 function Bodies:init()
 
@@ -16,9 +14,13 @@ function Bodies:setCollider(xCollider)
 end
 
 function Bodies:update(dt)  
-  for i, body in ipairs(self) do
+  for i = #self, 1, -1 do
+    local body = self[i]
     if body.update then
       body:update(dt)
+    end
+    if body.isDead and body:isDead() then
+      self:remove(i)
     end
   end
 end

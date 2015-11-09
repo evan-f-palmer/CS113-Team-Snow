@@ -8,9 +8,7 @@ Projectiles.MAX = 300
 Projectiles.DEFAULT_LIFESPAN = 10
 Projectiles.DEFAULT_RADIUS = 1
 Projectiles.DEFAULT_SPEED = 1000
-Projectiles.DEFAULT_ON_COLLISION = function(other)
-  -- self v other logic
-end
+Projectiles.DEFAULT_ON_COLLISION = function(other) end
 
 Projectiles.DEFAULT_DEF = {
   lifespan = Projectiles.DEFAULT_LIFESPAN,
@@ -30,7 +28,7 @@ function Projectiles:update(dt)
   for i = #self, 1, -1 do
     local projectile = self[i]
     projectile.time = projectile.time + dt    
-    if projectile.time >= projectile.lifespan then
+    if projectile.time >= projectile.lifespan or projectile.isDead then
       self:remove(i)
     end
   end 

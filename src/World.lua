@@ -3,18 +3,14 @@ local Player = require('Player')
 local CollisionSystem = require('CollisionSystem')
 local Bodies = require('Bodies')
 
-local Warrior = Player
-local Worker = Player
-local Asteroid = Player
-local Sinistar = Player
-
 local World = Class{}
 World.make = {
-  Warrior = Warrior,
-  Worker  = Worker,
-  Asteroid = Asteroid,
-  Sinistar = Sinistar,
+  Warrior  = require('Player'),
+  Worker   = require('Player'),
+  Asteroid = require('Player'),
+  Sinistar = require('Player'),
 }
+World.levelScale = 3
 
 function World:init(playerInput, playerGameData, projectiles)
   self.player = Player(playerInput, playerGameData)
@@ -31,14 +27,13 @@ function World:init(playerInput, playerGameData, projectiles)
   self.collider:createCollisionObject(self.player, self.player.radius)
 end
 
-local function updateObjects(objects, dt)
-  for i = #objects, 1, -1 do
-    local object = objects[i]
-    object:update(dt)
-    if object:isDead() then 
-      table.remove(objects, i) 
-    end  
-  end 
+function World:makeBody(type, x, y)
+  local class = self.make[type]
+  local obj = class(self.playerInput, self.playerGameData)
+  obj.loc.x = x
+  obj.loc.y = y
+  self.bodies:add(obj)
+  return obj
 end
 
 function World:loadLevel(xLevelFileName)
@@ -55,35 +50,31 @@ function World:loadLevel(xLevelFileName)
   
   for k, obj in pairs(layers["Spawn"].objects) do
     local type, x, y = obj.type, obj.x, obj.y
-    x = x * 3
-    y = y * 3
+    x = x * World.levelScale
+    y = y * World.levelScale
     if type == "Player" then
       self.player.loc.x = x
       self.player.loc.y = y
     else
-      local class = self.make[type]
-      local obj = class(self.playerInput, self.playerGameData)
-      obj.loc.x = x
-      obj.loc.y = y
-      self.bodies:add(obj)
+      self:makeBody(type, x, y)
     end
   end
-  
-  local body = Player(self.playerInput, self.playerGameData)
-  body.loc.x = self.player.loc.x - 200
-  body.loc.y = self.player.loc.y
-  self.bodies:add(body)
-  
-  local B = Player(self.playerInput, self.playerGameData)
-  B.loc.x = self.player.loc.x + 200
-  B.loc.y = self.player.loc.y
-  self.bodies:add(B)
 end
 
 function World:unload()
   self.projectiles:clear()
   self.bodies:clear()
 end
+
+--local function updateObjects(objects, dt)
+--  for i = #objects, 1, -1 do
+--    local object = objects[i]
+--    object:update(dt)
+--    if object:isDead() then 
+--      table.remove(objects, i) 
+--    end  
+--  end 
+--end
 
 function World:update(dt)
   self:updateAllWorldObjects(dt)
