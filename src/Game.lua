@@ -40,12 +40,11 @@ function Game:update(dt)
   self.alertMachine:update(dt)
   self.combat:update(dt)
   self.world:update(dt)
+  if self.playerGameData:isGameOver() then
+    self.alertMachine:set({message = "Game Over", lifespan = 3})
+  end
   self.playerGameData:updateAlertData(self.alertMachine)
   self.hud:update(dt)
-end
-
-function Game:isGameOver()
-  return self.playerGameData.lives == 0
 end
 
 function Game:draw()

@@ -9,11 +9,13 @@ World.make = {
   Worker   = require('Player'), -- temporary placeholder
   Asteroid = require('Player'), -- temporary placeholder
   Sinistar = require('Player'), -- temporary placeholder
+  Crystal  = require('Player'), -- temporary placeholder
 }
 World.levelScale = 3
 
 function World:init(playerInput, playerGameData, projectiles)
   self.player = Player(playerInput, playerGameData)
+  self.player.spawn = {x = 0, y = 0}
   self.playerGameData = playerGameData
   self.projectiles = projectiles
   self.bodies = Bodies()
@@ -25,6 +27,15 @@ function World:init(playerInput, playerGameData, projectiles)
   self.playerGameData = playerGameData -- temporary
   
   self.collider:createCollisionObject(self.player, self.player.radius)
+end
+
+function World:respawnPlayer()
+  self.player.loc.x = self.player.spawn.x
+  self.player.loc.y = self.player.spawn.y
+  if self.player.isDead then
+    self.playerGameData.lives = self.playerGameData.lives - 1
+    self.player:respawn()
+  end
 end
 
 function World:loadLevel(xLevelFileName)
@@ -47,6 +58,9 @@ end
 
 function World:updateAllWorldObjects(dt)
   self.player:update(dt)
+  if self.player.isDead then
+    self:respawnPlayer()
+  end
   self.projectiles:update(dt)
   self.bodies:update(dt)
 end
@@ -71,6 +85,10 @@ function World:makeBody(type, x, y, ...)
   return obj
 end
 
+function World:makeProjectile(type, loc, dir)
+  self.projectiles:add(type, loc, dir)
+end
+
 function World:getLayers(xLevel)
   local layers = xLevel.layers
   for i, layer in ipairs(layers) do
@@ -86,8 +104,9 @@ function World:spawnAllFrom(xSpawnLayer)
   for k, obj in pairs(xSpawnLayer.objects) do
     local type, x, y = obj.type, (obj.x * World.levelScale), (obj.y * World.levelScale)
     if type == "Player" then
-      self.player.loc.x = x
-      self.player.loc.y = y
+      self.player.spawn.x = x
+      self.player.spawn.y = y
+      self:respawnPlayer()
     else
       self:makeBody(type, x, y, self.playerInput, self.playerGameData) -- playerInput and playerGameData args are temporary
     end

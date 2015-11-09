@@ -23,7 +23,7 @@ function Player:init(playerInput, playerGameData)
   self.primaryFireOffset = 30
   
   self.combat = Combat()
-  self.combat:addCombatant("Player", {health = 100})
+  self.combat:addCombatant("Player", {health = self.playerGameData.startingHealth})
   self.combat:addWeapon("Player Primary", {ammo = math.huge, projectileID = "Player Bullet", debounceTime = 0.1})
   self.combat:addWeapon("Player Secondary", {ammo = 0, projectileID = "Sinibomb", debounceTime = 1, maxAmmo = 12})
   
@@ -76,14 +76,33 @@ function Player:onCollision(other)
   end
   
   if type == "Warrior Bullet" then
-    self.combat:attack("Player", 5)
+    self.combat:attack("Player", self.playerGameData.damageFromCollisionWithWarriorBullet)
     other.isDead = true
   end
   
   if type == "Worker Bullet" then
-    self.combat:attack("Player", 1)
+    self.combat:attack("Player", self.playerGameData.damageFromCollisionWithWorkerBullet)
     other.isDead = true
   end
+  
+  if type == "Sinistar" then
+    self.combat:attack("Player", self.playerGameData.damageFromCollisionWithSinistar)
+  end
+  
+  if type == "Crystal" then
+    self.playerGameData.score = self.playerGameData.score + self.playerGameData.crystalValue
+    self.combat:supplyAmmo("Player Secondary", self.playerGameData.bombAmmoFromCrystalPickup)
+    other.isDead = true
+  end
+  
+  if type == "Asteroid" then
+    self.vel = -self.vel
+  end
+end
+
+function Player:respawn()
+  self.combat:addCombatant("Player", {health = self.playerGameData.startingHealth})
+  self.isDead = self.combat:isDead("Player")
 end
 
 return Player
