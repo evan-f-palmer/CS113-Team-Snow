@@ -120,7 +120,7 @@ end
 Combat.ACTION_DISPATCH["FIRE"] = function(xFire)
   xFire.weapon.ammo = xFire.weapon.ammo - 1
   xFire.weapon.timer = 0
-  Combat.PROJECTILES:addProjectile(xFire.weapon.projectileID, xFire.startPos, xFire.direction, xFire.momentum)
+  Combat.PROJECTILES:add(xFire.weapon.projectileID, xFire.startPos, xFire.direction, xFire.momentum)
 end
 
 Combat.ACTION_DISPATCH["ATTACK"] = function(xAttack)

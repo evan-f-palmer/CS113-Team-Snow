@@ -62,7 +62,9 @@ end
 
 function SoundSystem:rewind(xFileName)
   local src = self.musicSources[xFileName] or self.soundSources[xFileName]
-  love.audio.rewind(src)
+  if src then
+    love.audio.rewind(src)
+  end
 end
 
 function SoundSystem:stop(xFileName)
@@ -75,7 +77,9 @@ end
 
 function SoundSystem:loop(xFileName)
   local src = self.musicSources[xFileName] or self.soundSources[xFileName]
-  src:setLooping(true)
+  if src then
+    src:setLooping(true)
+  end
 end
 
 return Singleton(SoundSystem)

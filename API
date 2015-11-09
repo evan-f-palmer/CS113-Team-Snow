@@ -71,15 +71,15 @@ Description: Sets the projectiles system to be used for adding projectiles on we
 
 === Projectiles class ===
 
-method defProjectile(* projectileTypeUniqueID, table projectileDefinition)
-Description: Defines a projectile type (adds the definition to the Projectiles class), which can be referred to by the "addProjectile" method
+method define(* projectileTypeUniqueID, table projectileDefinition)
+Description: Defines a projectile type (adds the definition to the Projectiles class), which can be referred to by the "add" method
 	projectileDefinition fields:
 	"lifespan": number (optional)
 	"speed": number (optional)
 	"onCollision": function (optional)
 	"radius": number (optional)
 	
-method addProjectile(* projectileTypeUniqueID, vector position, vector direction, (optional)vector momentum)
+method add(* projectileTypeUniqueID, vector position, vector direction, (optional)vector momentum)
 Description: Creates a projectile with fields defined by the projectileDefinition, at the given position, in the given direction, at the projectile's specified speed, with optional momentum to be applied to it's velocity.
 
 method remove(number index)

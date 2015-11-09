@@ -50,7 +50,7 @@ function Projectiles:remove(i)
   self.collider:removeObject(obj)
 end
 
-function Projectiles:defProjectile(xProjectileType, xDef)
+function Projectiles:define(xProjectileType, xDef)
   xDef.lifespan = xDef.lifespan or Projectiles.DEFAULT_LIFESPAN
   xDef.speed = xDef.speed or Projectiles.DEFAULT_SPEED  
   xDef.onCollision = xDef.onCollision or Projectiles.DEFAULT_ON_COLLISION
@@ -66,7 +66,7 @@ local function createProjectileVelocity(xSpeed, xDirection, xMomentum)
   return vel
 end
 
-function Projectiles:addProjectile(xProjectileType, xPosition, xDirection, xMomentum)
+function Projectiles:add(xProjectileType, xPosition, xDirection, xMomentum)
   local projectileDef = self.DEFS[xProjectileType] or Projectiles.DEFAULT_DEF
   local projectile = {time = 0, lifespan = projectileDef.lifespan, type = xProjectileType, render = projectileDef,}
   projectile.loc = xPosition
@@ -75,6 +75,12 @@ function Projectiles:addProjectile(xProjectileType, xPosition, xDirection, xMome
   projectile.onCollision = projectileDef.onCollision
   table.insert(self, projectile)
   self.collider:createCollisionObject(projectile, projectileDef.radius)
+end
+
+function Projectiles:clear()
+  while #self > 0 do
+    self:remove(#self)
+  end
 end
 
 return Projectiles

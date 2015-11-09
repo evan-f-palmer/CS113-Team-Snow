@@ -25,6 +25,8 @@ function Game:init()
   
   self.alertMachine:set({message = "Hello World!", lifespan = 3})
   self.soundSystem:playMusic("music/TheFatRat-Dancing-Naked.mp3")
+  
+  self.world:loadLevel("src/levels/1.lua")
 end
 
 function Game:update(dt)

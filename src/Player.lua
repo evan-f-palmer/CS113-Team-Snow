@@ -24,8 +24,8 @@ function Player:init(playerInput, playerGameData)
   self.primaryFireOffset = 30
   
   self.projectiles = Projectiles()
-  self.projectiles:defProjectile("Player Bullet", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {0,180,50}, speed = 800, lifespan = 3})
-  self.projectiles:defProjectile("Sinibomb", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {180,50,0}, speed = 1500, lifespan = 3})  
+  self.projectiles:define("Player Bullet", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {0,180,50}, speed = 800, lifespan = 3})
+  self.projectiles:define("Sinibomb", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {180,50,0}, speed = 1500, lifespan = 3})  
 
   self.combat = Combat()
   self.combat:addCombatant("Player", {health = 100})
