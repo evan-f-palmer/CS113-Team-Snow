@@ -65,6 +65,7 @@ function Player:update(dt)
 
   self.playerGameData.bombs = self.combat:getAmmo("Player Secondary")
   self.playerGameData.health = self.combat:getHealthPercent("Player")
+  self.isDead = self.combat:isDead("Player")
 end
 
 function Player:onCollision(other)
@@ -80,10 +81,6 @@ function Player:onCollision(other)
     self.combat:attack("Player", 1)
     other.isDead = true
   end
-end
-
-function Player:isDead()
-  return self.combat:isDead("Player")
 end
 
 return Player
