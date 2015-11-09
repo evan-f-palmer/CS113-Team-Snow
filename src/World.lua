@@ -87,12 +87,8 @@ end
 
 function World:moveAllWorldObjects(dt)
   move(self.player, dt)
-  for i, projectile in ipairs(self.projectiles) do
-    move(projectile, dt)
-  end
-  for i, body in ipairs(self.bodies) do
-    move(body, dt)
-  end
+  self.projectiles:foreachdo(move, dt)
+  self.bodies:foreachdo(move, dt)
 end
 
 return World

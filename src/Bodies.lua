@@ -23,11 +23,6 @@ function Bodies:update(dt)
   end
 end
 
-function Bodies:remove(i)
-  local obj = table.remove(self, i)
-  self.collider:removeObject(obj)
-end
-
 function Bodies:add(xBody)
   xBody.radius = xBody.radius or Bodies.DEFAULT_RADIUS
   xBody.onCollision = xBody.onCollision or Bodies.DEFAULT_ON_COLLISION
@@ -35,9 +30,20 @@ function Bodies:add(xBody)
   self.collider:createCollisionObject(xBody, xBody.radius)
 end
 
+function Bodies:remove(i)
+  local obj = table.remove(self, i)
+  self.collider:removeObject(obj)
+end
+
 function Bodies:clear()
   while #self > 0 do
     self:remove(#self)
+  end
+end
+
+function Bodies:foreachdo(xFunc, ...)
+  for i, body in ipairs(self) do
+    xFunc(body, ...)
   end
 end
 
