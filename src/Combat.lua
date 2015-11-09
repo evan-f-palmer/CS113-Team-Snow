@@ -118,9 +118,11 @@ function Combat:chargeAllWeapons(dt)
 end
 
 Combat.ACTION_DISPATCH["FIRE"] = function(xFire)
-  xFire.weapon.ammo = xFire.weapon.ammo - 1
-  xFire.weapon.timer = 0
-  Combat.PROJECTILES:add(xFire.weapon.projectileID, xFire.startPos, xFire.direction, xFire.momentum)
+  if xFire.weapon.ammo > 0 then
+    xFire.weapon.ammo = xFire.weapon.ammo - 1
+    xFire.weapon.timer = 0
+    Combat.PROJECTILES:add(xFire.weapon.projectileID, xFire.startPos, xFire.direction, xFire.momentum)
+  end
 end
 
 Combat.ACTION_DISPATCH["ATTACK"] = function(xAttack)

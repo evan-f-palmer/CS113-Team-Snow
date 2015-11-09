@@ -3,7 +3,18 @@ local Player = require('Player')
 local CollisionSystem = require('CollisionSystem')
 local Bodies = require('Bodies')
 
+local Warrior = Player
+local Worker = Player
+local Asteroid = Player
+local Sinistar = Player
+
 local World = Class{}
+World.make = {
+  Warrior = Warrior,
+  Worker  = Worker,
+  Asteroid = Asteroid,
+  Sinistar = Sinistar,
+}
 
 function World:init(playerInput, playerGameData, projectiles)
   self.player = Player(playerInput, playerGameData)
@@ -49,6 +60,12 @@ function World:loadLevel(xLevelFileName)
     if type == "Player" then
       self.player.loc.x = x
       self.player.loc.y = y
+    else
+      local class = self.make[type]
+      local obj = class(self.playerInput, self.playerGameData)
+      obj.loc.x = x
+      obj.loc.y = y
+      self.bodies:add(obj)
     end
   end
   
