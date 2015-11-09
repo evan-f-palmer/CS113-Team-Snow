@@ -90,8 +90,8 @@ function World:moveAllWorldObjects(dt)
   for i, projectile in ipairs(self.projectiles) do
     move(projectile, dt)
   end
-  for k, body in pairs(self.bodies) do
-    --move(body, dt)
+  for i, body in ipairs(self.bodies) do
+    move(body, dt)
   end
 end
 

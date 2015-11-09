@@ -1,7 +1,8 @@
 local Class  = require('hump.class')
 local Vector = require('hump.vector')
+local Bodies = require("Bodies")
 
-local Projectiles = Class{}
+local Projectiles = Class{__includes = Bodies}
 Projectiles.MAX = 100
 
 Projectiles.DEFAULT_LIFESPAN = 10
@@ -21,11 +22,7 @@ Projectiles.DEFAULT_DEF = {
 Projectiles.DEFS = {}
 
 function Projectiles:init()
-
-end
-
-function Projectiles:setCollider(xCollider)
-  self.collider = xCollider
+  Bodies.init(self)
 end
 
 function Projectiles:update(dt)  
@@ -43,11 +40,6 @@ function Projectiles:limit()
   while #self > Projectiles.MAX do
     self:remove(1)
   end
-end
-
-function Projectiles:remove(i)
-  local obj = table.remove(self, i)
-  self.collider:removeObject(obj)
 end
 
 function Projectiles:define(xProjectileType, xDef)
@@ -75,12 +67,6 @@ function Projectiles:add(xProjectileType, xPosition, xDirection, xMomentum)
   projectile.onCollision = projectileDef.onCollision
   table.insert(self, projectile)
   self.collider:createCollisionObject(projectile, projectileDef.radius)
-end
-
-function Projectiles:clear()
-  while #self > 0 do
-    self:remove(#self)
-  end
 end
 
 return Projectiles
