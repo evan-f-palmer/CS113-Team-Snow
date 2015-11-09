@@ -8,13 +8,11 @@ Projectiles.MAX = 300
 Projectiles.DEFAULT_LIFESPAN = 10
 Projectiles.DEFAULT_RADIUS = 1
 Projectiles.DEFAULT_SPEED = 1000
-Projectiles.DEFAULT_ON_COLLISION = function(other) end
 
 Projectiles.DEFAULT_DEF = {
   lifespan = Projectiles.DEFAULT_LIFESPAN,
   radius = Projectiles.DEFAULT_RADIUS,
   speed = Projectiles.DEFAULT_SPEED,
-  onCollision = Projectiles.DEFAULT_ON_COLLISION
 }
 
 Projectiles.DEFS = {}
@@ -42,8 +40,7 @@ end
 
 function Projectiles:define(xProjectileType, xDef)
   xDef.lifespan = xDef.lifespan or Projectiles.DEFAULT_LIFESPAN
-  xDef.speed = xDef.speed or Projectiles.DEFAULT_SPEED  
-  xDef.onCollision = xDef.onCollision or Projectiles.DEFAULT_ON_COLLISION
+  xDef.speed = xDef.speed or Projectiles.DEFAULT_SPEED
   xDef.radius = xDef.radius or Projectiles.DEFAULT_RADIUS
   self.DEFS[xProjectileType] = xDef
 end
