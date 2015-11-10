@@ -19,7 +19,7 @@ function Player:init(playerInput, playerGameData)
   self.vel = Vector(0, 0)
   self.dir = Vector(0, 0)
   self.maxSpeed = 2250
-  self.radius = 20
+  self.radius = 70
   self.primaryFireOffset = 30
   
   self.combat = Combat()

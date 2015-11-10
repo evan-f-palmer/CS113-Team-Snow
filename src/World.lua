@@ -5,11 +5,10 @@ local Bodies = require('Bodies')
 
 local World = Class{}
 World.make = {
-  Warrior  = require('Player'), -- temporary placeholder
-  Worker   = require('Player'), -- temporary placeholder
-  Asteroid = require('Player'), -- temporary placeholder
-  Sinistar = require('Player'), -- temporary placeholder
-  Crystal  = require('Player'), -- temporary placeholder
+  Warrior  = require('Asteroid'), -- temporary placeholder
+  Worker   = require('Asteroid'), -- temporary placeholder
+  Asteroid = require('Asteroid'), -- temporary placeholder
+  Sinistar = require('Asteroid'), -- temporary placeholder
 }
 World.levelScale = 3
 

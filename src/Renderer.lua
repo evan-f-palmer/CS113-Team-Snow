@@ -66,6 +66,9 @@ function Renderer:draw(xWorld)
           angle = self.GU:getAngle(obj.dir)
         end   
         self.GU:drawRotatedImage(image, obj.loc.x, obj.loc.y, angle)
+        if obj.radius then
+          love.graphics.circle("line", obj.loc.x, obj.loc.y, obj.radius)
+        end
       end
   
       love.graphics.setColor(self.TEXT_COLOR[1], self.TEXT_COLOR[2], self.TEXT_COLOR[3], self.TEXT_COLOR[4])
