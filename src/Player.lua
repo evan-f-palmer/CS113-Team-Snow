@@ -24,7 +24,8 @@ function Player:init(playerGameData, playerInput)
   
   self.combat = Combat()
   self.combat:addCombatant("Player", {health = self.playerGameData.startingHealth})
-  self.combat:addWeapon("Player Primary", {ammo = math.huge, projectileID = "Player Bullet", debounceTime = 0.1})
+  self.combat:addWeapon("Player Primary R", {ammo = math.huge, projectileID = "Player Bullet", debounceTime = 0.1})
+  self.combat:addWeapon("Player Primary L", {ammo = math.huge, projectileID = "Player Bullet", debounceTime = 0.1})
   self.combat:addWeapon("Player Secondary", {ammo = 0, projectileID = "Sinibomb", debounceTime = 1, maxAmmo = 12})
   
   self.render = {
@@ -46,8 +47,8 @@ function Player:update(dt)
     local offset = self.dir:perpendicular()
     offset = offset:normalize_inplace()
     offset = offset:scale_inplace(self.primaryFireOffset)
-    self.combat:fire("Player Primary", self.loc + offset, self.dir, self.vel)
-    self.combat:fire("Player Primary", self.loc - offset, self.dir, self.vel)
+    self.combat:fire("Player Primary R", self.loc + offset, self.dir, self.vel)
+    self.combat:fire("Player Primary L", self.loc - offset, self.dir, self.vel)
     self.soundSystem:play("sound/short.ogg")
   end
     

@@ -20,8 +20,8 @@ function Asteroid:init(xPlayerGameData)
   self.id = "Asteroid:" .. Asteroid.count
   Asteroid.count = Asteroid.count + 1
   self.combat = Combat()
-  self.combat:addCombatant(self.id, {health = 100})
-  self.combat:addWeapon(self.id, {ammo = 20, projectileID = "Crystal", debounceTime = 0.75})
+  self.combat:addCombatant(self.id, {health = 300})
+  self.combat:addWeapon(self.id, {ammo = 6, projectileID = "Crystal", debounceTime = 2.25})
   
   self.render = {
     image = love.graphics.newImage("assets/worker.png"),
@@ -43,32 +43,45 @@ function Asteroid:update(dt)
   end
 end
 
+function Asteroid:fire()
+  local offset = 20
+  local dir = Vector():randomize_inplace()
+  self.combat:fire(self.id, self.loc + (dir * offset), dir)
+end
+
+function Asteroid:attack(xAmount)
+  self.combat:attack(self.id, xAmount)
+end
+
 function Asteroid:onCollision(other)
   local type = other.type
   
-  local offset = 20
-  local dir = Vector():randomize_inplace()
-  
   if type == "Player Bullet" then
     if self.combat:canFire(self.id) then
-      self.combat:attack(self.id, 5)
-      self.combat:fire(self.id, self.loc + (dir * offset), dir)
+      self:attack(2)
+      self:fire()
     else
-      self.combat:attack(self.id, 12)
-      self.combat:fire(self.id, self.loc + (dir * offset), dir)
+      self:attack(5)
+      self:fire()
     end
     other.isDead = true
     self.lastCollision = type
   end
   if type == "Worker Bullet" then
+    self:attack(1)
+    self:fire()
     other.isDead = true
     self.lastCollision = type
   end
   if type == "Warrior Bullet" then
+    self:attack(25)
+    self:fire()
     other.isDead = true
     self.lastCollision = type
   end
   if type == "Sinibomb" then
+    self:attack(1000)
+    self:fire()
     other.isDead = true
     self.lastCollision = type
   end
