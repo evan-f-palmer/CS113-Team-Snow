@@ -11,7 +11,7 @@ local OUT_OF_SINIBOMBS_ALERT = {message = "[Out of Sinibombs]", lifespan = 1.5, 
 local Player = Class{}
 Player.type = "Player"
 
-function Player:init(playerInput, playerGameData)
+function Player:init(playerGameData, playerInput)
   self.playerInput = playerInput
   self.playerGameData = playerGameData
   
@@ -90,13 +90,13 @@ function Player:onCollision(other)
   end
   
   if type == "Crystal" then
-    self.playerGameData.score = self.playerGameData.score + self.playerGameData.crystalValue
+    self.playerGameData:increaseScore(self.playerGameData.crystalValue)
     self.combat:supplyAmmo("Player Secondary", self.playerGameData.bombAmmoFromCrystalPickup)
     other.isDead = true
   end
   
   if type == "Asteroid" then
-    self.vel = -self.vel
+    self.vel = -self.vel -- but controls vector just overrides it...
   end
 end
 

@@ -203,6 +203,12 @@ function vector:add_inplace(vec2)
   return self
 end
 
+function vector:randomize_inplace()
+  self.x = (math.random() - 0.5)
+  self.y = (math.random() - 0.5)
+  self:normalize_inplace()
+  return self
+end
 -- the module
 return setmetatable({new = new, isvector = isvector, zero = zero},
 {__call = function(_, ...) return new(...) end})

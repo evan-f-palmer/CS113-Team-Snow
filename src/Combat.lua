@@ -99,7 +99,7 @@ function Combat:getAmmoPercent(xWeaponID)
 end
 
 function Combat:isOutOfAmmo(xWeaponID)
-  return self:getAmmo(xWeaponID) <= 0
+  return self:getAmmo(xWeaponID) < 1
 end
 
 function Combat:getRechargePercent(xWeaponID)
@@ -118,7 +118,7 @@ function Combat:chargeAllWeapons(dt)
 end
 
 Combat.ACTION_DISPATCH["FIRE"] = function(xFire)
-  if xFire.weapon.ammo > 0 then
+  if xFire.weapon.ammo >= 1 then
     xFire.weapon.ammo = xFire.weapon.ammo - 1
     xFire.weapon.timer = 0
     Combat.PROJECTILES:add(xFire.weapon.projectileID, xFire.startPos, xFire.direction, xFire.momentum)

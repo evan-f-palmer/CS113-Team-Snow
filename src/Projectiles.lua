@@ -58,7 +58,8 @@ function Projectiles:add(xProjectileType, xPosition, xDirection, xMomentum)
   local projectile = {time = 0, lifespan = projectileDef.lifespan, type = xProjectileType, render = projectileDef,}
   projectile.loc = xPosition
   projectile.dir = xDirection
-  projectile.vel = createProjectileVelocity(projectileDef.speed, xDirection, xMomentum)  
+  projectile.vel = createProjectileVelocity(projectileDef.speed, xDirection, xMomentum)
+  projectile.radius = projectileDef.radius
   projectile.onCollision = projectileDef.onCollision
   table.insert(self, projectile)
   self.collider:createCollisionObject(projectile, projectileDef.radius)

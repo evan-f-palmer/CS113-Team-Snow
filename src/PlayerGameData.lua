@@ -15,6 +15,7 @@ PlayerGameData.startingHealth = 100
 PlayerGameData.damageFromCollisionWithSinistar = 1000
 PlayerGameData.damageFromCollisionWithWarriorBullet = 5
 PlayerGameData.damageFromCollisionWithWorkerBullet = 1
+
 PlayerGameData.bombAmmoFromCrystalPickup = 1
 
 
@@ -35,6 +36,18 @@ end
 
 function PlayerGameData:isGameOver()
   return self.lives <= 0
+end
+
+function PlayerGameData:increaseScore(xAmount)
+  self.score = self.score + xAmount
+end
+
+function PlayerGameData:incrementLives()
+  self.lives = self.lives + 1
+end
+
+function PlayerGameData:decrementLives()
+  self.lives = self.lives - 1
 end
 
 return PlayerGameData

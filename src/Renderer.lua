@@ -15,7 +15,7 @@ function Renderer:init()
   
   self.captureDevice = {
     loc = {x = 0, y = 0},
-    radius = 300 * (1/self.camera.scale),
+    radius = 325 * (1/self.camera.scale),
     type = "Capture Device",
   }
   self.collider:createCollisionObject(self.captureDevice, self.captureDevice.radius)

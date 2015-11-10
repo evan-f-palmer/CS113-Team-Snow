@@ -10,10 +10,10 @@ World.make = {
   Asteroid = require('Asteroid'), -- temporary placeholder
   Sinistar = require('Asteroid'), -- temporary placeholder
 }
-World.levelScale = 3
+World.levelScale = 20
 
 function World:init(playerInput, playerGameData, projectiles)
-  self.player = Player(playerInput, playerGameData)
+  self.player = Player(playerGameData, playerInput)
   self.player.spawn = {x = 0, y = 0}
   self.playerGameData = playerGameData
   self.projectiles = projectiles
@@ -32,7 +32,7 @@ function World:respawnPlayer()
   self.player.loc.x = self.player.spawn.x
   self.player.loc.y = self.player.spawn.y
   if self.player.isDead then
-    self.playerGameData.lives = self.playerGameData.lives - 1
+    self.playerGameData:decrementLives()
     self.player:respawn()
   end
 end
@@ -107,7 +107,7 @@ function World:spawnAllFrom(xSpawnLayer)
       self.player.spawn.y = y
       self:respawnPlayer()
     else
-      self:makeBody(type, x, y, self.playerInput, self.playerGameData) -- playerInput and playerGameData args are temporary
+      self:makeBody(type, x, y, self.playerGameData, self.playerInput) -- playerInput and playerGameData args are temporary
     end
   end
 end
