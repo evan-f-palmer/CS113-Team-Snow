@@ -73,7 +73,7 @@ function Renderer:draw(xWorld)
   
       love.graphics.setColor(self.TEXT_COLOR[1], self.TEXT_COLOR[2], self.TEXT_COLOR[3], self.TEXT_COLOR[4])
       self.GU:BEGIN_SCALE(obj.loc, inverseCameraScale)
-        self.GU:centeredText(obj.type, obj.loc.x, obj.loc.y + self.TEXT_Y_OFFSET)
+        self.GU:centeredText(obj.type .. "\n" .. math.floor(obj.loc.x) .. ", " .. math.floor(obj.loc.y), obj.loc.x, obj.loc.y + self.TEXT_Y_OFFSET)
       self.GU:END()
     end
   end

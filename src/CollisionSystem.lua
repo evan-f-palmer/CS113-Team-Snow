@@ -16,7 +16,7 @@ that are neighboring this object
 --]]
 
 function CollisionSystem:init()
-  self.hc = HC(100)
+  self.hc = HC(4000)
   self.collisionObjects = {}
 end
 
@@ -28,7 +28,6 @@ function CollisionSystem:createCollisionObject(metaObject, radius)
   
   -- Create More objects here
   -- Need more logic for wrapping world
-  
   self.collisionObjects[metaObject] = collisionObject
   
   -- Inject getNeighbots
@@ -75,6 +74,7 @@ function CollisionSystem:removeObject(metaObject)
   for _, shape in pairs(self.collisionObjects[metaObject]) do
     self.hc:remove(shape)
   end
+  metaObject.getNeighbors = nil
   self.collisionObjects[metaObject] = nil
 end
 

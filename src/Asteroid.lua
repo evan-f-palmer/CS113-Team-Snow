@@ -24,7 +24,7 @@ function Asteroid:init(xPlayerGameData)
   self.combat:addWeapon(self.id, {ammo = 6, projectileID = "Crystal", debounceTime = 2.25})
   
   self.render = {
-    image = love.graphics.newImage("assets/worker.png"),
+    image = love.graphics.newImage("assets/asteroid.png"),
     color = {255,255,255},
     shouldRotate = true,
   }

@@ -209,6 +209,13 @@ function vector:randomize_inplace()
   self:normalize_inplace()
   return self
 end
+
+function vector:setAngle_inplace(angle)
+   local len = self:len()
+   self.x = math.cos(angle) * len
+   self.y = math.sin(angle) * len
+end
+
 -- the module
 return setmetatable({new = new, isvector = isvector, zero = zero},
 {__call = function(_, ...) return new(...) end})

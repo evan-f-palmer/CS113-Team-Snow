@@ -66,7 +66,7 @@ end
 
 function Heap:add(element)
   self.data[self.used + 1] = element
-  self.percolateUp(self.used + 1)
+  self:percolateUp(self.used + 1)
   self.used = self.used + 1
 end
 

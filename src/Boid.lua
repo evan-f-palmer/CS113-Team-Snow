@@ -3,13 +3,17 @@ local Vector = require('hump.vector')
 
 local Boid = Class {}
 
-function Boid:init(loc, maxSpeed, maxForce) 
+function Boid:init(maxSpeed, maxForce, loc) 
   self.loc = loc or Vector(0,0)
   self.maxSpeed = maxSpeed
   self.maxForce = maxForce
   self.vel = Vector(0,0)
   self.acc = Vector(0,0)
   self.wanderTheta = 0.0
+  self.angleChange = 0.4
+  self.wanderAngle = 0
+  self.circleDistance = 30
+  self.circleRadius = 10
 end
 
 function Boid:update(dt)  
@@ -52,6 +56,23 @@ function Boid:seek(target)
   end
   
   return steer
+end
+
+function Boid:wander()
+  local circleCenter = self.vel:normalized()
+  circleCenter:scale_inplace(self.circleDistance)
+  
+  local displacement = Vector(0, -1)
+  displacement:scale_inplace(self.circleRadius);
+  
+  displacement:setAngle_inplace(self.wanderAngle)
+  
+  self.wanderAngle = self.wanderAngle + (math.random() * self.angleChange - self.angleChange * 0.5);
+  
+  local wanderSteer = circleCenter + displacement
+  wanderSteer:normalize_inplace()
+  wanderSteer:scale_inplace(self.maxSpeed)
+  return wanderSteer - self.vel
 end
 
 function Boid:arrive(target, damping) 

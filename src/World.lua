@@ -28,6 +28,13 @@ function World:init(playerInput, playerGameData, projectiles)
   self.collider:createCollisionObject(self.player, self.player.radius)
 end
 
+function World:aitestcode()
+  local Worker = require("Worker")
+  local Vector = require("hump.vector")
+  self.worker = Worker(Vector(0, 0))
+  self.bodies:add(self.worker)  
+end
+
 function World:respawnPlayer()
   self.player.loc.x = self.player.spawn.x
   self.player.loc.y = self.player.spawn.y
@@ -41,6 +48,7 @@ function World:loadLevel(xLevelFileName)
   local level = dofile(xLevelFileName)
   local layers = self:getLayers(level)  
   self:unload()
+  self:aitestcode()
   self:spawnAllFrom(layers["Spawn"])
 end
 
@@ -53,6 +61,7 @@ function World:update(dt)
   self:updateAllWorldObjects(dt)
   self:moveAllWorldObjects(dt)
   self.collider:update()
+  self.worker:updateAI()
 end
 
 function World:updateAllWorldObjects(dt)
@@ -105,6 +114,8 @@ function World:spawnAllFrom(xSpawnLayer)
     if type == "Player" then
       self.player.spawn.x = x
       self.player.spawn.y = y
+      self.worker.loc.x = x
+      self.worker.loc.y = y
       self:respawnPlayer()
     else
       self:makeBody(type, x, y, self.playerGameData, self.playerInput) -- playerInput and playerGameData args are temporary

@@ -24,7 +24,7 @@ function Game:init()
   self.soundSystem = SoundSystem()
   
   self.alertMachine:set({message = "Hello World!", lifespan = 3})
-  self.soundSystem:playMusic("music/TheFatRat-Dancing-Naked.mp3")
+ -- self.soundSystem:playMusic("music/TheFatRat-Dancing-Naked.mp3")
   
   self.projectiles = Projectiles()
   self.projectiles:define("Player Bullet", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {0,180,50}, speed = 4200, lifespan = 5})
