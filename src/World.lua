@@ -29,10 +29,17 @@ function World:init(playerInput, playerGameData, projectiles)
 end
 
 function World:aitestcode()
-  local Worker = require("Worker")
+--  local Worker = require("Worker")
+--  local Vector = require("hump.vector")
+--  self.worker = Worker(Vector(0, 0))
+--  self.bodies:add(self.worker)  
+  
+  local Squad = require("Squad")
   local Vector = require("hump.vector")
-  self.worker = Worker(Vector(0, 0))
-  self.bodies:add(self.worker)  
+  self.squad = Squad(5, 0, Vector(0, 0))
+  for _, enemy in pairs(self.squad.boids) do
+    self.bodies:add(enemy)
+  end
 end
 
 function World:respawnPlayer()
@@ -61,7 +68,8 @@ function World:update(dt)
   self:updateAllWorldObjects(dt)
   self:moveAllWorldObjects(dt)
   self.collider:update()
-  self.worker:updateAI()
+--  self.worker:updateAI()
+  self.squad:updateAI()
 end
 
 function World:updateAllWorldObjects(dt)
@@ -114,8 +122,11 @@ function World:spawnAllFrom(xSpawnLayer)
     if type == "Player" then
       self.player.spawn.x = x
       self.player.spawn.y = y
-      self.worker.loc.x = x
-      self.worker.loc.y = y
+      for _, enemy in pairs(self.squad.boids) do
+        enemy.loc.x = x 
+        enemy.loc.y = y       
+      end
+      
       self:respawnPlayer()
     else
       self:makeBody(type, x, y, self.playerGameData, self.playerInput) -- playerInput and playerGameData args are temporary

@@ -35,7 +35,7 @@ function Heap:swap(i, j)
 end
 
 function Heap:percolateDown(i)
-  if self:isInHeap(leftChild(i))  and self:isInHeap(rightChild(i)) then
+  if self:isInHeap(leftChild(i)) and self:isInHeap(rightChild(i)) then
     local max
     if self.priority(self.data[leftChild(i)], self.data[rightChild(i)]) then
       max = leftChild(i)
@@ -73,7 +73,7 @@ end
 function Heap:remove()
   local tmp = self.data[1]
   self.data[1] = self.data[self.used - 1]
-  self.percolateDown(1)
+  self:percolateDown(1)
   table.remove(self.data, self.used - 1)
   self.used = self.used - 1
   return tmp

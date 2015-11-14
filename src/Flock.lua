@@ -10,7 +10,7 @@ function Flock:init(boids, maxSeparation, separationScale, cohesionScale)
   self.cohesionScale = cohesionScale
 end
 
-function Flock:update(dt)
+function Flock:update()
   self:calcAvgs()
   self:separation()
   self:cohesion()

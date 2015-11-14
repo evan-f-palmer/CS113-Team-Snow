@@ -6,7 +6,7 @@ local Combat = require('Combat')
 
 local Worker = Class{__includes = Boid}
 
-Worker.MAX_SPEED = 10000
+Worker.MAX_SPEED = 20000
 Worker.MAX_FORCE = 100000
 Worker.type = "Worker"
 Worker.count = 0
@@ -17,8 +17,8 @@ Worker.render = {
   shouldRotate = false,
 }
 
-function Worker:init(loc)
-  Boid.init(self, Worker.MAX_SPEED, Worker.MAX_FORCE, loc)
+function Worker:init()
+  Boid.init(self, Worker.MAX_SPEED, Worker.MAX_FORCE)
   self.currentTarget  = nil
   self.previousTarget = nil
   self.render = Worker.render
@@ -33,8 +33,9 @@ function Worker:init(loc)
 end
 
 function Worker:update(dt)
+--  print(self.id, self.loc)
   Boid.update(self, dt)
-    print("target", (self.currentTarget and self.currentTarget.type), self.shouldFire)
+--    print("target", (self.currentTarget and self.currentTarget.type), self.shouldFire)
   
   if self.currentTarget and self.shouldFire then 
     if self.currentTarget.type == "Player" then
@@ -79,7 +80,7 @@ function Worker:pickTarget()
   local asteroids        = Heap(self:makeAsteroidPriority())
   local crystals         = Heap(self:makeCrystalPriority())
   local alliesTargets    = {}
-  local numberOfWarriors = 1
+  local numberOfWarriors = 0
   
   for _, neighbor in pairs(self:getNeighbors()) do
     if neighbor.type     == "Asteroid" then
@@ -152,7 +153,6 @@ function Worker:makeCrystalPriority()
 end
 
 function Worker:determinMainTarget(player, asteroids, crystals, alliesTargets, numberOfWarriors)
-
   while crystals:size() > 0 do
     if not alliesTargets[crystals:peek()] then
       return crystals:peek()
@@ -161,13 +161,13 @@ function Worker:determinMainTarget(player, asteroids, crystals, alliesTargets, n
   end
    
   if numberOfWarriors == 0 and player then
-    if not alliesTargets[player] or #alliesTargets[player] <= 1 then
+    if not alliesTargets[player] or alliesTargets[player] <= 1 then
       return player
     end
   end
   
   while asteroids:size() > 0 do
-    if not alliesTargets[asteroids:peek()] or #alliesTargets[asteroids:peek()] <= 2 then
+    if not alliesTargets[asteroids:peek()] or alliesTargets[asteroids:peek()] <= 2 then
       return asteroids:peek()
     end
     asteroids:remove()
@@ -180,10 +180,12 @@ function Worker:setTarget(newTarget)
 end
 
 function Worker:addAllyTarget(alliesTargets, target)
-  if not alliesTargets[target] then
-    alliesTargets[target] = 1
-  else
-    alliesTargets[target] = alliesTargets[target] + 1
+  if target then
+    if not alliesTargets[target] then
+      alliesTargets[target] = 1
+    else
+      alliesTargets[target] = alliesTargets[target] + 1
+    end
   end
 end
 

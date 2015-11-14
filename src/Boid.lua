@@ -3,8 +3,8 @@ local Vector = require('hump.vector')
 
 local Boid = Class {}
 
-function Boid:init(maxSpeed, maxForce, loc) 
-  self.loc = loc or Vector(0,0)
+function Boid:init(maxSpeed, maxForce) 
+  self.loc = Vector(0,0)
   self.maxSpeed = maxSpeed
   self.maxForce = maxForce
   self.vel = Vector(0,0)
