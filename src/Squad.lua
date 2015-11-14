@@ -4,8 +4,8 @@ local Flock  = require("Flock")
 
 local Squad = Class{}
 
-Squad.maxSeparation = 1 / 1
-Squad.separationScale = 10000
+Squad.maxSeparation = 1 / 100
+Squad.separationScale = 500
 Squad.cohesionScale = 1 / 10
 
 function Squad:init(numWorkers, numWariors, loc)

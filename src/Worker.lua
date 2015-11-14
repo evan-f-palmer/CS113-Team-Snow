@@ -10,6 +10,7 @@ Worker.MAX_SPEED = 20000
 Worker.MAX_FORCE = 100000
 Worker.type = "Worker"
 Worker.count = 0
+Worker.sightRadius = 2000
 
 Worker.render = {
   image = love.graphics.newImage("assets/worker.png"),
@@ -35,7 +36,6 @@ end
 function Worker:update(dt)
 --  print(self.id, self.loc)
   Boid.update(self, dt)
---    print("target", (self.currentTarget and self.currentTarget.type), self.shouldFire)
   
   if self.currentTarget and self.shouldFire then 
     if self.currentTarget.type == "Player" then
@@ -81,16 +81,16 @@ function Worker:pickTarget()
   local crystals         = Heap(self:makeCrystalPriority())
   local alliesTargets    = {}
   local numberOfWarriors = 0
-  
-  for _, neighbor in pairs(self:getNeighbors()) do
+
+  for _, neighbor in pairs(self.getNeighbors(Worker.sightRadius)) do
     if neighbor.type     == "Asteroid" then
       asteroids:add(neighbor)
     elseif neighbor.type == "Player" then
       player = neighbor
-    elseif neighbor.type == "Worker" then
-      self:addAllyTarget(alliesTargets, neighbor.previousTarget)
+    elseif neighbor.type == "Worker" and neighbor.id ~= self.id then
+      self:addAllyTarget(alliesTargets, neighbor.currentTarget)
     elseif neighbor.type == "Warrior" then
-      self:addAllyTarget(alliesTargets, neighbor.previousTarget)
+      self:addAllyTarget(alliesTargets, neighbor.currentTarget)
       numberOfWarriors = numberOfWarriors + 1
     elseif neighbor.type == "Crystal" then
       crystals:add(neighbor)
@@ -154,7 +154,7 @@ end
 
 function Worker:determinMainTarget(player, asteroids, crystals, alliesTargets, numberOfWarriors)
   while crystals:size() > 0 do
-    if not alliesTargets[crystals:peek()] then
+    if not alliesTargets[crystals:peek()] or alliesTargets[crystals:peek()] <= 2 then
       return crystals:peek()
     end
     crystals:remove()
@@ -167,7 +167,7 @@ function Worker:determinMainTarget(player, asteroids, crystals, alliesTargets, n
   end
   
   while asteroids:size() > 0 do
-    if not alliesTargets[asteroids:peek()] or alliesTargets[asteroids:peek()] <= 2 then
+    if not alliesTargets[asteroids:peek()] or alliesTargets[asteroids:peek()] <= 3 then
       return asteroids:peek()
     end
     asteroids:remove()

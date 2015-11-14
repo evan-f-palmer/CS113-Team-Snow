@@ -120,6 +120,10 @@ function HC:collisions(shape)
 	return candidates
 end
 
+function HC:circleCollisions(x, y, r)
+  return self:collisions(newCircleShape(x, y, r))
+end
+
 -- the class and the instance
 HC = common_local.class('HardonCollider', HC)
 local instance = common_local.instance(HC)

@@ -31,13 +31,22 @@ function CollisionSystem:createCollisionObject(metaObject, radius)
   self.collisionObjects[metaObject] = collisionObject
   
   -- Inject getNeighbots
-  metaObject['getNeighbors'] = function()
+--  metaObject['getNeighbors'] = function()
+--    local neighbors = {}
+--    for _, neighbor in pairs(self:getNeighbors(metaObject)) do
+--      neighbors[#neighbors + 1] = neighbor.metaObject
+--    end
+--    return neighbors
+--  end
+
+  metaObject['getNeighbors'] = function(sightRadius)
     local neighbors = {}
-    for _, neighbor in pairs(self:getNeighbors(metaObject)) do
+    for neighbor, _ in pairs(self.hc:circleCollisions(metaObject.loc.x, metaObject.loc.y, sightRadius)) do
       neighbors[#neighbors + 1] = neighbor.metaObject
     end
     return neighbors
   end
+  
 end
 
 function CollisionSystem:update()

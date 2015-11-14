@@ -29,11 +29,6 @@ function World:init(playerInput, playerGameData, projectiles)
 end
 
 function World:aitestcode()
---  local Worker = require("Worker")
---  local Vector = require("hump.vector")
---  self.worker = Worker(Vector(0, 0))
---  self.bodies:add(self.worker)  
-  
   local Squad = require("Squad")
   local Vector = require("hump.vector")
   self.squad = Squad(5, 0, Vector(0, 0))
@@ -68,7 +63,6 @@ function World:update(dt)
   self:updateAllWorldObjects(dt)
   self:moveAllWorldObjects(dt)
   self.collider:update()
---  self.worker:updateAI()
   self.squad:updateAI()
 end
 
@@ -122,6 +116,7 @@ function World:spawnAllFrom(xSpawnLayer)
     if type == "Player" then
       self.player.spawn.x = x
       self.player.spawn.y = y
+      -- test code
       for _, enemy in pairs(self.squad.boids) do
         enemy.loc.x = x 
         enemy.loc.y = y       

@@ -9,8 +9,24 @@ function love.load(arg)
   game = Game()
 end
 
+local isPaused = false
+local step = false
+local time = 0
 function love.update(dt)
-  game:update(dt)
+  time = time + dt
+  if love.keyboard.isDown("q") and time > 0.1 then
+    time = 0
+    isPaused = not isPaused
+  end
+  
+  if love.keyboard.isDown("w") and time > 0.1 then
+    step = true
+  end
+  
+  if not isPaused or step then
+    step = false
+    game:update(dt)
+  end
 end
 
 function love.draw()
