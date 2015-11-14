@@ -26,6 +26,7 @@ function Warrior:init(squad)
   self.minDistance2 = math.pow(300, 2)
   self.shouldFire = nil
   self.squad = squad
+  self.maxDistanceFromFlock = 1000
   
   self.id = "Warrior:" .. Warrior.count
   Warrior.count = Warrior.count + 1
@@ -88,11 +89,14 @@ end
 function Warrior:updateSteering(target, asteroids)
   local steer = Vector(0, 0)
   
+  local isToFarFromFlock = self.squad.flock.avgLoc:dist2(self.loc) > self.maxDistanceFromFlock
   -- Move towards target
   local tmp
-  if target and (target.type == "Crystal" or self.loc:dist2(target.loc) > self.minDistance2) then
+  if isToFarFromFlock and target and self.loc:dist2(target.loc) > self.minDistance2 then
     tmp = self:seek(target.loc)
-  else
+  elseif isToFarFromFlock then
+    tmp = self:seek(self.squad.flock.avgLoc)
+  else 
     tmp = self:wander()
   end
   

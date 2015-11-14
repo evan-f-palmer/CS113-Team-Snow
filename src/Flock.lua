@@ -8,6 +8,8 @@ function Flock:init(boids, maxSeparation, separationScale, cohesionScale)
   self.maxSeparation2 = maxSeparation * maxSeparation
   self.separationScale = separationScale
   self.cohesionScale = cohesionScale
+  self.avgAcc = Vector(0, 0)
+  self.avgLoc = Vector(0, 0)
 end
 
 function Flock:update()
