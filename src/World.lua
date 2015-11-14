@@ -31,7 +31,7 @@ end
 function World:aitestcode()
   local Squad = require("Squad")
   local Vector = require("hump.vector")
-  self.squad = Squad(5, 0, Vector(0, 0))
+  self.squad = Squad(5, 2, Vector(0, 0))
   for _, enemy in pairs(self.squad.boids) do
     self.bodies:add(enemy)
   end
