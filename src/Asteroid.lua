@@ -81,7 +81,6 @@ function Asteroid:onCollision(other)
   end
   if type == "Sinibomb" then
     self:attack(1000)
-    self:fire()
     other.isDead = true
     self.lastCollision = type
   end
