@@ -37,7 +37,7 @@ end
 function Asteroid:update(dt)
   self.isDead = self.combat:isDead(self.id) or self.combat:isOutOfAmmo(self.id)
   if not self.isDead then
-    self.combat:heal(self.id, 0.1)
+    self.combat:heal(self.id, dt * 3)
   elseif self.lastCollision == "Player Bullet" or self.lastCollision == "Sinibomb" then
     self.playerGameData:increaseScore(self.playerGameData.asteroidKillValue)
   end

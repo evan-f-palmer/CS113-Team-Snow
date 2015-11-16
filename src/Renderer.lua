@@ -3,6 +3,7 @@ local Camera = require('hump.camera')
 local DrawCommon = require('DrawCommon')
 local PlayerInputParams = require("PlayerInputParams")
 local CollisionSystem = require('CollisionSystem')
+local Combat = require('Combat')
 
 local Renderer = Class {}
 
@@ -12,6 +13,7 @@ function Renderer:init()
   self.camera:lookAt(0, 0)  
   self.GU = DrawCommon()
   self.collider = CollisionSystem()
+  self.combat = Combat()
   
   self.captureDevice = {
     loc = {x = 0, y = 0},
@@ -73,7 +75,7 @@ function Renderer:draw(xWorld)
   
       love.graphics.setColor(self.TEXT_COLOR[1], self.TEXT_COLOR[2], self.TEXT_COLOR[3], self.TEXT_COLOR[4])
       self.GU:BEGIN_SCALE(obj.loc, inverseCameraScale)
-        self.GU:centeredText(obj.type .. "\n" .. math.floor(obj.loc.x) .. ", " .. math.floor(obj.loc.y), obj.loc.x, obj.loc.y + self.TEXT_Y_OFFSET)
+        self.GU:centeredText(obj.type .. "\n" .. math.floor(self.combat:getHealthPercent(obj.id) * 100) .. '%' .. "\n" .. math.floor(obj.loc.x) .. ", " .. math.floor(obj.loc.y), obj.loc.x, obj.loc.y + self.TEXT_Y_OFFSET)
       self.GU:END()
     end
   end

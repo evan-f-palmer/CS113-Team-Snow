@@ -22,6 +22,8 @@ function Player:init(playerGameData, playerInput)
   self.radius = 70
   self.primaryFireOffset = 30
   
+  self.id = "Player"
+  
   self.combat = Combat()
   self.combat:addCombatant("Player", {health = self.playerGameData.startingHealth})
   self.combat:addWeapon("Player Primary R", {ammo = math.huge, projectileID = "Player Bullet", debounceTime = 0.1})
@@ -67,6 +69,10 @@ function Player:update(dt)
   self.playerGameData.bombs = self.combat:getAmmo("Player Secondary")
   self.playerGameData.health = self.combat:getHealthPercent("Player")
   self.isDead = self.combat:isDead("Player")
+  
+  if not self.isDead then
+    self.combat:heal(self.id, dt / 3)
+  end
 end
 
 function Player:onCollision(other)
@@ -93,6 +99,7 @@ function Player:onCollision(other)
   if type == "Crystal" then
     self.playerGameData:increaseScore(self.playerGameData.crystalValue)
     self.combat:supplyAmmo("Player Secondary", self.playerGameData.bombAmmoFromCrystalPickup)
+    --self.combat:heal(self.id, 1)
     other.isDead = true
   end
   

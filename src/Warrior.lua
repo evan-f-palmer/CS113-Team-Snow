@@ -18,7 +18,9 @@ Warrior.render = {
   shouldRotate = false,
 }
 
-function Warrior:init()
+function Warrior:init(xPlayerGameData)
+  self.playerGameData = xPlayerGameData
+
   Boid.init(self, Warrior.MAX_SPEED, Warrior.MAX_FORCE)
   self.currentTarget  = nil
   self.previousTarget = nil
@@ -31,7 +33,7 @@ function Warrior:init()
   self.id = "Warrior:" .. Warrior.count
   Warrior.count = Warrior.count + 1
   self.combat = Combat()
-  self.combat:addCombatant(self.id, {health = 100})
+  self.combat:addCombatant(self.id, {health = 60})
   self.combat:addWeapon(self.id .. " Weapon", {ammo = math.huge, projectileID = "Warrior Bullet", debounceTime = 3})
 end
 
@@ -49,6 +51,10 @@ function Warrior:update(dt)
   end
   
   self.isDead = self.combat:isDead(self.id)
+  
+  if self.isDead and (self.lastCollision == "Player Bullet" or self.lastCollision == "Sinibomb") then
+    self.playerGameData:increaseScore(self.playerGameData.warriorKillValue)
+  end
 end
 
 function Warrior:onCollision(other)
@@ -73,6 +79,8 @@ function Warrior:onCollision(other)
   if type == "Asteroid" then
     self.vel = -self.vel -- but controls vector just overrides it...
   end
+  
+  self.lastCollision = type
 end
 
 function Warrior:updateAI()

@@ -18,7 +18,9 @@ Worker.render = {
   shouldRotate = false,
 }
 
-function Worker:init()
+function Worker:init(xPlayerGameData)
+  self.playerGameData = xPlayerGameData
+
   Boid.init(self, Worker.MAX_SPEED, Worker.MAX_FORCE)
   self.currentTarget  = nil
   self.previousTarget = nil
@@ -30,7 +32,7 @@ function Worker:init()
   self.id = "Worker:" .. Worker.count
   Worker.count = Worker.count + 1
   self.combat = Combat()
-  self.combat:addCombatant(self.id, {health = 60})
+  self.combat:addCombatant(self.id, {health = 40})
   self.combat:addWeapon(self.id .. " Weapon", {ammo = math.huge, projectileID = "Worker Bullet", debounceTime = 5.6})
 end
 
@@ -54,6 +56,10 @@ function Worker:update(dt)
   end
   
   self.isDead = self.combat:isDead(self.id)
+  
+  if self.isDead and (self.lastCollision == "Player Bullet" or self.lastCollision == "Sinibomb") then
+    self.playerGameData:increaseScore(self.playerGameData.workerKillValue)
+  end
 end
 
 function Worker:onCollision(other)
@@ -78,6 +84,8 @@ function Worker:onCollision(other)
   if type == "Asteroid" then
     self.vel = -self.vel -- but controls vector just overrides it...
   end
+  
+  self.lastCollision = type
 end
 
 function Worker:updateAI()
