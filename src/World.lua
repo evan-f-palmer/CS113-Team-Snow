@@ -5,10 +5,11 @@ local Bodies = require('Bodies')
 
 local World = Class{}
 World.make = {
-  Warrior  = require('Asteroid'), -- temporary placeholder
-  Worker   = require('Asteroid'), -- temporary placeholder
+  Warrior  = require('Warrior'), -- temporary placeholder
+  Worker   = require('Worker'), -- temporary placeholder
   Asteroid = require('Asteroid'), -- temporary placeholder
   Sinistar = require('Asteroid'), -- temporary placeholder
+  Flock    = require('Flock'),
 }
 World.levelScale = 20
 
@@ -21,6 +22,7 @@ function World:init(playerInput, playerGameData, projectiles)
   self.collider = CollisionSystem()
   self.projectiles:setCollider(self.collider)
   self.bodies:setCollider(self.collider)  
+  self.flocks = {}
   
   self.playerInput = playerInput -- temporary
   self.playerGameData = playerGameData -- temporary
@@ -29,12 +31,7 @@ function World:init(playerInput, playerGameData, projectiles)
 end
 
 function World:aitestcode()
-  local Squad = require("Squad")
-  local Vector = require("hump.vector")
-  self.squad = Squad(5, 2, Vector(0, 0))
-  for _, enemy in pairs(self.squad.boids) do
-    self.bodies:add(enemy)
-  end
+  self.flocks[1] = World.make["Flock"]({}, 1/100, 50, 1/10)
 end
 
 function World:respawnPlayer()
@@ -63,7 +60,6 @@ function World:update(dt)
   self:updateAllWorldObjects(dt)
   self:moveAllWorldObjects(dt)
   self.collider:update()
-  self.squad:updateAI()
 end
 
 function World:updateAllWorldObjects(dt)
@@ -92,6 +88,10 @@ function World:makeBody(type, x, y, ...)
   obj.loc.x = x
   obj.loc.y = y
   self.bodies:add(obj)
+  if type == "Warrior" then
+      obj:setFlock(self.flocks[1])
+      self.flocks[1]:addBoid(obj)
+  end
   return obj
 end
 
@@ -115,13 +115,7 @@ function World:spawnAllFrom(xSpawnLayer)
     local type, x, y = obj.type, (obj.x * World.levelScale), (obj.y * World.levelScale)
     if type == "Player" then
       self.player.spawn.x = x
-      self.player.spawn.y = y
-      -- test code
-      for _, enemy in pairs(self.squad.boids) do
-        enemy.loc.x = x 
-        enemy.loc.y = y       
-      end
-      
+      self.player.spawn.y = y      
       self:respawnPlayer()
     else
       self:makeBody(type, x, y, self.playerGameData, self.playerInput) -- playerInput and playerGameData args are temporary

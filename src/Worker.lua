@@ -34,6 +34,10 @@ function Worker:init()
   self.combat:addWeapon(self.id .. " Weapon", {ammo = math.huge, projectileID = "Worker Bullet", debounceTime = 5.6})
 end
 
+function Worker:setFlock(xFlock)
+  self.flock = xFlock
+end
+
 function Worker:update(dt)
 --  print(self.id, self.loc)
   Boid.update(self, dt)

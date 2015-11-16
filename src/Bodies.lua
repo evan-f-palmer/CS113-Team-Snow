@@ -18,6 +18,9 @@ function Bodies:update(dt)
     if body.update then
       body:update(dt)
     end
+    if body.updateAI then
+      body:updateAI()
+    end
     if body.isDead then
       self:remove(i)
     end

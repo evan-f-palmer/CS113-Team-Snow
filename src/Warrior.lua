@@ -18,14 +18,13 @@ Warrior.render = {
   shouldRotate = false,
 }
 
-function Warrior:init(squad)
+function Warrior:init()
   Boid.init(self, Warrior.MAX_SPEED, Warrior.MAX_FORCE)
   self.currentTarget  = nil
   self.previousTarget = nil
   self.render = Warrior.render
   self.minDistance2 = math.pow(300, 2)
   self.shouldFire = nil
-  self.squad = squad
   self.maxDistanceFromFlock = 1000
   self.radius = 70
   
@@ -34,6 +33,10 @@ function Warrior:init(squad)
   self.combat = Combat()
   self.combat:addCombatant(self.id, {health = 100})
   self.combat:addWeapon(self.id .. " Weapon", {ammo = math.huge, projectileID = "Warrior Bullet", debounceTime = 3})
+end
+
+function Warrior:setFlock(xFlock)
+  self.flock = xFlock
 end
 
 function Warrior:update(dt)
@@ -97,13 +100,13 @@ end
 function Warrior:updateSteering(target, asteroids)
   local steer = Vector(0, 0)
   
-  local isToFarFromFlock = self.squad.flock.avgLoc:dist2(self.loc) > self.maxDistanceFromFlock
+  local isTooFarFromFlock = self.flock.avgLoc:dist2(self.loc) > self.maxDistanceFromFlock
   -- Move towards target
   local tmp
-  if isToFarFromFlock and target and self.loc:dist2(target.loc) > self.minDistance2 then
+  if isTooFarFromFlock and target and self.loc:dist2(target.loc) > self.minDistance2 then
     tmp = self:seek(target.loc)
-  elseif isToFarFromFlock then
-    tmp = self:seek(self.squad.flock.avgLoc)
+  elseif isTooFarFromFlock then
+    tmp = self:seek(self.flock.avgLoc)
   else 
     tmp = self:wander()
   end
