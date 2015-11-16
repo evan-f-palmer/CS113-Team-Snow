@@ -25,12 +25,13 @@ function Worker:init()
   self.render = Worker.render
   self.minDistance2 = math.pow(300, 2)
   self.shouldFire = nil
+  self.radius = 70
   
   self.id = "Worker:" .. Worker.count
   Worker.count = Worker.count + 1
   self.combat = Combat()
-  self.combat:addCombatant(self.id, {health = 300})
-  self.combat:addWeapon(self.id .. " Weapon", {ammo = math.huge, projectileID = "Worker Bullet", debounceTime = 1.1})
+  self.combat:addCombatant(self.id, {health = 60})
+  self.combat:addWeapon(self.id .. " Weapon", {ammo = math.huge, projectileID = "Worker Bullet", debounceTime = 5.6})
 end
 
 function Worker:update(dt)
@@ -47,6 +48,8 @@ function Worker:update(dt)
       self.combat:fire(self.id .. " Weapon", self.loc, angle, self.vel)
     end
   end
+  
+  self.isDead = self.combat:isDead(self.id)
 end
 
 function Worker:onCollision(other)
@@ -60,6 +63,11 @@ function Worker:onCollision(other)
   
   if type == "Player Bullet" then
     self.combat:attack(self.id, 10)
+    other.isDead = true
+  end
+  
+  if type == "Sinibomb" then
+    self.combat:attack(self.id, 1000)
     other.isDead = true
   end
   

@@ -27,12 +27,13 @@ function Warrior:init(squad)
   self.shouldFire = nil
   self.squad = squad
   self.maxDistanceFromFlock = 1000
+  self.radius = 70
   
   self.id = "Warrior:" .. Warrior.count
   Warrior.count = Warrior.count + 1
   self.combat = Combat()
-  self.combat:addCombatant(self.id, {health = 400})
-  self.combat:addWeapon(self.id .. " Weapon", {ammo = math.huge, projectileID = "Warrior Bullet", debounceTime = 0.6})
+  self.combat:addCombatant(self.id, {health = 100})
+  self.combat:addWeapon(self.id .. " Weapon", {ammo = math.huge, projectileID = "Warrior Bullet", debounceTime = 3})
 end
 
 function Warrior:update(dt)
@@ -43,6 +44,8 @@ function Warrior:update(dt)
     local angle = self:pursue(self.currentTarget)
     self.combat:fire(self.id .. " Weapon", self.loc, angle, self.vel)
   end
+  
+  self.isDead = self.combat:isDead(self.id)
 end
 
 function Warrior:onCollision(other)
@@ -56,6 +59,11 @@ function Warrior:onCollision(other)
   
   if type == "Player Bullet" then
     self.combat:attack(self.id, 10)
+    other.isDead = true
+  end
+  
+  if type == "Sinibomb" then
+    self.combat:attack(self.id, 1000)
     other.isDead = true
   end
   
