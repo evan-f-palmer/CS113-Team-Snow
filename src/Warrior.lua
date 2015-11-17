@@ -61,8 +61,7 @@ function Warrior:onCollision(other)
   local type = other.type
 
   if type == "Crystal" then
-    -- Collect crystal here
-    
+    self.gameData:incrementSinistarCrystals()    
     other.isDead = true
   end
   

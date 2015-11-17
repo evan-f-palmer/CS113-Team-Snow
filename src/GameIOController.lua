@@ -23,6 +23,7 @@ local alertMachine = AlertMachine()
 local BRIEF_MESSAGE = { message = "", lifespan = 0.1, priority = 4 }
 local MEDIUM_PRIORITY_ALERT = {message = "Medium Priority Alert", lifespan = 0.1, priority = 2}
 local HIGH_PRIORITY_ALERT = {message = "High Priority Alert", lifespan = 0.1, priority = 3}
+local INFO_MESSAGE = { message = "", lifespan = 0.5, priority = 4}
 
 function GameIOController:update(dt)
   self:updateDebounce(dt)
@@ -59,6 +60,11 @@ function GameIOController:update(dt)
   
   if love.keyboard.isDown('k') then
     self.soundSystem:stop("sound/short.ogg")
+  end
+  
+  if love.keyboard.isDown("c") then
+    INFO_MESSAGE.message = "Sinistar Crystals: " .. self.game.data.sinistarCrystals
+    alertMachine:set(INFO_MESSAGE)
   end
   
   if self:isDown("b") then self:press('b')
