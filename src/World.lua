@@ -13,10 +13,10 @@ World.make = {
 }
 World.levelScale = 20
 
-function World:init(playerInput, playerGameData, projectiles)
-  self.player = Player(playerGameData, playerInput)
+function World:init(playerInput, gameData, projectiles)
+  self.player = Player(gameData, playerInput)
   self.player.spawn = {x = 0, y = 0}
-  self.playerGameData = playerGameData
+  self.gameData = gameData
   self.projectiles = projectiles
   self.bodies = Bodies()
   self.collider = CollisionSystem()
@@ -25,7 +25,6 @@ function World:init(playerInput, playerGameData, projectiles)
   self.flocks = {}
   
   self.playerInput = playerInput -- temporary
-  self.playerGameData = playerGameData -- temporary
   
   self.collider:createCollisionObject(self.player, self.player.radius)
 end
@@ -38,7 +37,7 @@ function World:respawnPlayer()
   self.player.loc.x = self.player.spawn.x
   self.player.loc.y = self.player.spawn.y
   if self.player.isDead then
-    self.playerGameData:decrementLives()
+    self.gameData:decrementLives()
     self.player:respawn()
   end
 end
@@ -118,7 +117,7 @@ function World:spawnAllFrom(xSpawnLayer)
       self.player.spawn.y = y      
       self:respawnPlayer()
     else
-      self:makeBody(type, x, y, self.playerGameData, self.playerInput) -- playerInput and playerGameData args are temporary
+      self:makeBody(type, x, y, self.gameData, self.playerInput) -- playerInput and gameData args are temporary
     end
   end
 end

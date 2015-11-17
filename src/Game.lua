@@ -1,21 +1,21 @@
-local Class          = require('hump.class')
-local World          = require('World')
-local PlayerInput    = require('PlayerInput')
-local PlayerGameData = require('PlayerGameData')
-local Renderer       = require('Renderer')
-local HUD            = require('HUD')
-local AlertMachine   = require('AlertMachine')
-local Projectiles    = require('Projectiles')
-local Combat         = require('Combat')
-local SoundSystem = require('SoundSystem')
+local Class        = require('hump.class')
+local World        = require('World')
+local PlayerInput  = require('PlayerInput')
+local GameData     = require('GameData')
+local Renderer     = require('Renderer')
+local HUD          = require('HUD')
+local AlertMachine = require('AlertMachine')
+local Projectiles  = require('Projectiles')
+local Combat       = require('Combat')
+local SoundSystem  = require('SoundSystem')
 
 local Game = Class{}
 
 function Game:init()
   self.projectiles    = Projectiles()
-  self.playerGameData = PlayerGameData()
+  self.data           = GameData()
   self.playerInput    = PlayerInput()
-  self.world          = World(self.playerInput, self.playerGameData, self.projectiles)
+  self.world          = World(self.playerInput, self.data, self.projectiles)
   self.hud            = HUD()
   self.renderer       = Renderer()
   self.alertMachine   = AlertMachine()
@@ -41,10 +41,10 @@ function Game:update(dt)
   self.alertMachine:update(dt)
   self.combat:update(dt)
   self.world:update(dt)
-  if self.playerGameData:isGameOver() then
+  if self.data:isGameOver() then
     self.alertMachine:set({message = "Game Over", lifespan = 3})
   end
-  self.playerGameData:updateAlertData(self.alertMachine)
+  self.data:updateAlertData(self.alertMachine)
   self.hud:update(dt)
 end
 
@@ -52,7 +52,7 @@ function Game:draw()
   love.graphics.setBackgroundColor(0,0,0,0)
   
   self.renderer:draw(self.world)
-  self.hud:draw(self.playerGameData)
+  self.hud:draw(self.data)
 end
 
 return Game

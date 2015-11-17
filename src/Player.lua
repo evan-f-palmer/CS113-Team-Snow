@@ -11,9 +11,17 @@ local OUT_OF_SINIBOMBS_ALERT = {message = "[Out of Sinibombs]", lifespan = 1.5, 
 local Player = Class{}
 Player.type = "Player"
 
-function Player:init(playerGameData, playerInput)
+Player.variations = {
+  {
+    image = love.graphics.newImage("assets/ship.png"),
+    color = {255,255,255},
+    shouldRotate = true,
+  },
+}
+
+function Player:init(gameData, playerInput)
   self.playerInput = playerInput
-  self.playerGameData = playerGameData
+  self.gameData = gameData
   
   self.loc = Vector(0, 0)
   self.vel = Vector(0, 0)
@@ -25,16 +33,12 @@ function Player:init(playerGameData, playerInput)
   self.id = "Player"
   
   self.combat = Combat()
-  self.combat:addCombatant("Player", {health = self.playerGameData.startingHealth})
+  self.combat:addCombatant("Player", {health = self.gameData.startingHealth})
   self.combat:addWeapon("Player Primary R", {ammo = math.huge, projectileID = "Player Bullet", debounceTime = 0.1})
   self.combat:addWeapon("Player Primary L", {ammo = math.huge, projectileID = "Player Bullet", debounceTime = 0.1})
   self.combat:addWeapon("Player Secondary", {ammo = 0, projectileID = "Sinibomb", debounceTime = 1, maxAmmo = 12})
   
-  self.render = {
-    image = love.graphics.newImage("assets/ship.png"),
-    color = {255,255,255},
-    shouldRotate = true,
-  }
+  self.render = self.variations[math.random(#self.variations)]
   
   self.alertMachine = AlertMachine()
   self.soundSystem = SoundSystem()
@@ -66,13 +70,10 @@ function Player:update(dt)
     self.soundSystem:play("sound/marinealarm.ogg")
   end
 
-  self.playerGameData.bombs = self.combat:getAmmo("Player Secondary")
-  self.playerGameData.health = self.combat:getHealthPercent("Player")
+  self.combat:heal(self.id, dt / 3)
+  self.gameData.bombs = self.combat:getAmmo("Player Secondary")
+  self.gameData.health = self.combat:getHealthPercent("Player")
   self.isDead = self.combat:isDead("Player")
-  
-  if not self.isDead then
-    self.combat:heal(self.id, dt / 3)
-  end
 end
 
 function Player:onCollision(other)
@@ -83,22 +84,22 @@ function Player:onCollision(other)
   end
   
   if type == "Warrior Bullet" then
-    self.combat:attack("Player", self.playerGameData.damageFromCollisionWithWarriorBullet)
+    self.combat:attack("Player", self.gameData.damageFromCollisionWithWarriorBullet)
     other.isDead = true
   end
   
   if type == "Worker Bullet" then
-    self.combat:attack("Player", self.playerGameData.damageFromCollisionWithWorkerBullet)
+    self.combat:attack("Player", self.gameData.damageFromCollisionWithWorkerBullet)
     other.isDead = true
   end
   
   if type == "Sinistar" then
-    self.combat:attack("Player", self.playerGameData.damageFromCollisionWithSinistar)
+    self.combat:attack("Player", self.gameData.damageFromCollisionWithSinistar)
   end
   
   if type == "Crystal" then
-    self.playerGameData:increaseScore(self.playerGameData.crystalValue)
-    self.combat:supplyAmmo("Player Secondary", self.playerGameData.bombAmmoFromCrystalPickup)
+    self.gameData:increaseScore(self.gameData.crystalValue)
+    self.combat:supplyAmmo("Player Secondary", self.gameData.bombAmmoFromCrystalPickup)
     --self.combat:heal(self.id, 1)
     other.isDead = true
   end
@@ -109,7 +110,7 @@ function Player:onCollision(other)
 end
 
 function Player:respawn()
-  self.combat:addCombatant("Player", {health = self.playerGameData.startingHealth})
+  self.combat:addCombatant("Player", {health = self.gameData.startingHealth})
   self.isDead = self.combat:isDead("Player")
 end
 

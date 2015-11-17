@@ -18,8 +18,8 @@ Warrior.render = {
   shouldRotate = false,
 }
 
-function Warrior:init(xPlayerGameData)
-  self.playerGameData = xPlayerGameData
+function Warrior:init(gameData)
+  self.gameData = gameData
 
   Boid.init(self, Warrior.MAX_SPEED, Warrior.MAX_FORCE)
   self.currentTarget  = nil
@@ -53,7 +53,7 @@ function Warrior:update(dt)
   self.isDead = self.combat:isDead(self.id)
   
   if self.isDead and (self.lastCollision == "Player Bullet" or self.lastCollision == "Sinibomb") then
-    self.playerGameData:increaseScore(self.playerGameData.warriorKillValue)
+    self.gameData:increaseScore(self.gameData.warriorKillValue)
   end
 end
 

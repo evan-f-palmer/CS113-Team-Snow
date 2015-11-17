@@ -8,8 +8,21 @@ local Asteroid = Class{}
 Asteroid.type = "Asteroid"
 Asteroid.count = 0
 
-function Asteroid:init(xPlayerGameData)
-  self.playerGameData = xPlayerGameData
+Asteroid.variations = {
+  {
+    image = love.graphics.newImage("assets/asteroid.png"),
+    color = {255,255,255},
+    shouldRotate = true,
+  },
+  {
+    image = love.graphics.newImage("assets/asteroid.png"),
+    color = {255,255,255},
+    shouldRotate = true,
+  },
+}
+
+function Asteroid:init(gameData)
+  self.gameData = gameData
 
   self.loc = Vector(0, 0)
   self.vel = Vector(0, 0)
@@ -23,11 +36,7 @@ function Asteroid:init(xPlayerGameData)
   self.combat:addCombatant(self.id, {health = 300})
   self.combat:addWeapon(self.id, {ammo = 6, projectileID = "Crystal", debounceTime = 2.25})
   
-  self.render = {
-    image = love.graphics.newImage("assets/asteroid.png"),
-    color = {255,255,255},
-    shouldRotate = true,
-  }
+  self.render = self.variations[math.random(#self.variations)]
   
   self.alertMachine = AlertMachine()
   self.soundSystem = SoundSystem()
@@ -35,11 +44,11 @@ function Asteroid:init(xPlayerGameData)
 end
 
 function Asteroid:update(dt)
+  self.combat:heal(self.id, dt * 3)
   self.isDead = self.combat:isDead(self.id) or self.combat:isOutOfAmmo(self.id)
-  if not self.isDead then
-    self.combat:heal(self.id, dt * 3)
-  elseif self.lastCollision == "Player Bullet" or self.lastCollision == "Sinibomb" then
-    self.playerGameData:increaseScore(self.playerGameData.asteroidKillValue)
+  
+  if self.isDead and (self.lastCollision == "Player Bullet" or self.lastCollision == "Sinibomb") then
+    self.gameData:increaseScore(self.gameData.asteroidKillValue)
   end
 end
 

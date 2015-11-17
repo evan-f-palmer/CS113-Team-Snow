@@ -18,8 +18,8 @@ Worker.render = {
   shouldRotate = false,
 }
 
-function Worker:init(xPlayerGameData)
-  self.playerGameData = xPlayerGameData
+function Worker:init(gameData)
+  self.gameData = gameData
 
   Boid.init(self, Worker.MAX_SPEED, Worker.MAX_FORCE)
   self.currentTarget  = nil
@@ -58,7 +58,7 @@ function Worker:update(dt)
   self.isDead = self.combat:isDead(self.id)
   
   if self.isDead and (self.lastCollision == "Player Bullet" or self.lastCollision == "Sinibomb") then
-    self.playerGameData:increaseScore(self.playerGameData.workerKillValue)
+    self.gameData:increaseScore(self.gameData.workerKillValue)
   end
 end
 
