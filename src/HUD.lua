@@ -38,7 +38,7 @@ HUD.RADAR_COLORS = {
   ["Crystal"] = {50, 120, 255, 140},
   ["Worker"] = {255, 50, 50, 180},
   ["Warrior"] = {255, 50, 50, 180},
-  ["Sinistar"] = {255, 120, 50, 200},
+  ["Sinistar"] = {180, 170, 40, 220},
 }
 
 function HUD:init()
