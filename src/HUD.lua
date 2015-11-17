@@ -32,6 +32,15 @@ local HEALTH_BAR_COLORS = {
 
 local HUD = Class {}
 
+HUD.RADAR_DRAW_ORDERING = {"Asteroid", "Crystal", "Worker", "Warrior", "Sinistar"}
+HUD.RADAR_COLORS = {
+  ["Asteroid"] = {50, 255, 120, 120},
+  ["Crystal"] = {50, 120, 255, 140},
+  ["Worker"] = {255, 50, 50, 180},
+  ["Warrior"] = {255, 50, 50, 180},
+  ["Sinistar"] = {255, 120, 50, 200},
+}
+
 function HUD:init()
   self.camera = Camera()
   self.blinker = Blinker()
@@ -51,6 +60,8 @@ function HUD:init()
                w = love.graphics.getWidth() * (4/10), h = (self.GU.FONT_SIZE)},
     alert = { x = love.graphics.getWidth() * (1/2), y = love.graphics.getHeight() * (5/6)}
   }
+  
+  self.radarCanvas = love.graphics.newCanvas()
 end
 
 function HUD:update(dt)
@@ -98,6 +109,8 @@ function HUD:draw(gameData)
   local primaryAlert = self.alertMachine:getPrimaryAlert()
   self:drawAlertMessage(primaryAlert, self.layout.alert.x, self.layout.alert.y)
 
+  self:drawRadar(gameData, x, y)
+  
   love.graphics.setShader()
   self.camera:detach()
 end
@@ -129,6 +142,37 @@ function HUD:getHealthBarColor(xHealthPercent)
   local index = zeroBasedIndex + 1    
   local color = HEALTH_BAR_COLORS[index] or HEALTH_BAR_COLORS[0]
   return color
+end
+
+function HUD:drawRadar(gameData, x, y)
+  self.radarCanvas:clear()
+  love.graphics.setCanvas(self.radarCanvas)
+  local players = gameData.forRadar["Player"] or {}
+  local player = players[1]
+  if player then 
+    for i = 1, (#self.RADAR_DRAW_ORDERING) do
+      local typeToDraw = self.RADAR_DRAW_ORDERING[i]
+      local layerObjects = gameData.forRadar[typeToDraw] or {}
+      local color = self.RADAR_COLORS[typeToDraw]
+      love.graphics.setColor(color[1], color[2], color[3], color[4])
+      for k, object in pairs(layerObjects) do
+        local distSqr = math.pow(object.loc.x - player.loc.x, 2) + math.pow(object.loc.y - player.loc.y, 2)
+        if distSqr > ((300*5)*(300*5)) then -- if object is outside of viewing region
+          local angle = math.atan2(object.loc.y - player.loc.y, object.loc.x - player.loc.x)
+          local dist = math.sqrt(distSqr)
+          local width = (math.pi/15) / (dist/2000) 
+          local angle1, angle2 = angle - width/2, angle + width/2
+          love.graphics.arc("fill", x, y, 295, angle1, angle2, 8)
+        end
+      end
+    end
+  end
+  love.graphics.setBlendMode('subtractive')
+  love.graphics.setColor(255, 255, 255)
+  love.graphics.circle("fill", x, y, 285, 50)
+  love.graphics.setBlendMode('alpha')
+  love.graphics.setCanvas()
+  love.graphics.draw(self.radarCanvas, 0, 0)
 end
 
 return HUD

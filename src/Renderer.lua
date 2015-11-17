@@ -21,6 +21,14 @@ function Renderer:init()
     type = "Capture Device",
   }
   self.collider:createCollisionObject(self.captureDevice, self.captureDevice.radius)
+
+  self.radarDevice = {
+    loc = {x = 0, y = 0},
+    radius = 600 * (1/self.camera.scale),
+    type = "Radar Device",
+  }
+  self.collider:createCollisionObject(self.radarDevice, self.radarDevice.radius)
+
   
   self.DEFAULT_COLOR = {255,255,255}
   self.TEXT_Y_OFFSET = 2 * self.GU.FONT_SIZE
@@ -38,7 +46,13 @@ function Renderer:draw(xWorld)
   
   self.captureDevice.loc = xWorld.player.loc
   self.captureDevice.inView = xWorld.collider:getCollisions(self.captureDevice)
-  local inViewByType = self:getObjectsInViewByType()
+  local inViewByType = self:getObjectsInViewByType(self.captureDevice.inView)
+  
+  self.radarDevice.loc = xWorld.player.loc
+  self.radarDevice.inView = xWorld.collider:getCollisions(self.radarDevice)
+  local inRadarViewByType = self:getObjectsInViewByType(self.radarDevice.inView)
+  
+  xWorld.gameData.forRadar = inRadarViewByType 
   
   -- ALWAYS LOOK AT THE PLAYER
   self.camera:lookAt(playerX, playerY)
@@ -56,8 +70,8 @@ function Renderer:draw(xWorld)
     local layerToDraw = self.DRAW_ORDERING[i]
     local layerObjects = inViewByType[layerToDraw] or {}
     
-    for i = 1, #layerObjects do
-      local obj = layerObjects[i]
+    for j = 1, #layerObjects do
+      local obj = layerObjects[j]
       local objRender = obj.render
       local image = objRender.image
       if image then
@@ -76,20 +90,21 @@ function Renderer:draw(xWorld)
       love.graphics.setColor(self.TEXT_COLOR[1], self.TEXT_COLOR[2], self.TEXT_COLOR[3], self.TEXT_COLOR[4])
       self.GU:BEGIN_SCALE(obj.loc, inverseCameraScale)
         self.GU:centeredText(obj.type .. "\n" .. math.floor(self.combat:getHealthPercent(obj.id) * 100) .. '%' .. "\n" .. math.floor(obj.loc.x) .. ", " .. math.floor(obj.loc.y), obj.loc.x, obj.loc.y + self.TEXT_Y_OFFSET)
-      self.GU:END()
+      self.GU:END()      
     end
   end
 
   self.camera:detach()  
 end
 
-function Renderer:getObjectsInViewByType()
+function Renderer:getObjectsInViewByType(xInView)
   local byType = {}
-  for k, obj in pairs(self.captureDevice.inView) do
+  for k, obj in pairs(xInView) do
     local type = obj.type
     if not byType[type] then byType[type] = {} end
     table.insert(byType[type], obj)
   end
   return byType
 end
+
 return Renderer
