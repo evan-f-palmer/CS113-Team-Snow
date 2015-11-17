@@ -78,6 +78,10 @@ function GameIOController:update(dt)
   if self:isDown('w') then self:press('w')
     self.game.step = true
   end
+  
+  if self:isDown('x') then self:press('x')
+    love.event.quit()
+  end
 end
 
 function GameIOController:isDown(key)
