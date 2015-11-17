@@ -79,10 +79,6 @@ end
 function Player:onCollision(other)
   local type = other.type
   
-  if type ~= "Capture Device" then
-    self.alertMachine:set({message = (type .. " Here!"), lifespan = 1, priority = 4})
-  end
-  
   if type == "Warrior Bullet" then
     self.combat:attack("Player", self.gameData.damageFromCollisionWithWarriorBullet)
     other.isDead = true

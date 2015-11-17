@@ -1,0 +1,43 @@
+local Class = require('hump.class')
+local Vector = require('hump.vector')
+local InputParams = require("InputParams")
+
+local EntityIOController = Class{}
+EntityIOController.inputAmplifier = 100
+
+function EntityIOController:init()
+  self.movementVec = Vector(0, 0)
+  self.directionVec = Vector(0, 0)
+  self.primaryWeaponFire  = false
+  self.secondaryWeaponFire = false
+end
+
+local LEFT_MOUSE_BUTTON = 'l'
+local RIGHT_MOUSE_BUTTON = 'r'
+function EntityIOController:update(dt)
+  self.primaryWeaponFire   = love.keyboard.isDown("f") or love.keyboard.isDown("j") or love.mouse.isDown(LEFT_MOUSE_BUTTON)
+  self.secondaryWeaponFire = love.keyboard.isDown(" ") or love.mouse.isDown(RIGHT_MOUSE_BUTTON)
+  self:handleJoystick(InputParams.directionalJoystick, self.directionVec)
+  self:handleJoystick(InputParams.movementJoystick, self.movementVec)  
+end
+
+function EntityIOController:handleJoystick(xJoystick, xVector)
+  local x, y = self:getMouseOffsetRelativeToCenter(xJoystick)
+  local minR = xJoystick.minR
+  if (y*y) + (x*x) >= (minR*minR) then
+    xVector.y = y
+    xVector.x = x
+    xVector:scale_inplace(EntityIOController.inputAmplifier)
+  else
+    xVector.y = 0
+    xVector.x = 0
+  end
+end
+
+function EntityIOController:getMouseOffsetRelativeToCenter(xJoystick)
+  local centerX, centerY = xJoystick.x, xJoystick.y
+  local mouseX, mouseY = love.mouse.getPosition()
+  return -(centerX - mouseX), -(centerY - mouseY)
+end
+
+return EntityIOController

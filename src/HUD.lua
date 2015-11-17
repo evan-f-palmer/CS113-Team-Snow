@@ -3,7 +3,7 @@ local Camera = require('hump.camera')
 local Blinker = require('Blinker')
 local DrawCommon = require('DrawCommon')
 local AlertMachine = require('AlertMachine')
-local PlayerInputParams = require("PlayerInputParams")
+local InputParams = require("InputParams")
 
 local ALERT_DIM_COLOR = {150,150,150,200}
 
@@ -69,7 +69,7 @@ function HUD:draw(gameData)
   --love.graphics.draw(self.background, 0, 0, rotation, width, height) 
   --love.graphics.setShader(self.bloomShader)
   
-  local x, y, minR = PlayerInputParams.movementJoystick.x, PlayerInputParams.movementJoystick.y, PlayerInputParams.movementJoystick.minR
+  local x, y, minR = InputParams.movementJoystick.x, InputParams.movementJoystick.y, InputParams.movementJoystick.minR
 
   love.graphics.setColor(255,255,255)
   love.graphics.circle("line", x, y, 300)
@@ -80,7 +80,7 @@ function HUD:draw(gameData)
   love.graphics.setColor(HUDcolor[1], HUDcolor[2], HUDcolor[3], HUDcolor[4])
 
   love.graphics.circle("line", x, y, minR)
-  x, y, minR = PlayerInputParams.directionalJoystick.x, PlayerInputParams.directionalJoystick.y, PlayerInputParams.directionalJoystick.minR
+  x, y, minR = InputParams.directionalJoystick.x, InputParams.directionalJoystick.y, InputParams.directionalJoystick.minR
   love.graphics.circle("line", x, y, minR)
 
   love.graphics.circle("fill", self.layout.lives.x, self.layout.lives.y, self.GU.FONT_SIZE, 30)

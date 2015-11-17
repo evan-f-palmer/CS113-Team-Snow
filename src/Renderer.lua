@@ -1,7 +1,7 @@
 local Class  = require('hump.class')
 local Camera = require('hump.camera')
 local DrawCommon = require('DrawCommon')
-local PlayerInputParams = require("PlayerInputParams")
+local InputParams = require("InputParams")
 local CollisionSystem = require('CollisionSystem')
 local Combat = require('Combat')
 
@@ -32,7 +32,7 @@ end
 function Renderer:draw(xWorld)
   local playerX, playerY = xWorld.player.loc.x, xWorld.player.loc.y
   local playerAngle = self.GU:getAngle(xWorld.player.dir)
-  local movementJoystickMinR = PlayerInputParams.movementJoystick.minR
+  local movementJoystickMinR = InputParams.movementJoystick.minR
   local projectiles = xWorld.projectiles
   local inverseCameraScale = 1/self.camera.scale
   

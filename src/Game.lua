@@ -1,6 +1,6 @@
 local Class        = require('hump.class')
 local World        = require('World')
-local PlayerInput  = require('PlayerInput')
+local PlayerInput  = require('EntityIOController')
 local GameData     = require('GameData')
 local Renderer     = require('Renderer')
 local HUD          = require('HUD')
@@ -8,10 +8,14 @@ local AlertMachine = require('AlertMachine')
 local Projectiles  = require('Projectiles')
 local Combat       = require('Combat')
 local SoundSystem  = require('SoundSystem')
+local GameIOController = require('GameIOController')
 
 local Game = Class{}
 
 function Game:init()
+  self.isPaused = false
+  self.step = false
+
   self.projectiles    = Projectiles()
   self.data           = GameData()
   self.playerInput    = PlayerInput()
@@ -22,6 +26,8 @@ function Game:init()
   self.combat         = Combat()
   self.combat:setProjectiles(self.projectiles)
   self.soundSystem = SoundSystem()
+  
+  self.gameInput = GameIOController(self)
   
   self.alertMachine:set({message = "Hello World!", lifespan = 3})
  -- self.soundSystem:playMusic("music/TheFatRat-Dancing-Naked.mp3")
@@ -37,15 +43,21 @@ function Game:init()
 end
 
 function Game:update(dt)
-  self.playerInput:update(dt)
-  self.alertMachine:update(dt)
-  self.combat:update(dt)
-  self.world:update(dt)
-  if self.data:isGameOver() then
-    self.alertMachine:set({message = "Game Over", lifespan = 3})
+  self.gameInput:update(dt)
+  
+  if (not self.isPaused) or self.step then
+    self.step = false
+    
+    self.playerInput:update(dt)
+    self.alertMachine:update(dt)
+    self.combat:update(dt)
+    self.world:update(dt)
+    if self.data:isGameOver() then
+      self.alertMachine:set({message = "Game Over", lifespan = 3})
+    end
+    self.data:updateAlertData(self.alertMachine)
+    self.hud:update(dt)
   end
-  self.data:updateAlertData(self.alertMachine)
-  self.hud:update(dt)
 end
 
 function Game:draw()
