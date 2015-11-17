@@ -43,6 +43,7 @@ function Game:init()
 end
 
 function Game:update(dt)
+  self.isPaused = (not love.window.hasFocus()) or (not love.window.hasMouseFocus())
   self.gameInput:update(dt)
   
   if (not self.isPaused) or self.step then

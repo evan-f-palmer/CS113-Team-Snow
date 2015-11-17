@@ -1,4 +1,5 @@
 local game
+local isGamePaused
 
 function love.load(arg)
   if arg[#arg] == '-debug' then require('mobdebug').start() end
@@ -9,8 +10,7 @@ function love.load(arg)
   game = Game()
 end
 
-local isGamePaused
-function love.update(dt)  
+function love.update(dt)
   game:update(dt)
   isGamePaused = game.isPaused
 end
