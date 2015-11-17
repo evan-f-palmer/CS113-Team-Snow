@@ -15,9 +15,11 @@ function Renderer:init()
   self.collider = CollisionSystem()
   self.combat = Combat()
   
+  self.viewRadius = 300
+  
   self.captureDevice = {
     loc = {x = 0, y = 0},
-    radius = 325 * (1/self.camera.scale),
+    radius = 350 * (1/self.camera.scale),
     type = "Capture Device",
   }
   self.collider:createCollisionObject(self.captureDevice, self.captureDevice.radius)
@@ -57,6 +59,10 @@ function Renderer:draw(xWorld)
   -- ALWAYS LOOK AT THE PLAYER
   self.camera:lookAt(playerX, playerY)
   self.camera:attach()  
+
+  local centerX = love.window.getWidth()/2
+  local centerY = love.window.getHeight()/2
+  love.graphics.setScissor(centerX - self.viewRadius, centerY - self.viewRadius, self.viewRadius*2, self.viewRadius*2)
   
   -- THE ORIGIN
   love.graphics.setColor(255, 0, 0)
@@ -93,6 +99,8 @@ function Renderer:draw(xWorld)
       self.GU:END()      
     end
   end
+  
+  love.graphics.setScissor()
 
   self.camera:detach()  
 end
