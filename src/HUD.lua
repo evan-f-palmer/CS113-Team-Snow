@@ -57,7 +57,7 @@ function HUD:update(dt)
   self.blinker:update(dt)
 end
 
-function HUD:draw(xPlayerGameData)
+function HUD:draw(gameData)
   self.camera:attach()
   
   local screenWidth  = love.graphics.getWidth()
@@ -65,31 +65,34 @@ function HUD:draw(xPlayerGameData)
   local width  = screenWidth / self.background:getWidth()
   local height = screenHeight / self.background:getHeight()
   local rotation = 0
-  
-  local x, y, minR = PlayerInputParams.movementJoystick.x, PlayerInputParams.movementJoystick.y, PlayerInputParams.movementJoystick.minR
-  
-  love.graphics.setColor(255,255,255)
-  love.graphics.circle("line", x, y, 300)
-
+ 
   --love.graphics.draw(self.background, 0, 0, rotation, width, height) 
   --love.graphics.setShader(self.bloomShader)
   
-  self:drawHealthBar(xPlayerGameData.health)
+  local x, y, minR = PlayerInputParams.movementJoystick.x, PlayerInputParams.movementJoystick.y, PlayerInputParams.movementJoystick.minR
+
+  love.graphics.setColor(255,255,255)
+  love.graphics.circle("line", x, y, 300)
+    
+  self:drawHealthBar(gameData.health)
 
   local HUDcolor = self:getHeadsUpDisplayColor()
   love.graphics.setColor(HUDcolor[1], HUDcolor[2], HUDcolor[3], HUDcolor[4])
 
-  love.graphics.circle("line", x, y, minR, 50)
+  love.graphics.circle("line", x, y, minR)
+  x, y, minR = PlayerInputParams.directionalJoystick.x, PlayerInputParams.directionalJoystick.y, PlayerInputParams.directionalJoystick.minR
+  love.graphics.circle("line", x, y, minR)
+
   love.graphics.circle("fill", self.layout.lives.x, self.layout.lives.y, self.GU.FONT_SIZE, 30)
   love.graphics.circle("fill", self.layout.bombs.x, self.layout.bombs.y, self.GU.FONT_SIZE, 30)  
   
   love.graphics.setColor(255,255,255)
-  self.GU:centeredText(xPlayerGameData.lives, self.layout.lives.x, self.layout.lives.y)
+  self.GU:centeredText(gameData.lives, self.layout.lives.x, self.layout.lives.y)
   self.GU:centeredText("LIVES", self.layout.lives.x, self.layout.lives.y + self.textOffset)  
-  self.GU:centeredText(math.floor(xPlayerGameData.health * 100)..'%', self.layout.health.x + self.layout.health.w/2, self.layout.health.y + self.layout.health.h/2)
-  self.GU:centeredText(xPlayerGameData.bombs, self.layout.bombs.x, self.layout.bombs.y)
+  self.GU:centeredText(math.floor(gameData.health * 100)..'%', self.layout.health.x + self.layout.health.w/2, self.layout.health.y + self.layout.health.h/2)
+  self.GU:centeredText(gameData.bombs, self.layout.bombs.x, self.layout.bombs.y)
   self.GU:centeredText("BOMBS", self.layout.bombs.x, self.layout.bombs.y + self.textOffset)
-  self.GU:centeredText(xPlayerGameData.score, self.layout.score.x, self.layout.score.y)
+  self.GU:centeredText(gameData.score, self.layout.score.x, self.layout.score.y)
   self.GU:centeredText("SCORE", self.layout.score.x, self.layout.score.y - self.textOffset)
 
   local primaryAlert = self.alertMachine:getPrimaryAlert()

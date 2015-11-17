@@ -23,25 +23,22 @@ end
 function PlayerInput:update(dt)
   self.primaryWeaponFire   = love.keyboard.isDown("f") or love.keyboard.isDown("j") or love.mouse.isDown(LEFT_MOUSE_BUTTON)
   self.secondaryWeaponFire = love.keyboard.isDown(" ") or love.mouse.isDown(RIGHT_MOUSE_BUTTON)
-  
-  local x, y, minR
-  
-  x, y = self:getMouseOffsetRelativeToCenter(PlayerInputParams.directionalJoystick)
-  self.directionVec.y = y
-  self.directionVec.x = x
-  
-  x, y = self:getMouseOffsetRelativeToCenter(PlayerInputParams.movementJoystick)
-  minR = PlayerInputParams.movementJoystick.minR
-  if (y*y) + (x*x) >= (minR*minR) then
-    self.movementVec.y = y
-    self.movementVec.x = x
-    self.movementVec:scale_inplace(PlayerInput.inputAmplifier)
-  else
-    self.movementVec.y = 0
-    self.movementVec.x = 0
-  end
-  
+  self:handleJoystick(PlayerInputParams.directionalJoystick, self.directionVec)
+  self:handleJoystick(PlayerInputParams.movementJoystick, self.movementVec)  
   self:debugStuff()
+end
+
+function PlayerInput:handleJoystick(xJoystick, xVector)
+  local x, y = self:getMouseOffsetRelativeToCenter(xJoystick)
+  local minR = xJoystick.minR
+  if (y*y) + (x*x) >= (minR*minR) then
+    xVector.y = y
+    xVector.x = x
+    xVector:scale_inplace(PlayerInput.inputAmplifier)
+  else
+    xVector.y = 0
+    xVector.x = 0
+  end
 end
 
 function PlayerInput:getMouseOffsetRelativeToCenter(xJoystick)
