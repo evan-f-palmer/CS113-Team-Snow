@@ -62,6 +62,7 @@ function HUD:init()
   }
   
   self.radarCanvas = love.graphics.newCanvas()
+  self.radarDrawData = {x = 0, y = 0, radius = 295, cutoutRadius = 285, minimumDistance = (300*5), segmentSize = (math.pi/15), distanceTaperDivisor = 2000}
 end
 
 function HUD:update(dt)
@@ -109,7 +110,9 @@ function HUD:draw(gameData)
   local primaryAlert = self.alertMachine:getPrimaryAlert()
   self:drawAlertMessage(primaryAlert, self.layout.alert.x, self.layout.alert.y)
 
-  self:drawRadar(gameData, x, y)
+  self.radarDrawData.x = x
+  self.radarDrawData.y = y
+  self:drawRadar(gameData.forRadar, self.radarDrawData)
   
   love.graphics.setShader()
   self.camera:detach()
@@ -144,33 +147,40 @@ function HUD:getHealthBarColor(xHealthPercent)
   return color
 end
 
-function HUD:drawRadar(gameData, x, y)
+function HUD:drawRadar(toDisplayOnRadarByType, draw)
+  -- USE RADAR CANVAS
   self.radarCanvas:clear()
   love.graphics.setCanvas(self.radarCanvas)
-  local players = gameData.forRadar["Player"] or {}
+  
+  -- EXTRACT PLAYER
+  local players = toDisplayOnRadarByType["Player"] or {}
   local player = players[1]
+  
+  -- IF PLAYER EXISTS, DRAW BODIES RELATIVE TO PLAYER ON RADAR
   if player then 
     for i = 1, (#self.RADAR_DRAW_ORDERING) do
       local typeToDraw = self.RADAR_DRAW_ORDERING[i]
-      local layerObjects = gameData.forRadar[typeToDraw] or {}
+      local layerObjects = toDisplayOnRadarByType[typeToDraw] or {}
       local color = self.RADAR_COLORS[typeToDraw]
       love.graphics.setColor(color[1], color[2], color[3], color[4])
       for k, object in pairs(layerObjects) do
         local distSqr = math.pow(object.loc.x - player.loc.x, 2) + math.pow(object.loc.y - player.loc.y, 2)
-        if distSqr > ((300*5)*(300*5)) then -- if object is outside of viewing region
+        if distSqr >= (draw.minimumDistance * draw.minimumDistance) then
           local angle = math.atan2(object.loc.y - player.loc.y, object.loc.x - player.loc.x)
           local dist = math.sqrt(distSqr)
-          local width = (math.pi/15) / (dist/2000) 
-          local angle1, angle2 = angle - width/2, angle + width/2
-          love.graphics.arc("fill", x, y, 295, angle1, angle2, 8)
+          local segmentWidth = draw.segmentSize / (dist/draw.distanceTaperDivisor) 
+          local angle1, angle2 = angle - segmentWidth/2, angle + segmentWidth/2
+          love.graphics.arc("fill", draw.x, draw.y, draw.radius, angle1, angle2, 3)
         end
       end
     end
   end
+  -- CUTOUT
   love.graphics.setBlendMode('subtractive')
   love.graphics.setColor(255, 255, 255)
-  love.graphics.circle("fill", x, y, 285, 50)
+  love.graphics.circle("fill", draw.x, draw.y, draw.cutoutRadius, 50)
   love.graphics.setBlendMode('alpha')
+  -- GO BACK TO MAIN CANVAS
   love.graphics.setCanvas()
   love.graphics.draw(self.radarCanvas, 0, 0)
 end
