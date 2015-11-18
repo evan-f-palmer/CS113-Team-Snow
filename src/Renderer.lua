@@ -10,7 +10,7 @@ local Renderer = Class {}
 
 function Renderer:init()
   self.camera = Camera()
-  self.camera.scale = 1 / 5
+  self.camera.scale = (1/5)
   self.camera:lookAt(0, 0)  
   self.GU = DrawCommon()
   self.collider = CollisionSystem()
@@ -18,14 +18,14 @@ function Renderer:init()
   
   self.captureDevice = {
     loc = {x = 0, y = 0},
-    radius = (ViewportParams.r + 50) * (1/self.camera.scale),
+    radius = (ViewportParams.r + 50) / (self.camera.scale),
     type = "Capture Device",
   }
   self.collider:createCollisionObject(self.captureDevice, self.captureDevice.radius)
 
   self.radarDevice = {
     loc = {x = 0, y = 0},
-    radius = (ViewportParams.r * 3) * (1/self.camera.scale),
+    radius = (ViewportParams.r * 3) / (self.camera.scale),
     type = "Radar Device",
   }
   self.collider:createCollisionObject(self.radarDevice, self.radarDevice.radius)
@@ -53,12 +53,12 @@ function Renderer:draw(xWorld)
   self.radarDevice.inView = xWorld.collider:getCollisions(self.radarDevice)
   local inRadarViewByType = self:getObjectsInViewByType(self.radarDevice.inView)
   
+  xWorld.gameData.worldCameraScale = self.camera.scale
   xWorld.gameData.forRadar = inRadarViewByType 
   
   -- ALWAYS LOOK AT THE PLAYER
   self.camera:lookAt(playerX, playerY)
   self.camera:attach()  
-
   love.graphics.setScissor(ViewportParams.x - ViewportParams.r, ViewportParams.y - ViewportParams.r, ViewportParams.r*2, ViewportParams.r*2)
   
   -- THE ORIGIN
@@ -98,7 +98,6 @@ function Renderer:draw(xWorld)
   end
   
   love.graphics.setScissor()
-
   self.camera:detach()  
 end
 

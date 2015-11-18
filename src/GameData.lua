@@ -20,6 +20,8 @@ GameData.bombAmmoFromCrystalPickup = 1
 
 GameData.numberOfCrystalsToBuildSinistar = 35
 
+GameData.worldCameraScale = 1
+
 function GameData:init()
   self.lives   = GameData.startingLives
   self.health  = 0

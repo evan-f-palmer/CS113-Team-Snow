@@ -65,8 +65,7 @@ function HUD:init()
   
   self.radarCanvas = love.graphics.newCanvas()
   local radarRadius = self.layout.viewport.r - 5
-  local cameraScale = (1/5)
-  self.radarDrawData = {x = 0, y = 0, radius = radarRadius, cutoutRadius = radarRadius - 10, minimumDistance = (radarRadius/cameraScale), segmentSize = (math.pi/15), distanceTaperDivisor = 2000}
+  self.radarDrawData = {x = 0, y = 0, radius = radarRadius, cutoutRadius = radarRadius - 10, minimumDistance = radarRadius, segmentSize = (math.pi/15), distanceTaperDivisor = 2000}
 end
 
 function HUD:update(dt)
@@ -75,6 +74,8 @@ end
 
 function HUD:draw(gameData)
   self.camera:attach()
+  
+  self.radarDrawData.minimumDistance = self.radarDrawData.radius / gameData.worldCameraScale
   
   local screenWidth  = love.graphics.getWidth()
   local screenHeight = love.graphics.getHeight()    
