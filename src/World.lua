@@ -5,13 +5,13 @@ local Bodies = require('Bodies')
 
 local World = Class{}
 World.make = {
-  Warrior  = require('Warrior'), -- temporary placeholder
-  Worker   = require('Worker'), -- temporary placeholder
-  Asteroid = require('Asteroid'), -- temporary placeholder
+  Warrior  = require('Warrior'),
+  Worker   = require('Worker'),
+  Asteroid = require('Asteroid'),
   Sinistar = require('Asteroid'), -- temporary placeholder
   Flock    = require('Flock'),
 }
-World.levelScale = 20
+World.levelScale = 10
 
 function World:init(playerInput, gameData, projectiles)
   self.player = Player(gameData, playerInput)
@@ -23,14 +23,8 @@ function World:init(playerInput, gameData, projectiles)
   self.projectiles:setCollider(self.collider)
   self.bodies:setCollider(self.collider)  
   self.flocks = {}
-  
-  self.playerInput = playerInput -- temporary
-  
-  self.collider:createCollisionObject(self.player, self.player.radius)
-end
 
-function World:aitestcode()
-  self.flocks[1] = World.make["Flock"]({}, 1/100, 50, 1/10)
+  self.collider:createCollisionObject(self.player, self.player.radius)
 end
 
 function World:respawnPlayer()
@@ -43,11 +37,15 @@ function World:respawnPlayer()
 end
 
 function World:loadLevel(xLevelFileName)
-  local level = dofile(xLevelFileName)
+  local level = dofile(xLevelFileName)  
   local layers = self:getLayers(level)  
   self:unload()
-  self:aitestcode()
-  self:spawnAllFrom(layers["Spawn"])
+  
+  self.width = level.width * level.tilewidth
+  self.height = level.height * level.tileheight
+  self:spawnAllFromAsType(layers["Asteroid"], "Asteroid")
+  self:spawnSquads(layers["Squad"])
+  self:respawnPlayer()
 end
 
 function World:unload()
@@ -87,10 +85,6 @@ function World:makeBody(type, x, y, ...)
   obj.loc.x = x
   obj.loc.y = y
   self.bodies:add(obj)
-  if type == "Warrior" then
-      obj:setFlock(self.flocks[1])
-      self.flocks[1]:addBoid(obj)
-  end
   return obj
 end
 
@@ -109,16 +103,37 @@ function World:getLayers(xLevel)
   return layers
 end
 
-function World:spawnAllFrom(xSpawnLayer)
+function World:translateX(x)
+  return (x - (self.width/2)) * World.levelScale
+end
+
+function World:translateY(y)
+  return (y - (self.height/2)) * World.levelScale
+end
+
+function World:spawnAllFromAsType(xSpawnLayer, xType)
   for k, obj in pairs(xSpawnLayer.objects) do
-    local type, x, y = obj.type, (obj.x * World.levelScale), (obj.y * World.levelScale)
-    if type == "Player" then
-      self.player.spawn.x = x
-      self.player.spawn.y = y      
-      self:respawnPlayer()
-    else
-      self:makeBody(type, x, y, self.gameData, self.playerInput) -- playerInput and gameData args are temporary
+    local x, y = self:translateX(obj.x), self:translateY(obj.y)
+    local body = self:makeBody(xType, x, y, self.gameData)
+  end
+end
+
+function World:spawnSquads(xSquadLayer)
+  for k, obj in pairs(xSquadLayer.objects) do
+    local flock = World.make["Flock"]({}, 1/100, 50, 1/10)
+    for i = 1, 5 do
+      local x, y = self:translateX(obj.x), self:translateY(obj.y)
+      local body = self:makeBody("Worker", x, y, self.gameData)
+      body:setFlock(flock)
+      flock:addBoid(body)
     end
+    for i = 1, 2 do
+      local x, y = self:translateX(obj.x), self:translateY(obj.y)
+      local body = self:makeBody("Warrior", x, y, self.gameData)
+      body:setFlock(flock)
+      flock:addBoid(body)
+    end
+    table.insert(self.flocks, flock)
   end
 end
 

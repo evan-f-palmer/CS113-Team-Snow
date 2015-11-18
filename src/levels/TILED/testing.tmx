@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="60" height="60" tilewidth="32" tileheight="32" backgroundcolor="#000000">
+ <objectgroup name="Asteroid" width="60" height="60">
+  <object x="727" y="836">
+   <ellipse/>
+  </object>
+  <object x="724" y="808">
+   <ellipse/>
+  </object>
+  <object x="732" y="773">
+   <ellipse/>
+  </object>
+  <object x="773" y="760">
+   <ellipse/>
+  </object>
+  <object x="795" y="786">
+   <ellipse/>
+  </object>
+  <object x="807" y="814">
+   <ellipse/>
+  </object>
+  <object x="820" y="837">
+   <ellipse/>
+  </object>
+  <object x="832" y="863">
+   <ellipse/>
+  </object>
+  <object x="724" y="867">
+   <ellipse/>
+  </object>
+  <object x="751" y="816">
+   <ellipse/>
+  </object>
+  <object x="775" y="814">
+   <ellipse/>
+  </object>
+  <object x="1200" y="735">
+   <ellipse/>
+  </object>
+  <object x="1190" y="767">
+   <ellipse/>
+  </object>
+  <object x="1178" y="789">
+   <ellipse/>
+  </object>
+  <object x="1170" y="813">
+   <ellipse/>
+  </object>
+  <object x="1160" y="843">
+   <ellipse/>
+  </object>
+  <object x="1154" y="863">
+   <ellipse/>
+  </object>
+  <object x="1173" y="876">
+   <ellipse/>
+  </object>
+  <object x="1201" y="884">
+   <ellipse/>
+  </object>
+  <object x="1244" y="833">
+   <ellipse/>
+  </object>
+  <object x="1214" y="811">
+   <ellipse/>
+  </object>
+  <object x="1239" y="804">
+   <ellipse/>
+  </object>
+  <object x="1273" y="800">
+   <ellipse/>
+  </object>
+  <object x="1280" y="769">
+   <ellipse/>
+  </object>
+  <object x="1267" y="740">
+   <ellipse/>
+  </object>
+  <object x="1231" y="712">
+   <ellipse/>
+  </object>
+  <object x="1201" y="702">
+   <ellipse/>
+  </object>
+  <object x="1255" y="728">
+   <ellipse/>
+  </object>
+  <object x="1254" y="857">
+   <ellipse/>
+  </object>
+  <object x="1230" y="882">
+   <ellipse/>
+  </object>
+  <object x="839" y="1068">
+   <ellipse/>
+  </object>
+  <object x="810" y="1061">
+   <ellipse/>
+  </object>
+  <object x="783" y="1065">
+   <ellipse/>
+  </object>
+  <object x="764" y="1079">
+   <ellipse/>
+  </object>
+  <object x="753" y="1100">
+   <ellipse/>
+  </object>
+  <object x="753" y="1126">
+   <ellipse/>
+  </object>
+  <object x="759" y="1150">
+   <ellipse/>
+  </object>
+  <object x="772" y="1171">
+   <ellipse/>
+  </object>
+  <object x="796" y="1181">
+   <ellipse/>
+  </object>
+  <object x="826" y="1181">
+   <ellipse/>
+  </object>
+  <object x="857" y="1172">
+   <ellipse/>
+  </object>
+  <object x="1104" y="1031">
+   <ellipse/>
+  </object>
+  <object x="1100" y="1051">
+   <ellipse/>
+  </object>
+  <object x="1098" y="1069">
+   <ellipse/>
+  </object>
+  <object x="1094" y="1085">
+   <ellipse/>
+  </object>
+  <object x="1088" y="1111">
+   <ellipse/>
+  </object>
+  <object x="1085" y="1130">
+   <ellipse/>
+  </object>
+  <object x="1078" y="1155">
+   <ellipse/>
+  </object>
+  <object x="1069" y="1176">
+   <ellipse/>
+  </object>
+  <object x="1093" y="1182">
+   <ellipse/>
+  </object>
+  <object x="1117" y="1180">
+   <ellipse/>
+  </object>
+  <object x="1141" y="1173">
+   <ellipse/>
+  </object>
+  <object x="1166" y="1157">
+   <ellipse/>
+  </object>
+  <object x="1186" y="1133">
+   <ellipse/>
+  </object>
+  <object x="1127" y="1026">
+   <ellipse/>
+  </object>
+  <object x="1145" y="1042">
+   <ellipse/>
+  </object>
+  <object x="1166" y="1055">
+   <ellipse/>
+  </object>
+  <object x="1175" y="1078">
+   <ellipse/>
+  </object>
+  <object x="1185" y="1104">
+   <ellipse/>
+  </object>
+  <object x="748" y="739">
+   <ellipse/>
+  </object>
+  <object x="721" y="888">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="Squad" width="60" height="60">
+  <object x="957" y="692">
+   <ellipse/>
+  </object>
+  <object x="1130" y="1115">
+   <ellipse/>
+  </object>
+  <object x="583" y="1313">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="Locale" width="60" height="60">
+  <object name="BR" x="1920" y="1920">
+   <ellipse/>
+  </object>
+  <object name="B" x="960" y="1920">
+   <ellipse/>
+  </object>
+  <object name="BL" x="0" y="1920">
+   <ellipse/>
+  </object>
+  <object name="TL" x="0" y="0">
+   <ellipse/>
+  </object>
+  <object name="TR" x="1920" y="0">
+   <ellipse/>
+  </object>
+  <object name="T" x="960" y="0">
+   <ellipse/>
+  </object>
+  <object name="C" x="960" y="960">
+   <ellipse/>
+  </object>
+  <object name="R" x="1920" y="960">
+   <ellipse/>
+  </object>
+  <object name="L" x="0" y="960">
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>

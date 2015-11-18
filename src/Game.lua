@@ -39,7 +39,7 @@ function Game:init()
   self.projectiles:define("Warrior Bullet", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {200,100,0}, speed = 4600, lifespan = 5})
   self.projectiles:define("Crystal", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {200,200,200}, speed = 180, lifespan = 13, radius = 30}) 
   
-  self.world:loadLevel("src/levels/1.lua")
+  self.world:loadLevel("src/levels/testing.lua")
 end
 
 function Game:update(dt)
