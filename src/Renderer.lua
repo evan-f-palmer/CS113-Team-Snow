@@ -4,6 +4,7 @@ local DrawCommon = require('DrawCommon')
 local InputParams = require("InputParams")
 local CollisionSystem = require('CollisionSystem')
 local Combat = require('Combat')
+local ViewportParams = require("ViewportParams")
 
 local Renderer = Class {}
 
@@ -15,18 +16,16 @@ function Renderer:init()
   self.collider = CollisionSystem()
   self.combat = Combat()
   
-  self.viewRadius = 300
-  
   self.captureDevice = {
     loc = {x = 0, y = 0},
-    radius = 350 * (1/self.camera.scale),
+    radius = (ViewportParams.r + 50) * (1/self.camera.scale),
     type = "Capture Device",
   }
   self.collider:createCollisionObject(self.captureDevice, self.captureDevice.radius)
 
   self.radarDevice = {
     loc = {x = 0, y = 0},
-    radius = 600 * (1/self.camera.scale),
+    radius = (ViewportParams.r * 3) * (1/self.camera.scale),
     type = "Radar Device",
   }
   self.collider:createCollisionObject(self.radarDevice, self.radarDevice.radius)
@@ -60,9 +59,7 @@ function Renderer:draw(xWorld)
   self.camera:lookAt(playerX, playerY)
   self.camera:attach()  
 
-  local centerX = love.window.getWidth()/2
-  local centerY = love.window.getHeight()/2
-  love.graphics.setScissor(centerX - self.viewRadius, centerY - self.viewRadius, self.viewRadius*2, self.viewRadius*2)
+  love.graphics.setScissor(ViewportParams.x - ViewportParams.r, ViewportParams.y - ViewportParams.r, ViewportParams.r*2, ViewportParams.r*2)
   
   -- THE ORIGIN
   love.graphics.setColor(255, 0, 0)

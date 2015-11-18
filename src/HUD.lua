@@ -4,6 +4,7 @@ local Blinker = require('Blinker')
 local DrawCommon = require('DrawCommon')
 local AlertMachine = require('AlertMachine')
 local InputParams = require("InputParams")
+local ViewportParams = require("ViewportParams")
 
 local ALERT_DIM_COLOR = {150,150,150,200}
 
@@ -58,11 +59,14 @@ function HUD:init()
     score = { x = love.graphics.getWidth() * (1/2), y = love.graphics.getHeight() * (1/12) },
     health = { x = love.graphics.getWidth() * (3/10), y = love.graphics.getHeight() * (11/12) - (self.GU.FONT_SIZE/2), 
                w = love.graphics.getWidth() * (4/10), h = (self.GU.FONT_SIZE)},
-    alert = { x = love.graphics.getWidth() * (1/2), y = love.graphics.getHeight() * (5/6)}
+    alert = { x = love.graphics.getWidth() * (1/2), y = love.graphics.getHeight() * (5/6)},
+    viewport = ViewportParams,
   }
   
   self.radarCanvas = love.graphics.newCanvas()
-  self.radarDrawData = {x = 0, y = 0, radius = 295, cutoutRadius = 285, minimumDistance = (300*5), segmentSize = (math.pi/15), distanceTaperDivisor = 2000}
+  local radarRadius = self.layout.viewport.r - 5
+  local cameraScale = (1/5)
+  self.radarDrawData = {x = 0, y = 0, radius = radarRadius, cutoutRadius = radarRadius - 10, minimumDistance = (radarRadius/cameraScale), segmentSize = (math.pi/15), distanceTaperDivisor = 2000}
 end
 
 function HUD:update(dt)
@@ -80,17 +84,16 @@ function HUD:draw(gameData)
  
   --love.graphics.draw(self.background, 0, 0, rotation, width, height) 
   --love.graphics.setShader(self.bloomShader)
-  
-  local x, y, minR = InputParams.movementJoystick.x, InputParams.movementJoystick.y, InputParams.movementJoystick.minR
 
   love.graphics.setColor(255,255,255)
-  love.graphics.circle("line", x, y, 300)
+  love.graphics.circle("line", self.layout.viewport.x, self.layout.viewport.y, self.layout.viewport.r)
     
   self:drawHealthBar(gameData.health)
 
   local HUDcolor = self:getHeadsUpDisplayColor()
   love.graphics.setColor(HUDcolor[1], HUDcolor[2], HUDcolor[3], HUDcolor[4])
 
+  local x, y, minR = InputParams.movementJoystick.x, InputParams.movementJoystick.y, InputParams.movementJoystick.minR
   love.graphics.circle("line", x, y, minR)
   x, y, minR = InputParams.directionalJoystick.x, InputParams.directionalJoystick.y, InputParams.directionalJoystick.minR
   love.graphics.circle("line", x, y, minR)
