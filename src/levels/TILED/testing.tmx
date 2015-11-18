@@ -187,12 +187,24 @@
  </objectgroup>
  <objectgroup name="Squad" width="60" height="60">
   <object x="957" y="692">
+   <properties>
+    <property name="Warriors" value="3"/>
+    <property name="Workers" value="3"/>
+   </properties>
    <ellipse/>
   </object>
   <object x="1130" y="1115">
+   <properties>
+    <property name="Warriors" value="1"/>
+    <property name="Workers" value="6"/>
+   </properties>
    <ellipse/>
   </object>
   <object x="583" y="1313">
+   <properties>
+    <property name="Warriors" value="3"/>
+    <property name="Workers" value="2"/>
+   </properties>
    <ellipse/>
   </object>
  </objectgroup>

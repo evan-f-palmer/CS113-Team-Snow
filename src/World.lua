@@ -11,7 +11,7 @@ World.make = {
   Sinistar = require('Asteroid'), -- temporary placeholder
   Flock    = require('Flock'),
 }
-World.levelScale = 10
+World.levelScale = 15
 
 function World:init(playerInput, gameData, projectiles)
   self.player = Player(gameData, playerInput)
@@ -118,17 +118,21 @@ function World:spawnAllFromAsType(xSpawnLayer, xType)
   end
 end
 
-function World:spawnSquads(xSquadLayer)
+function World:spawnSquads(xSquadLayer)  
   for k, obj in pairs(xSquadLayer.objects) do
     local flock = World.make["Flock"]({}, 1/100, 50, 1/10)
-    for i = 1, 5 do
-      local x, y = self:translateX(obj.x), self:translateY(obj.y)
+    
+    local numWorkers = obj.properties["Workers"] or 0
+    for i = 1, numWorkers do
+      local x, y = self:translateX(obj.x + i), self:translateY(obj.y + i)
       local body = self:makeBody("Worker", x, y, self.gameData)
       body:setFlock(flock)
       flock:addBoid(body)
     end
-    for i = 1, 2 do
-      local x, y = self:translateX(obj.x), self:translateY(obj.y)
+    
+    local numWarriors = obj.properties["Warriors"] or 0
+    for i = 1, numWarriors do
+      local x, y = self:translateX(obj.x + i), self:translateY(obj.y + i)
       local body = self:makeBody("Warrior", x, y, self.gameData)
       body:setFlock(flock)
       flock:addBoid(body)

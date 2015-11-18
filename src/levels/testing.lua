@@ -705,7 +705,10 @@ return {
           width = 0,
           height = 0,
           visible = true,
-          properties = {}
+          properties = {
+            ["Warriors"] = "3",
+            ["Workers"] = "3"
+          }
         },
         {
           name = "",
@@ -716,7 +719,10 @@ return {
           width = 0,
           height = 0,
           visible = true,
-          properties = {}
+          properties = {
+            ["Warriors"] = "1",
+            ["Workers"] = "6"
+          }
         },
         {
           name = "",
@@ -727,7 +733,10 @@ return {
           width = 0,
           height = 0,
           visible = true,
-          properties = {}
+          properties = {
+            ["Warriors"] = "3",
+            ["Workers"] = "2"
+          }
         }
       }
     },
