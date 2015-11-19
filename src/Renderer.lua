@@ -10,7 +10,7 @@ local Renderer = Class {}
 
 function Renderer:init()
   self.camera = Camera()
-  self.camera.scale = (1/5)
+  self.camera.scale = (1/4)
   self.camera:lookAt(0, 0)  
   self.GU = DrawCommon()
   self.collider = CollisionSystem()
