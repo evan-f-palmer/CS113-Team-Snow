@@ -40,6 +40,15 @@ function Game:init()
   self.projectiles:define("Crystal", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {200,200,200}, speed = 180, lifespan = 13, radius = 30}) 
   
   self.world:loadLevel("src/levels/testing2.lua")
+  
+  if not love.graphics.isSupported("canvas", "npot", "subtractive", "multicanvas") then
+    love.window.showMessageBox("Sorry", "You do not meet the minimum system requirements to play this game.\nOpenGL 2.1+ or DirectX 9.0c+ required", 'info', true)
+    love.event.quit()
+  end
+  
+  if not love.graphics.isSupported("shader") then
+    love.window.showMessageBox("", "Shaders not supported", 'info', true)
+  end
 end
 
 function Game:update(dt)
