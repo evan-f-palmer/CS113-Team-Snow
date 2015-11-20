@@ -16,20 +16,8 @@ function Renderer:init()
   self.collider = CollisionSystem()
   self.combat = Combat()
   
-  self.captureDevice = {
-    loc = {x = 0, y = 0},
-    radius = (ViewportParams.r + 50) / (self.camera.scale),
-    type = "Capture Device",
-  }
-  self.collider:createCollisionObject(self.captureDevice, self.captureDevice.radius)
-
-  self.radarDevice = {
-    loc = {x = 0, y = 0},
-    radius = (ViewportParams.r * 3) / (self.camera.scale),
-    type = "Radar Device",
-  }
-  self.collider:createCollisionObject(self.radarDevice, self.radarDevice.radius)
-
+  self.captureDeviceRadius = (ViewportParams.r + 50) / (self.camera.scale)
+  self.radarDeviceRadius = (ViewportParams.r * 3) / (self.camera.scale)
   
   self.DEFAULT_COLOR = {255,255,255}
   self.TEXT_Y_OFFSET = 2 * self.GU.FONT_SIZE
@@ -45,13 +33,10 @@ function Renderer:draw(xWorld)
   local projectiles = xWorld.projectiles
   local inverseCameraScale = 1/self.camera.scale
   
-  self.captureDevice.loc = xWorld.player.loc
-  self.captureDevice.inView = xWorld.collider:getCollisions(self.captureDevice)
-  local inViewByType = self:getObjectsInViewByType(self.captureDevice.inView)
-  
-  self.radarDevice.loc = xWorld.player.loc
-  self.radarDevice.inView = xWorld.collider:getCollisions(self.radarDevice)
-  local inRadarViewByType = self:getObjectsInViewByType(self.radarDevice.inView)
+  local inCDView = xWorld.player.getRelativeNeighbors(self.captureDeviceRadius)
+  local inViewByType = self:getObjectsInViewByType(inCDView)
+  local inRDView = xWorld.player.getRelativeNeighbors(self.radarDeviceRadius)
+  local inRadarViewByType = self:getObjectsInViewByType(inRDView)
   
   xWorld.gameData.worldCameraScale = self.camera.scale
   xWorld.gameData.forRadar = inRadarViewByType 
@@ -75,24 +60,29 @@ function Renderer:draw(xWorld)
     
     for j = 1, #layerObjects do
       local obj = layerObjects[j]
-      local objRender = obj.render
+      local dir = obj.obj.dir
+      local radius = obj.obj.radius
+      local id = obj.obj.id
+      local type = obj.obj.type
+      local loc = obj.obj.loc
+      local objRender = obj.obj.render
       local image = objRender.image
       if image then
         local color = objRender.color or self.DEFAULT_COLOR
         love.graphics.setColor(color[1], color[2], color[3], color[4])
         local angle = 0
         if objRender.shouldRotate then
-          angle = self.GU:getAngle(obj.dir)
+          angle = self.GU:getAngle(dir)
         end   
-        self.GU:drawRotatedImage(image, obj.loc.x, obj.loc.y, angle)
-        if obj.radius then
-          love.graphics.circle("line", obj.loc.x, obj.loc.y, obj.radius)
+        self.GU:drawRotatedImage(image, obj.x, obj.y, angle)
+        if radius then
+          love.graphics.circle("line", obj.x, obj.y, radius)
         end
       end
   
       love.graphics.setColor(self.TEXT_COLOR[1], self.TEXT_COLOR[2], self.TEXT_COLOR[3], self.TEXT_COLOR[4])
-      self.GU:BEGIN_SCALE(obj.loc, inverseCameraScale)
-        self.GU:centeredText(obj.type .. "\n" .. math.floor(self.combat:getHealthPercent(obj.id) * 100) .. '%' .. "\n" .. math.floor(obj.loc.x) .. ", " .. math.floor(obj.loc.y), obj.loc.x, obj.loc.y + self.TEXT_Y_OFFSET)
+      self.GU:BEGIN_SCALE(loc, inverseCameraScale)
+        self.GU:centeredText(type .. "\n" .. math.floor(self.combat:getHealthPercent(id) * 100) .. '%' .. "\n" .. math.floor(obj.x) .. ", " .. math.floor(obj.y), obj.x, obj.y + self.TEXT_Y_OFFSET)
       self.GU:END()      
     end
   end
@@ -104,7 +94,7 @@ end
 function Renderer:getObjectsInViewByType(xInView)
   local byType = {}
   for k, obj in pairs(xInView) do
-    local type = obj.type
+    local type = obj.type or obj.obj.type
     if not byType[type] then byType[type] = {} end
     table.insert(byType[type], obj)
   end

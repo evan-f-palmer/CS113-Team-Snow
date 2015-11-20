@@ -36,6 +36,9 @@ end
 function Bodies:remove(i)
   local obj = table.remove(self, i)
   self.collider:removeObject(obj)
+  if obj.onDeath then 
+    obj:onDeath() 
+  end
 end
 
 function Bodies:clear()

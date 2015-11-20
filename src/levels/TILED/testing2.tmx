@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="30" height="30" tilewidth="32" tileheight="32" backgroundcolor="#000000">
+ <objectgroup name="Asteroid" width="30" height="30">
+  <object x="247" y="356">
+   <ellipse/>
+  </object>
+  <object x="244" y="328">
+   <ellipse/>
+  </object>
+  <object x="252" y="293">
+   <ellipse/>
+  </object>
+  <object x="293" y="280">
+   <ellipse/>
+  </object>
+  <object x="315" y="306">
+   <ellipse/>
+  </object>
+  <object x="327" y="334">
+   <ellipse/>
+  </object>
+  <object x="340" y="357">
+   <ellipse/>
+  </object>
+  <object x="352" y="383">
+   <ellipse/>
+  </object>
+  <object x="244" y="387">
+   <ellipse/>
+  </object>
+  <object x="271" y="336">
+   <ellipse/>
+  </object>
+  <object x="295" y="334">
+   <ellipse/>
+  </object>
+  <object x="720" y="255">
+   <ellipse/>
+  </object>
+  <object x="710" y="287">
+   <ellipse/>
+  </object>
+  <object x="698" y="309">
+   <ellipse/>
+  </object>
+  <object x="690" y="333">
+   <ellipse/>
+  </object>
+  <object x="680" y="363">
+   <ellipse/>
+  </object>
+  <object x="674" y="383">
+   <ellipse/>
+  </object>
+  <object x="693" y="396">
+   <ellipse/>
+  </object>
+  <object x="721" y="404">
+   <ellipse/>
+  </object>
+  <object x="764" y="353">
+   <ellipse/>
+  </object>
+  <object x="734" y="331">
+   <ellipse/>
+  </object>
+  <object x="759" y="324">
+   <ellipse/>
+  </object>
+  <object x="793" y="320">
+   <ellipse/>
+  </object>
+  <object x="800" y="289">
+   <ellipse/>
+  </object>
+  <object x="787" y="260">
+   <ellipse/>
+  </object>
+  <object x="751" y="232">
+   <ellipse/>
+  </object>
+  <object x="721" y="222">
+   <ellipse/>
+  </object>
+  <object x="775" y="248">
+   <ellipse/>
+  </object>
+  <object x="774" y="377">
+   <ellipse/>
+  </object>
+  <object x="750" y="402">
+   <ellipse/>
+  </object>
+  <object x="359" y="588">
+   <ellipse/>
+  </object>
+  <object x="330" y="581">
+   <ellipse/>
+  </object>
+  <object x="303" y="585">
+   <ellipse/>
+  </object>
+  <object x="284" y="599">
+   <ellipse/>
+  </object>
+  <object x="273" y="620">
+   <ellipse/>
+  </object>
+  <object x="273" y="646">
+   <ellipse/>
+  </object>
+  <object x="279" y="670">
+   <ellipse/>
+  </object>
+  <object x="292" y="691">
+   <ellipse/>
+  </object>
+  <object x="316" y="701">
+   <ellipse/>
+  </object>
+  <object x="346" y="701">
+   <ellipse/>
+  </object>
+  <object x="377" y="692">
+   <ellipse/>
+  </object>
+  <object x="624" y="551">
+   <ellipse/>
+  </object>
+  <object x="620" y="571">
+   <ellipse/>
+  </object>
+  <object x="618" y="589">
+   <ellipse/>
+  </object>
+  <object x="614" y="605">
+   <ellipse/>
+  </object>
+  <object x="608" y="631">
+   <ellipse/>
+  </object>
+  <object x="605" y="650">
+   <ellipse/>
+  </object>
+  <object x="598" y="675">
+   <ellipse/>
+  </object>
+  <object x="589" y="696">
+   <ellipse/>
+  </object>
+  <object x="613" y="702">
+   <ellipse/>
+  </object>
+  <object x="637" y="700">
+   <ellipse/>
+  </object>
+  <object x="661" y="693">
+   <ellipse/>
+  </object>
+  <object x="686" y="677">
+   <ellipse/>
+  </object>
+  <object x="706" y="653">
+   <ellipse/>
+  </object>
+  <object x="647" y="546">
+   <ellipse/>
+  </object>
+  <object x="665" y="562">
+   <ellipse/>
+  </object>
+  <object x="686" y="575">
+   <ellipse/>
+  </object>
+  <object x="695" y="598">
+   <ellipse/>
+  </object>
+  <object x="705" y="624">
+   <ellipse/>
+  </object>
+  <object x="268" y="259">
+   <ellipse/>
+  </object>
+  <object x="241" y="408">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="Squad" width="30" height="30">
+  <object x="477" y="212">
+   <properties>
+    <property name="Warriors" value="3"/>
+    <property name="Workers" value="3"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object x="650" y="635">
+   <properties>
+    <property name="Warriors" value="1"/>
+    <property name="Workers" value="6"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object x="103" y="833">
+   <properties>
+    <property name="Warriors" value="3"/>
+    <property name="Workers" value="2"/>
+   </properties>
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="Locale" width="30" height="30">
+  <object name="C" x="480" y="480">
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>

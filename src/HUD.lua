@@ -168,9 +168,11 @@ function HUD:drawRadar(toDisplayOnRadarByType, draw)
       local color = self.RADAR_COLORS[typeToDraw]
       love.graphics.setColor(color[1], color[2], color[3], color[4])
       for k, object in pairs(layerObjects) do
-        local distSqr = math.pow(object.loc.x - player.loc.x, 2) + math.pow(object.loc.y - player.loc.y, 2)
+        local objloc = object
+        local playerloc = player
+        local distSqr = math.pow(objloc.x - playerloc.x, 2) + math.pow(objloc.y - playerloc.y, 2)
         if distSqr >= (draw.minimumDistance * draw.minimumDistance) then
-          local angle = math.atan2(object.loc.y - player.loc.y, object.loc.x - player.loc.x)
+          local angle = math.atan2(objloc.y - playerloc.y, objloc.x - playerloc.x)
           local dist = math.sqrt(distSqr)
           local segmentWidth = draw.segmentSize / (dist/draw.distanceTaperDivisor) 
           local angle1, angle2 = angle - segmentWidth/2, angle + segmentWidth/2

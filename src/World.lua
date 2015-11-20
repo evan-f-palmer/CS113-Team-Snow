@@ -24,7 +24,6 @@ function World:init(playerInput, gameData, projectiles)
   self.bodies:setCollider(self.collider)  
   self.flocks = {}
 
-  self.collider:createCollisionObject(self.player, self.player.radius)
 end
 
 function World:respawnPlayer()
@@ -34,15 +33,19 @@ function World:respawnPlayer()
     self.gameData:decrementLives()
     self.player:respawn()
   end
+  self.collider:createCollisionObject(self.player, self.player.radius)
 end
 
 function World:loadLevel(xLevelFileName)
   local level = dofile(xLevelFileName)  
   local layers = self:getLayers(level)  
   self:unload()
-  
+    
   self.width = level.width * level.tilewidth
   self.height = level.height * level.tileheight
+  self.collider:setWidth(self.width * World.levelScale)
+  self.collider:setHeight(self.height * World.levelScale)
+  
   self:spawnAllFromAsType(layers["Asteroid"], "Asteroid")
   self:spawnSquads(layers["Squad"])
   self:respawnPlayer()
@@ -51,10 +54,13 @@ end
 function World:unload()
   self.projectiles:clear()
   self.bodies:clear()
+  if self.collider:isHandling(self.player) then
+    self.collider:removeObject(self.player)
+  end
 end
 
 function World:update(dt)
-  self:updateAllWorldObjects(dt)
+  self:updateAllWorldObjects(dt)  
   self:moveAllWorldObjects(dt)
   self.collider:update()
 end
@@ -69,8 +75,8 @@ function World:updateAllWorldObjects(dt)
 end
 
 local function move(xBody, dt)
-  local vel = (xBody.vel) * (dt) 
-  xBody.loc:add_inplace(vel) 
+  local vel = (xBody.vel) * (dt)
+  xBody.loc:add_inplace(vel)
 end
 
 function World:moveAllWorldObjects(dt)
