@@ -49,6 +49,9 @@ function Renderer:draw(xWorld)
   -- THE ORIGIN
   love.graphics.setColor(255, 0, 0)
   love.graphics.circle("fill", 0, 0, 30, 20)
+  
+  love.graphics.rectangle("line", -7200, -7200, 14400, 14400)
+  
   love.graphics.setColor(255,255,255)
   self.GU:BEGIN_SCALE({x = 0, y = 0}, inverseCameraScale)
     self.GU:centeredText("ORIGIN", 0, self.TEXT_Y_OFFSET)
