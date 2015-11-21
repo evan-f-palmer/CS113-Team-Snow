@@ -26,7 +26,7 @@ function Player:init(gameData, playerInput)
   self.loc = Vector(0, 0)
   self.vel = Vector(0, 0)
   self.dir = Vector(0, 0)
-  self.maxSpeed = 2250
+  self.maxSpeed = 1750
   self.radius = 70
   self.primaryFireOffset = 30
   
@@ -62,7 +62,7 @@ function Player:update(dt)
     if self.combat:canFire("Player Secondary") then
       self.soundSystem:play("sound/laser.ogg")
     end
-    self.combat:fire("Player Secondary", self.loc, self.dir)
+    self.combat:fire("Player Secondary", self.loc, -self.dir)
   end
   
   if self.playerInput.secondaryWeaponFire and self.combat:isOutOfAmmo("Player Secondary") then
