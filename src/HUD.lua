@@ -80,7 +80,7 @@ function HUD:draw(gameData)
   --love.graphics.draw(self.background, 0, 0, rotation, width, height) 
   --love.graphics.setShader(self.bloomShader)
 
-  love.graphics.setColor(255,255,255)
+  love.graphics.setColor(unpack(WHITE))
   love.graphics.circle("line", self.layout.viewport.x, self.layout.viewport.y, self.layout.viewport.r)
     
   local HUDcolor = self:getHeadsUpDisplayColor()
@@ -99,8 +99,7 @@ function HUD:draw(gameData)
   self:drawRadar(gameData.forRadar, self.radarDrawData)
   self:drawHealthBar(gameData.health)
   
-  
-  love.graphics.setColor(255,255,255)
+  love.graphics.setColor(unpack(WHITE))
   self.GU:centeredText(gameData.lives, self.layout.lives.x, self.layout.lives.y)
   self.GU:centeredText("LIVES", self.layout.lives.x, self.layout.lives.y + self.textOffset)  
   self.GU:centeredText(math.floor(gameData.health * 100)..'%', self.layout.health.x + self.layout.health.w/2, self.layout.health.y + self.layout.health.h/2)

@@ -44,4 +44,19 @@ return {
       sinibomb = 10,
     }
   },
+  playerBullet = {
+    speed = 3200, lifespan = 3, radius = 4,
+  },
+  sinibomb = {
+    speed = 100, lifespan = 5, radius = 25,
+  },
+  workerBullet = {
+    speed = 1200, lifespan = 2, radius = 5,
+  },
+  warriorBullet = {
+    speed = 2200, lifespan = 3, radius = 5,
+  },
+  crystal = {
+    speed = 180, lifespan = 8, radius = 30,
+  },
 }

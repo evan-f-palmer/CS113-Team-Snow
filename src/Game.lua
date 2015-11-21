@@ -9,6 +9,7 @@ local Projectiles  = require('Projectiles')
 local Combat       = require('Combat')
 local SoundSystem  = require('SoundSystem')
 local GameIOController = require('GameIOController')
+local EntityParams = require('EntityParams')
 
 local Game = Class{}
 
@@ -32,16 +33,15 @@ function Game:init()
  -- self.soundSystem:playMusic("music/TheFatRat-Dancing-Naked.mp3")
   
   self.projectiles = Projectiles()
-  self.projectiles:define("Player Bullet", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {0,180,50}, speed = 3200, lifespan = 3})
-  self.projectiles:define("Sinibomb", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {180,50,0}, speed = 100, lifespan = 5, radius = 25})
-  self.projectiles:define("Worker Bullet", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {115,115,0}, speed = 1200, lifespan = 2}) 
-  self.projectiles:define("Warrior Bullet", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {200,100,0}, speed = 2200, lifespan = 3})
-  self.projectiles:define("Crystal", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {200,200,200}, speed = 180, lifespan = 8, radius = 30}) 
+  self.projectiles:define("Player Bullet", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {0,180,50}, speed = EntityParams.playerBullet.speed, lifespan = EntityParams.playerBullet.lifespan, radius = EntityParams.playerBullet.radius})
+  self.projectiles:define("Sinibomb", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {180,50,0}, speed = EntityParams.sinibomb.speed, lifespan = EntityParams.sinibomb.lifespan, radius = EntityParams.sinibomb.radius})
+  self.projectiles:define("Worker Bullet", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {115,115,0}, speed = EntityParams.workerBullet.speed, lifespan = EntityParams.workerBullet.lifespan, radius = EntityParams.workerBullet.radius}) 
+  self.projectiles:define("Warrior Bullet", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {200,100,0}, speed = EntityParams.warriorBullet.speed, lifespan = EntityParams.warriorBullet.lifespan, radius = EntityParams.warriorBullet.radius})
+  self.projectiles:define("Crystal", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {200,200,200}, speed = EntityParams.crystal.speed, lifespan = EntityParams.crystal.lifespan, radius = EntityParams.crystal.radius}) 
   
   local levelFileName = "src/levels/testing2.lua"
   self.world:loadLevel(levelFileName)
   self.alertMachine:set({message = levelFileName, lifespan = 3})
-  
   
   if not love.graphics.isSupported("canvas", "npot", "subtractive", "multicanvas") then
     love.window.showMessageBox("Sorry", "You do not meet the minimum system requirements to play this game.\nOpenGL 2.1+ or DirectX 9.0c+ required", 'info', true)
