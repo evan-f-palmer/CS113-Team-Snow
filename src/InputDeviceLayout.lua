@@ -10,7 +10,7 @@ return {
   movementJoystick = {
     x = width/2,
     y = height/2,
-    minR = 75,
+    minR = 95,
     maxR = math.huge,
   },
 }
