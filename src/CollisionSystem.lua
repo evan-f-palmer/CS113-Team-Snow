@@ -12,37 +12,28 @@ local HC_SCALE = 100
 function CollisionSystem:init()
   self.hc = HC(HC_SCALE)
   self.collisionObjects = {}
-  self.width, self.height = HC_SCALE, HC_SCALE
-  self.xTranslate, self.yTranslate = HC_SCALE / 2, HC_SCALE / 2 
   self:setWidth(HC_SCALE)
   self:setHeight(HC_SCALE)
 end
 
 function CollisionSystem:setWidth(xWidth)
-  self.xScale = (HC_SCALE / xWidth)
-  self.invxScale = 1 / self.xScale
-  
-  self.xTranslate = xWidth/2 -- ZZZ
-  self.width = xWidth -- ZZZ
+  self.width = xWidth
+  self.xTranslate = xWidth/2
 end
 
 function CollisionSystem:setHeight(xHeight)
-  self.yScale = (HC_SCALE / xHeight)
-  self.invyScale = 1 / self.yScale
-  
-  self.yTranslate = xHeight/2 -- ZZZ
-  self.height = xHeight -- ZZZ
+  self.height = xHeight
+  self.yTranslate = xHeight/2
 end
 
 function CollisionSystem:createCollisionObject(metaObject, radius)
   local collisionObject = {}
   self.collisionObjects[metaObject] = collisionObject
-  local scaledRadius = self:toColliderRadius(radius) 
   metaObject.loc = metaObject.loc or {x = 0, y = 0} 
   metaObject.onCollision = metaObject.onCollision or EMPTY_FUNCTION
-  collisionObject[MainObject] = self.hc:circle(0, 0, scaledRadius)
+  collisionObject[MainObject] = self.hc:circle(0, 0, radius)
   collisionObject[MainObject].metaObject = metaObject
-  collisionObject[TwinObject] = self.hc:circle(0, 0, scaledRadius)
+  collisionObject[TwinObject] = self.hc:circle(0, 0, radius)
   collisionObject[TwinObject].metaObject = metaObject
   self:moveCollisionObject(collisionObject, metaObject.loc)
   self:worldWrap(metaObject)
@@ -66,7 +57,6 @@ function CollisionSystem:createCollisionObject(metaObject, radius)
     local ox, oy = otherCollisionObject[MainObject]:center()        
     local x, y = (ox - mx), (oy - my) -- Relative space
     x, y = self:getClosestTranslationToOrigin(x, y)
-    x, y = self:toWorldCoordinate(x, y)
     return x, y
   end
 end
@@ -113,7 +103,7 @@ local function closerToOriginComparitor(A, B)
 end
 
 function CollisionSystem:moveCollisionObject(collisionObject, newLoc)
-  local cX, cY = self:toColliderCoordinate(newLoc.x, newLoc.y)
+  local cX, cY = newLoc.x, newLoc.y
   local twinX, twinY = self:getTwinLoc(cX, cY)
   
   collisionObject[MainObject]:moveTo(cX, cY)
@@ -135,24 +125,6 @@ function CollisionSystem:updateCollisions(collisionObject)
 end
 
 -- private
-function CollisionSystem:toColliderRadius(r)
-  return r -- ZZZ
-  --return r * math.max(self.xScale, self.yScale)
-end
-
--- private
-function CollisionSystem:toColliderCoordinate(x, y)
-  return x,y -- ZZZ
-  --return x * self.xScale, y * self.yScale
-end
-
--- private
-function CollisionSystem:toWorldCoordinate(x, y)
-  return x,y -- ZZZ
-  --return x * self.invxScale, y * self.invyScale
-end
-
--- private
 function CollisionSystem:getTwinLoc(x, y)
   if x < 0 then
     x = x + self.xTranslate
@@ -169,8 +141,7 @@ end
 
 -- private
 function CollisionSystem:worldWrap(metaObject)
-  local collisionObject = self.collisionObjects[metaObject]
-  metaObject.loc.x, metaObject.loc.y = self:toWorldCoordinate(collisionObject[MainObject]:center())
+  metaObject.loc.x, metaObject.loc.y = self.collisionObjects[metaObject][MainObject]:center()
 end
 
 -- private
