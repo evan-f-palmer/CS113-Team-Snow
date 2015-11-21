@@ -11,7 +11,7 @@ local Renderer = Class {}
 
 function Renderer:init()
   self.camera = Camera()
-  self.camera.scale = (1/4)
+  self.camera.scale = RendererParams.cameraScale
   self.camera:lookAt(0, 0)  
   self.GU = DrawCommon()
   self.collider = CollisionSystem()
@@ -38,9 +38,7 @@ function Renderer:draw(xWorld)
   local inCDView = player.getNeighbors(self.captureRadius)
   local inViewByType = self:getObjectsInViewByType(inCDView)
   local inRDView = player.getNeighbors(self.radarRadius)
-  local inRadarViewByType = self:getObjectsInViewByType(inRDView)
-  
-  xWorld.gameData.worldCameraScale = self.camera.scale
+  local inRadarViewByType = self:getObjectsInViewByType(inRDView)  
   xWorld.gameData.forRadar = inRadarViewByType 
   
   -- ALWAYS LOOK AT THE PLAYER

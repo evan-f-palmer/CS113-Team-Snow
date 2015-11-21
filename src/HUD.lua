@@ -7,6 +7,7 @@ local InputDeviceLayout = require("InputDeviceLayout")
 local ViewportParams = require("ViewportParams")
 local FontParams = require("FontParams")
 local HUDLayout = require("HUDLayout")
+local RendererParams = require("RendererParams")
 
 local ALERT_DIM_COLOR = {150,150,150,200}
 
@@ -69,7 +70,7 @@ end
 function HUD:draw(gameData)
   self.camera:attach()
   
-  self.radarDrawData.minimumDistance = self.radarDrawData.radius / gameData.worldCameraScale
+  self.radarDrawData.minimumDistance = self.radarDrawData.radius / RendererParams.cameraScale
   
   local screenWidth  = love.graphics.getWidth()
   local screenHeight = love.graphics.getHeight()    
