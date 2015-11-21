@@ -11,7 +11,6 @@ GameData.asteroidKillValue = 50
 GameData.secondaryWeaponWarmupTime = 2
 
 GameData.startingLives = 3
-GameData.startingHealth = 100
 GameData.damageFromCollisionWithSinistar = 1000
 GameData.damageFromCollisionWithWarriorBullet = 5
 GameData.damageFromCollisionWithWorkerBullet = 1

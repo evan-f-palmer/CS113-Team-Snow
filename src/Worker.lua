@@ -3,14 +3,16 @@ local Vector = require('hump.vector')
 local Boid   = require('Boid')
 local Heap   = require('Heap')
 local Combat = require('Combat')
+local EntityParams = require('EntityParams')
 
 local Worker = Class{__includes = Boid}
-
-Worker.MAX_SPEED = 20000
-Worker.MAX_FORCE = 100000
-Worker.type = "Worker"
 Worker.count = 0
-Worker.sightRadius = 2000
+Worker.type = "Worker"
+Worker.MAX_SPEED = 20000  * EntityParams.worker.maxSpeedScale
+Worker.MAX_FORCE = 100000 * EntityParams.worker.maxForceScale
+Worker.sightRadius = EntityParams.worker.sightRadius
+Worker.radius = EntityParams.worker.radius
+Worker.minDistance2 = math.pow(EntityParams.worker.closestProximity, 2)
 
 Worker.render = {
   image = love.graphics.newImage("assets/worker.png"),
@@ -25,15 +27,13 @@ function Worker:init(gameData)
   self.currentTarget  = nil
   self.previousTarget = nil
   self.render = Worker.render
-  self.minDistance2 = math.pow(300, 2)
   self.shouldFire = nil
-  self.radius = 70
   
   self.id = "Worker:" .. Worker.count
   Worker.count = Worker.count + 1
   self.combat = Combat()
-  self.combat:addCombatant(self.id, {health = 40})
-  self.combat:addWeapon(self.id .. " Weapon", {ammo = math.huge, projectileID = "Worker Bullet", debounceTime = 5.6})
+  self.combat:addCombatant(self.id, {health = EntityParams.worker.health})
+  self.combat:addWeapon(self.id, {ammo = math.huge, projectileID = "Worker Bullet", debounceTime = EntityParams.worker.fireDebounce})
 end
 
 function Worker:setFlock(xFlock)
@@ -47,11 +47,11 @@ function Worker:update(dt)
   if self.currentTarget and self.shouldFire then 
     if self.currentTarget.type == "Player" then
       local angle = self:pursue(self.currentTarget)
-      self.combat:fire(self.id .. " Weapon", self.loc, angle, self.vel)
+      self.combat:fire(self.id, self.loc, angle, self.vel)
     else
       -- Need more logic here for asteroid mining
       local angle = self:seek(self.currentTarget.loc)
-      self.combat:fire(self.id .. " Weapon", self.loc, angle, self.vel)
+      self.combat:fire(self.id, self.loc, angle, self.vel)
     end
   end
   

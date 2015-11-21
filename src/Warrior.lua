@@ -3,14 +3,17 @@ local Vector = require('hump.vector')
 local Boid   = require('Boid')
 local Heap   = require('Heap')
 local Combat = require('Combat')
+local EntityParams = require('EntityParams')
 
 local Warrior = Class{__includes = Boid}
-
-Warrior.MAX_SPEED = 20000
-Warrior.MAX_FORCE = 100000
-Warrior.type = "Warrior"
 Warrior.count = 0
-Warrior.sightRadius = 2000
+Warrior.type = "Warrior"
+Warrior.MAX_SPEED = 20000  * EntityParams.warrior.maxSpeedScale
+Warrior.MAX_FORCE = 100000 * EntityParams.warrior.maxForceScale
+Warrior.sightRadius = EntityParams.warrior.sightRadius
+Warrior.radius = EntityParams.warrior.radius
+Warrior.maxDistanceFromFlock = EntityParams.warrior.maxDistanceFromFlock
+Warrior.minDistance2 = math.pow(EntityParams.warrior.closestProximity, 2)
 
 Warrior.render = {
   image = love.graphics.newImage("assets/warrior.png"),
@@ -25,16 +28,13 @@ function Warrior:init(gameData)
   self.currentTarget  = nil
   self.previousTarget = nil
   self.render = Warrior.render
-  self.minDistance2 = math.pow(300, 2)
   self.shouldFire = nil
-  self.maxDistanceFromFlock = 1000
-  self.radius = 70
   
   self.id = "Warrior:" .. Warrior.count
   Warrior.count = Warrior.count + 1
   self.combat = Combat()
-  self.combat:addCombatant(self.id, {health = 60})
-  self.combat:addWeapon(self.id .. " Weapon", {ammo = math.huge, projectileID = "Warrior Bullet", debounceTime = 3})
+  self.combat:addCombatant(self.id, {health = EntityParams.warrior.health})
+  self.combat:addWeapon(self.id, {ammo = math.huge, projectileID = "Warrior Bullet", debounceTime = EntityParams.warrior.fireDebounce})
 end
 
 function Warrior:setFlock(xFlock)
@@ -47,7 +47,7 @@ function Warrior:update(dt)
   
   if self.currentTarget  then 
     local angle = self:pursue(self.currentTarget)
-    self.combat:fire(self.id .. " Weapon", self.loc, angle, self.vel)
+    self.combat:fire(self.id, self.loc, angle, self.vel)
   end
   
   self.isDead = self.combat:isDead(self.id)

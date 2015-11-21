@@ -3,6 +3,7 @@ local Vector = require('hump.vector')
 local AlertMachine = require('AlertMachine')
 local Combat = require('Combat')
 local SoundSystem = require('SoundSystem')
+local EntityParams = require('EntityParams')
 
 local PRIMARY_FIRE_MESSAGE   = {message = "[Primary Fire]", lifespan = 0.5}
 local SECONDARY_FIRE_MESSAGE = {message = "[Secondary Fire]", lifespan = 0.5}
@@ -10,6 +11,9 @@ local OUT_OF_SINIBOMBS_ALERT = {message = "[Out of Sinibombs]", lifespan = 1.5, 
 
 local Player = Class{}
 Player.type = "Player"
+Player.maxSpeed = EntityParams.player.maxSpeed
+Player.radius = EntityParams.player.radius
+Player.primaryFireOffset = EntityParams.player.primaryFireOffset
 
 Player.variations = {
   {
@@ -26,14 +30,10 @@ function Player:init(gameData, playerInput)
   self.loc = Vector(0, 0)
   self.vel = Vector(0, 0)
   self.dir = Vector(0, 0)
-  self.maxSpeed = 1750
-  self.radius = 70
-  self.primaryFireOffset = 30
-  
   self.id = "Player"
   
   self.combat = Combat()
-  self.combat:addCombatant("Player", {health = self.gameData.startingHealth})
+  self.combat:addCombatant("Player", {health = EntityParams.player.health})
   self.combat:addWeapon("Player Primary R", {ammo = math.huge, projectileID = "Player Bullet", debounceTime = 0.1})
   self.combat:addWeapon("Player Primary L", {ammo = math.huge, projectileID = "Player Bullet", debounceTime = 0.1})
   self.combat:addWeapon("Player Secondary", {ammo = 0, projectileID = "Sinibomb", debounceTime = 1, maxAmmo = 12})
@@ -106,7 +106,7 @@ function Player:onCollision(other)
 end
 
 function Player:respawn()
-  self.combat:addCombatant("Player", {health = self.gameData.startingHealth})
+  self.combat:addCombatant("Player", {health = EntityParams.player.health})
   self.isDead = self.combat:isDead("Player")
 end
 
