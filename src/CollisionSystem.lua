@@ -6,17 +6,8 @@ local CollisionSystem = Class {}
 
 local MainObject = 'main'
 local TwinObject = 'twin'
-
 local EMPTY_FUNCTION = function() end
 local HC_SCALE = 100
-local closerToOriginComparitor
---[[
-The metaObject passed in needs a loc with an x and y
-and needs an onCollision(metaObject) for collisions
-
-It will inject a getNeighbors function that returns the metaObjects
-that are neighboring this object
---]]
 
 function CollisionSystem:init()
   self.hc = HC(HC_SCALE)
@@ -43,44 +34,11 @@ function CollisionSystem:setHeight(xHeight)
   self.height = xHeight -- ZZZ
 end
 
-function CollisionSystem:closestPairToOrigin(...)
-  local points = {...}
-  local closestX, closestY
-  local minDistanceSqr = math.huge
-  for i = 1, #points, 2 do
-    local x, y = points[i], points[i+1]
-    local distSqr = (x*x) + (y*y)
-    if distSqr < minDistanceSqr then
-      minDistanceSqr = distSqr
-      closestX, closestY = x, y
-    end
-  end
-  return closestX, closestY
-end
-
-function CollisionSystem:getClosestTranslationToOrigin(x, y)    
-    x, y = self:closestPairToOrigin(
-      x,                   y,
-      x,                   y + self.height, 
-      x - self.xTranslate, y + self.yTranslate,
-      x + self.xTranslate, y + self.yTranslate, 
-      x,                   y - self.height,
-      x,                   y + self.yTranslate,
-      x,                   y - self.yTranslate,
-      x + self.width,      y, 
-      x + self.xTranslate, y - self.yTranslate,
-      x - self.xTranslate, y - self.yTranslate,
-      x - self.width,      y,
-      x - self.xTranslate, y,
-      x + self.xTranslate, y
-    )
-    return x, y
-end
-
 function CollisionSystem:createCollisionObject(metaObject, radius)
   local collisionObject = {}
   self.collisionObjects[metaObject] = collisionObject
-  local scaledRadius = self:toColliderRadius(radius)  
+  local scaledRadius = self:toColliderRadius(radius) 
+  metaObject.loc = metaObject.loc or {x = 0, y = 0} 
   metaObject.onCollision = metaObject.onCollision or EMPTY_FUNCTION
   collisionObject[MainObject] = self.hc:circle(0, 0, scaledRadius)
   collisionObject[MainObject].metaObject = metaObject
@@ -113,6 +71,18 @@ function CollisionSystem:createCollisionObject(metaObject, radius)
   end
 end
 
+function CollisionSystem:removeObject(metaObject)
+  for _, shape in pairs(self.collisionObjects[metaObject]) do
+    self.hc:remove(shape)
+  end
+  metaObject.getNeighbors = nil
+  self.collisionObjects[metaObject] = nil
+end
+
+function CollisionSystem:isHandling(metaObject)
+  return self.collisionObjects[metaObject] ~= nil
+end
+
 function CollisionSystem:update()
   for metaObject, collisionObject in pairs(self.collisionObjects) do
     if self:hasMoved(collisionObject, metaObject.loc) then
@@ -123,9 +93,23 @@ function CollisionSystem:update()
   end
 end
 
+-- private
 function CollisionSystem:hasMoved(collisionObject, location)
   local centerX, centerY = collisionObject[MainObject]:center()
   return centerX ~= location.x or centerY ~= location.y
+end
+
+-- private
+local function closerToOriginComparitor(A, B)
+  local Ax, Ay = A:center()
+  local Bx, By = B:center()
+  local AdistSqr = (Ax)*(Ax) + (Ay)*(Ay)
+  local BdistSqr = (Bx)*(Bx) + (By)*(By)
+  if AdistSqr < BdistSqr then
+    return A, B
+  else
+    return B, A
+  end
 end
 
 function CollisionSystem:moveCollisionObject(collisionObject, newLoc)
@@ -139,18 +123,7 @@ function CollisionSystem:moveCollisionObject(collisionObject, newLoc)
   collisionObject[MainObject], collisionObject[TwinObject] = newMain, newTwin  
 end
 
-function closerToOriginComparitor(A, B)
-  local Ax, Ay = A:center()
-  local Bx, By = B:center()
-  local AdistSqr = (Ax)*(Ax) + (Ay)*(Ay)
-  local BdistSqr = (Bx)*(Bx) + (By)*(By)
-  if AdistSqr < BdistSqr then
-    return A, B
-  else
-    return B, A
-  end
-end
-
+-- private
 function CollisionSystem:updateCollisions(collisionObject)
   for _, neighbor in pairs(self.hc:neighbors(collisionObject[MainObject])) do
     local collides, dx, dy = collisionObject[MainObject]:collidesWith(neighbor)
@@ -161,43 +134,25 @@ function CollisionSystem:updateCollisions(collisionObject)
   end
 end
 
-function CollisionSystem:removeObject(metaObject)
-  for _, shape in pairs(self.collisionObjects[metaObject]) do
-    self.hc:remove(shape)
-  end
-  metaObject.getNeighbors = nil
-  self.collisionObjects[metaObject] = nil
-end
-
-function CollisionSystem:isHandling(metaObject)
-  return self.collisionObjects[metaObject] ~= nil
-end
-
-function CollisionSystem:getCollisions(metaObject)
-  local collisions = {}
-  for object, collision in pairs(self.hc:collisions(self.collisionObjects[metaObject][MainObject])) do
-    if collision then
-      collisions[#collisions + 1] = object.metaObject
-    end
-  end
-  return collisions
-end
-
+-- private
 function CollisionSystem:toColliderRadius(r)
   return r -- ZZZ
   --return r * math.max(self.xScale, self.yScale)
 end
 
+-- private
 function CollisionSystem:toColliderCoordinate(x, y)
   return x,y -- ZZZ
   --return x * self.xScale, y * self.yScale
 end
 
+-- private
 function CollisionSystem:toWorldCoordinate(x, y)
   return x,y -- ZZZ
   --return x * self.invxScale, y * self.invyScale
 end
 
+-- private
 function CollisionSystem:getTwinLoc(x, y)
   if x < 0 then
     x = x + self.xTranslate
@@ -212,9 +167,46 @@ function CollisionSystem:getTwinLoc(x, y)
   return x, y
 end
 
+-- private
 function CollisionSystem:worldWrap(metaObject)
   local collisionObject = self.collisionObjects[metaObject]
   metaObject.loc.x, metaObject.loc.y = self:toWorldCoordinate(collisionObject[MainObject]:center())
+end
+
+-- private
+function CollisionSystem:closestPairToOrigin(...)
+  local points = {...}
+  local closestX, closestY
+  local minDistanceSqr = math.huge
+  for i = 1, #points, 2 do
+    local x, y = points[i], points[i+1]
+    local distSqr = (x*x) + (y*y)
+    if distSqr < minDistanceSqr then
+      minDistanceSqr = distSqr
+      closestX, closestY = x, y
+    end
+  end
+  return closestX, closestY
+end
+
+-- private
+function CollisionSystem:getClosestTranslationToOrigin(x, y)    
+    x, y = self:closestPairToOrigin(
+      x,                   y,
+      x,                   y + self.height, 
+      x - self.xTranslate, y + self.yTranslate,
+      x + self.xTranslate, y + self.yTranslate, 
+      x,                   y - self.height,
+      x,                   y + self.yTranslate,
+      x,                   y - self.yTranslate,
+      x + self.width,      y, 
+      x + self.xTranslate, y - self.yTranslate,
+      x - self.xTranslate, y - self.yTranslate,
+      x - self.width,      y,
+      x - self.xTranslate, y,
+      x + self.xTranslate, y
+    )
+    return x, y
 end
 
 return Singleton(CollisionSystem)
