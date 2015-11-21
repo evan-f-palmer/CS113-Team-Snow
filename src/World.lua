@@ -41,10 +41,10 @@ function World:loadLevel(xLevelFileName)
   local layers = self:getLayers(level)  
   self:unload()
     
-  self.width = level.width * level.tilewidth
-  self.height = level.height * level.tileheight
-  self.collider:setWidth(self.width * World.levelScale)
-  self.collider:setHeight(self.height * World.levelScale)
+  self.width = (level.width * level.tilewidth * World.levelScale)
+  self.height = (level.height * level.tileheight * World.levelScale)
+  self.collider:setWidth(self.width)
+  self.collider:setHeight(self.height)
   
   self:spawnAllFromAsType(layers["Asteroid"], "Asteroid")
   self:spawnSquads(layers["Squad"])
@@ -110,11 +110,11 @@ function World:getLayers(xLevel)
 end
 
 function World:translateX(x)
-  return (x - (self.width/2)) * World.levelScale
+  return (x - (self.width/World.levelScale/2)) * World.levelScale
 end
 
 function World:translateY(y)
-  return (y - (self.height/2)) * World.levelScale
+  return (y - (self.height/World.levelScale/2)) * World.levelScale
 end
 
 function World:spawnAllFromAsType(xSpawnLayer, xType)

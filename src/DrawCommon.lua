@@ -26,11 +26,11 @@ function DrawCommon:drawRotatedImage(image, centerX, centerY, angle)
   self:END()
 end
 
-function DrawCommon:BEGIN_SCALE(xLoc, xScale)
+function DrawCommon:BEGIN_SCALE(x, y, xScale)
   love.graphics.push()
-  love.graphics.translate(xLoc.x, xLoc.y)
+  love.graphics.translate(x, y)
   love.graphics.scale(xScale, xScale)
-  love.graphics.translate(-xLoc.x, -xLoc.y)
+  love.graphics.translate(-x, -y)
 end
 
 function DrawCommon:BEGIN_SCREENSPACE(xCamera)

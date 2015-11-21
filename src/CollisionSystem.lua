@@ -32,6 +32,7 @@ function CollisionSystem:setWidth(xWidth)
   self.invxScale = 1 / self.xScale
   
   self.xTranslate = xWidth/2 -- ZZZ
+  self.width = xWidth -- ZZZ
 end
 
 function CollisionSystem:setHeight(xHeight)
@@ -39,6 +40,41 @@ function CollisionSystem:setHeight(xHeight)
   self.invyScale = 1 / self.yScale
   
   self.yTranslate = xHeight/2 -- ZZZ
+  self.height = xHeight -- ZZZ
+end
+
+function CollisionSystem:closestPairToOrigin(...)
+  local points = {...}
+  local closestX, closestY
+  local minDistanceSqr = math.huge
+  for i = 1, #points, 2 do
+    local x, y = points[i], points[i+1]
+    local distSqr = (x*x) + (y*y)
+    if distSqr < minDistanceSqr then
+      minDistanceSqr = distSqr
+      closestX, closestY = x, y
+    end
+  end
+  return closestX, closestY
+end
+
+function CollisionSystem:getClosestTranslationToOrigin(x, y)    
+    x, y = self:closestPairToOrigin(
+      x,                   y,
+      x,                   y + self.height, 
+      x - self.xTranslate, y + self.yTranslate,
+      x + self.xTranslate, y + self.yTranslate, 
+      x,                   y - self.height,
+      x,                   y + self.yTranslate,
+      x,                   y - self.yTranslate,
+      x + self.width,      y, 
+      x + self.xTranslate, y - self.yTranslate,
+      x - self.xTranslate, y - self.yTranslate,
+      x - self.width,      y,
+      x - self.xTranslate, y,
+      x + self.xTranslate, y
+    )
+    return x, y
 end
 
 function CollisionSystem:createCollisionObject(metaObject, radius)
@@ -56,28 +92,24 @@ function CollisionSystem:createCollisionObject(metaObject, radius)
   metaObject['getNeighbors'] = function(sightRadius)
     local neighbors = {}    
     local mx, my = collisionObject[MainObject]:center()
+    local tx, ty = collisionObject[TwinObject]:center()
+    for neighbor, _ in pairs(self.hc:circleCollisions(tx, ty, sightRadius)) do
+      neighbors[neighbor] = neighbor.metaObject
+    end
     for neighbor, _ in pairs(self.hc:circleCollisions(mx, my, sightRadius)) do
-      neighbors[#neighbors + 1] = neighbor.metaObject
+      neighbors[neighbor] = neighbor.metaObject
     end
     return neighbors
   end
-
-  metaObject['getRelativeNeighbors'] = function(sightRadius)  
-    local neighbors = {}    
-    local mx, my = collisionObject[MainObject]:center()
-    local tx, ty = collisionObject[TwinObject]:center()
-    
-    for neighbor, _ in pairs(self.hc:circleCollisions(mx, my, sightRadius)) do
-      local nx, ny = self:toWorldCoordinate(neighbor:center())
-      neighbors[#neighbors + 1] = {x = nx, y = ny, obj = neighbor.metaObject}
-    end
-    
-    for neighbor, _ in pairs(self.hc:circleCollisions(tx, ty, sightRadius)) do
-      local nx, ny = self:toWorldCoordinate(self:getTwinLoc(neighbor:center()))
-      neighbors[#neighbors + 1] = {x = nx, y = ny, obj = neighbor.metaObject}
-    end
-    
-    return neighbors
+  
+  metaObject['getRelativeLoc'] = function(ofObject)
+    local mx, my = collisionObject[MainObject]:center() -- Relative Origin
+    local otherCollisionObject = self.collisionObjects[ofObject]
+    local ox, oy = otherCollisionObject[MainObject]:center()        
+    local x, y = (ox - mx), (oy - my) -- Relative space
+    x, y = self:getClosestTranslationToOrigin(x, y)
+    x, y = self:toWorldCoordinate(x, y)
+    return x, y
   end
 end
 
@@ -105,6 +137,18 @@ function CollisionSystem:moveCollisionObject(collisionObject, newLoc)
   
   local newMain, newTwin = closerToOriginComparitor(collisionObject[MainObject], collisionObject[TwinObject])
   collisionObject[MainObject], collisionObject[TwinObject] = newMain, newTwin  
+end
+
+function closerToOriginComparitor(A, B)
+  local Ax, Ay = A:center()
+  local Bx, By = B:center()
+  local AdistSqr = (Ax)*(Ax) + (Ay)*(Ay)
+  local BdistSqr = (Bx)*(Bx) + (By)*(By)
+  if AdistSqr < BdistSqr then
+    return A, B
+  else
+    return B, A
+  end
 end
 
 function CollisionSystem:updateCollisions(collisionObject)
@@ -166,18 +210,6 @@ function CollisionSystem:getTwinLoc(x, y)
     y = y - self.yTranslate
   end
   return x, y
-end
-
-function closerToOriginComparitor(A, B)
-  local Ax, Ay = A:center()
-  local Bx, By = B:center()
-  local AdistSqr = (Ax)*(Ax) + (Ay)*(Ay)
-  local BdistSqr = (Bx)*(Bx) + (By)*(By)
-  if AdistSqr < BdistSqr then
-    return A, B
-  else
-    return B, A
-  end
 end
 
 function CollisionSystem:worldWrap(metaObject)

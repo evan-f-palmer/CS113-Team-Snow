@@ -184,6 +184,42 @@
   <object x="241" y="408">
    <ellipse/>
   </object>
+  <object x="951" y="485">
+   <ellipse/>
+  </object>
+  <object x="955" y="500">
+   <ellipse/>
+  </object>
+  <object x="955" y="465">
+   <ellipse/>
+  </object>
+  <object x="7" y="456">
+   <ellipse/>
+  </object>
+  <object x="8" y="472">
+   <ellipse/>
+  </object>
+  <object x="7" y="487">
+   <ellipse/>
+  </object>
+  <object x="488" y="9">
+   <ellipse/>
+  </object>
+  <object x="501" y="7">
+   <ellipse/>
+  </object>
+  <object x="467" y="7">
+   <ellipse/>
+  </object>
+  <object x="469" y="949">
+   <ellipse/>
+  </object>
+  <object x="485" y="949">
+   <ellipse/>
+  </object>
+  <object x="504" y="949">
+   <ellipse/>
+  </object>
  </objectgroup>
  <objectgroup name="Squad" width="30" height="30">
   <object x="477" y="212">

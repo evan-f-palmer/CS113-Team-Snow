@@ -162,17 +162,17 @@ function HUD:drawRadar(toDisplayOnRadarByType, draw)
   
   -- IF PLAYER EXISTS, DRAW BODIES RELATIVE TO PLAYER ON RADAR
   if player then 
+    local playerloc = player.loc
     for i = 1, (#self.RADAR_DRAW_ORDERING) do
       local typeToDraw = self.RADAR_DRAW_ORDERING[i]
       local layerObjects = toDisplayOnRadarByType[typeToDraw] or {}
       local color = self.RADAR_COLORS[typeToDraw]
       love.graphics.setColor(color[1], color[2], color[3], color[4])
       for k, object in pairs(layerObjects) do
-        local objloc = object
-        local playerloc = player
-        local distSqr = math.pow(objloc.x - playerloc.x, 2) + math.pow(objloc.y - playerloc.y, 2)
+        local tx, ty = player.getRelativeLoc(object)
+        local distSqr = (tx*tx) + (ty*ty)
         if distSqr >= (draw.minimumDistance * draw.minimumDistance) then
-          local angle = math.atan2(objloc.y - playerloc.y, objloc.x - playerloc.x)
+          local angle = math.atan2(ty, tx)
           local dist = math.sqrt(distSqr)
           local segmentWidth = draw.segmentSize / (dist/draw.distanceTaperDivisor) 
           local angle1, angle2 = angle - segmentWidth/2, angle + segmentWidth/2
