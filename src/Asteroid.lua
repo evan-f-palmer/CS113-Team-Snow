@@ -3,6 +3,7 @@ local Vector = require('hump.vector')
 local AlertMachine = require('AlertMachine')
 local Combat = require('Combat')
 local SoundSystem = require('SoundSystem')
+local EntityParams = require('EntityParams')
 
 local Asteroid = Class{}
 Asteroid.type = "Asteroid"
@@ -16,7 +17,12 @@ Asteroid.variations = {
   },
   {
     image = love.graphics.newImage("assets/asteroid.png"),
-    color = {255,255,255},
+    color = {175,175,175},
+    shouldRotate = true,
+  },
+  {
+    image = love.graphics.newImage("assets/asteroid.png"),
+    color = {95,95,95},
     shouldRotate = true,
   },
 }
@@ -28,13 +34,13 @@ function Asteroid:init(gameData)
   self.vel = Vector(0, 0)
   self.dir = Vector(0, 0)
   self.maxSpeed = 0
-  self.radius = 80
+  self.radius = EntityParams.asteroid.radius
   
   self.id = "Asteroid:" .. Asteroid.count
   Asteroid.count = Asteroid.count + 1
   self.combat = Combat()
-  self.combat:addCombatant(self.id, {health = 300})
-  self.combat:addWeapon(self.id, {ammo = 6, projectileID = "Crystal", debounceTime = 2.25})
+  self.combat:addCombatant(self.id, {health = EntityParams.asteroid.health})
+  self.combat:addWeapon(self.id, {ammo = EntityParams.asteroid.crystals, projectileID = "Crystal", debounceTime = EntityParams.asteroid.crystalDebounce})
   
   self.render = self.variations[math.random(#self.variations)]
   
@@ -53,7 +59,7 @@ function Asteroid:update(dt)
 end
 
 function Asteroid:fire()
-  local offset = 20
+  local offset = EntityParams.asteroid.fireOffset
   local dir = Vector():randomize_inplace()
   self.combat:fire(self.id, self.loc + (dir * offset), dir)
 end
@@ -67,29 +73,29 @@ function Asteroid:onCollision(other)
   
   if type == "Player Bullet" then
     if self.combat:canFire(self.id) then
-      self:attack(2)
+      self:attack(EntityParams.asteroid.damageFrom.playerBullet)
       self:fire()
     else
-      self:attack(5)
+      self:attack(EntityParams.asteroid.excessiveDamageFrom.playerBullet)
       self:fire()
     end
     other.isDead = true
     self.lastCollision = type
   end
   if type == "Worker Bullet" then
-    self:attack(1)
+    self:attack(EntityParams.asteroid.damageFrom.workerBullet)
     self:fire()
     other.isDead = true
     self.lastCollision = type
   end
   if type == "Warrior Bullet" then
-    self:attack(25)
+    self:attack(EntityParams.asteroid.damageFrom.warriorBullet)
     self:fire()
     other.isDead = true
     self.lastCollision = type
   end
   if type == "Sinibomb" then
-    self:attack(1000)
+    self:attack(EntityParams.asteroid.damageFrom.sinibomb)
     other.isDead = true
     self.lastCollision = type
   end

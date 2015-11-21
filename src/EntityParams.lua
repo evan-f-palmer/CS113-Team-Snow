@@ -2,7 +2,7 @@
 return {
   player = {
     health = 100,
-    maxSpeed = 1500,
+    maxSpeed = 1750,
     radius = 70,
     primaryFireOffset = 30,
     primaryFireDebounce = 0.1,
@@ -34,8 +34,8 @@ return {
     radius = 70,
     primaryFireOffset = 20,
     sightRadius = 2000,
-    maxSpeedScale = 0.5,
-    maxForceScale = 1,
+    maxSpeedScale = 0.75,
+    maxForceScale = 0.85,
     maxDistanceFromFlock = 1000,
     fireDebounce = 3,
     closestProximity = 800,
@@ -43,6 +43,23 @@ return {
       playerBullet = 10,
       sinibomb = 10,
     }
+  },
+  asteroid = {
+    health = 300,
+    radius = 80,
+    crystals = 6,
+    crystalDebounce = 2.25,
+    fireOffset = 20,
+    damageFrom = {
+      playerBullet = 2,
+      workerBullet = 1,
+      warriorBullet = 0,
+      sinibomb = 10,
+    },
+    excessiveDamageFrom = {
+      playerBullet = 5,
+      
+    },
   },
   playerBullet = {
     speed = 2200, lifespan = 3, radius = 4,
