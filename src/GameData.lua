@@ -8,16 +8,8 @@ GameData.workerKillValue = 300
 GameData.crystalValue = 100
 GameData.asteroidKillValue = 50
 
-GameData.secondaryWeaponWarmupTime = 2
-
 GameData.startingLives = 3
-GameData.damageFromCollisionWithSinistar = 1000
-GameData.damageFromCollisionWithWarriorBullet = 5
-GameData.damageFromCollisionWithWorkerBullet = 1
-
-GameData.bombAmmoFromCrystalPickup = 1
-
-GameData.numberOfCrystalsToBuildSinistar = 35
+GameData.numberOfCrystalsToBuildSinistar = 100
 
 function GameData:init()
   self.lives   = GameData.startingLives

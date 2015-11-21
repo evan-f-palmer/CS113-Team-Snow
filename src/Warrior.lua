@@ -66,12 +66,12 @@ function Warrior:onCollision(other)
   end
   
   if type == "Player Bullet" then
-    self.combat:attack(self.id, 10)
+    self.combat:attack(self.id, EntityParams.warrior.damageFrom.playerBullet)
     other.isDead = true
   end
   
   if type == "Sinibomb" then
-    self.combat:attack(self.id, 1000)
+    self.combat:attack(self.id, EntityParams.warrior.damageFrom.sinibomb)
     other.isDead = true
   end
   

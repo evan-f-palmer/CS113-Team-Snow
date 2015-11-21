@@ -9,41 +9,40 @@ local FontParams = require("FontParams")
 local HUDLayout = require("HUDLayout")
 local RendererParams = require("RendererParams")
 
-local ALERT_DIM_COLOR = {150,150,150,200}
+local RED = {255, 50, 50, 180}
+local BLUE = {50, 120, 255, 140}
+local GREEN = {50, 255, 120, 120}
+local YELLOW = {180, 170, 40, 220}
+local WHITE = {255,255,255,225}
+
+local function SOLID(xColor)
+  return {xColor[1], xColor[2], xColor[3], 255}
+end
+local function DIM(xColor)
+  return {xColor[1], xColor[2], xColor[3], 127}
+end
 
 local ALERT_PRIORITY_COLORS = {
-  [0] = {{255,255,255,225},}, -- DEFAULT
-  [1] = {{255,255,255,225},}, -- STANDARD MESSAGE
-  [2] = {{255,255,0,225}, ALERT_DIM_COLOR,}, -- MEDIUM PRIORITY
-  [3] = {{255,0,0,225}, ALERT_DIM_COLOR, {255,0,0,225}, ALERT_DIM_COLOR,}, -- HIGH PRIORITY
-  [4] = {{160,185,225,225},}, -- FOR DEBUG MESSAGES
+  [0] = {SOLID(WHITE), DIM(WHITE)}, -- DEFAULT
+  [1] = {SOLID(WHITE), DIM(WHITE)}, -- STANDARD MESSAGE
+  [2] = {SOLID(YELLOW), DIM(YELLOW),}, -- MEDIUM PRIORITY
+  [3] = {SOLID(RED), DIM(RED), SOLID(RED), DIM(RED),}, -- HIGH PRIORITY
+  [4] = {SOLID(BLUE), DIM(BLUE)}, -- FOR DEBUG MESSAGES
 }
 
 local HUD_COLORS = {
-  {0,200,200,125},
-  {0,200,210,120},{0,200,220,115},{0,200,230,120},{0,208,240,125},{0,215,250,115},{0,224,240,110},
-  {0,230,230,105},
-  {0,240,224,110},{0,250,215,115},{0,240,208,100},{0,230,200,120},{0,220,200,115},{0,210,200,120},
+  {50,200,200,125},
+  {50,200,210,120},{50,200,220,115},{50,200,230,120},{50,208,240,125},{50,215,250,115},{50,224,240,110},
+  {50,230,230,105},
+  {50,240,224,110},{50,250,215,115},{50,240,208,100},{50,230,200,120},{50,220,200,115},{50,210,200,120},
 }
 
-local HEALTH_BAR_COLORS = {
-  {255,0,0,125},
-  {255,255,0,125},
-  {30,200,70,125},
-  {30,200,70,125},
-  {30,200,70,125},
-}
+local HEALTH_BAR_COLORS = { RED, YELLOW, GREEN, GREEN, GREEN}
 
 local HUD = Class {}
 
 HUD.RADAR_DRAW_ORDERING = {"Asteroid", "Crystal", "Worker", "Warrior", "Sinistar"}
-HUD.RADAR_COLORS = {
-  ["Asteroid"] = {50, 255, 120, 120},
-  ["Crystal"] = {50, 120, 255, 140},
-  ["Worker"] = {255, 50, 50, 180},
-  ["Warrior"] = {255, 50, 50, 180},
-  ["Sinistar"] = {180, 170, 40, 220},
-}
+HUD.RADAR_COLORS = {["Asteroid"] = GREEN, ["Crystal"] = BLUE, ["Worker"] = RED, ["Warrior"] = RED, ["Sinistar"] = YELLOW,}
 
 function HUD:init()
   self.camera = Camera()
@@ -84,8 +83,6 @@ function HUD:draw(gameData)
   love.graphics.setColor(255,255,255)
   love.graphics.circle("line", self.layout.viewport.x, self.layout.viewport.y, self.layout.viewport.r)
     
-  self:drawHealthBar(gameData.health)
-
   local HUDcolor = self:getHeadsUpDisplayColor()
   love.graphics.setColor(HUDcolor[1], HUDcolor[2], HUDcolor[3], HUDcolor[4])
 
@@ -96,6 +93,12 @@ function HUD:draw(gameData)
 
   love.graphics.circle("fill", self.layout.lives.x, self.layout.lives.y, self.GU.FONT_SIZE, 30)
   love.graphics.circle("fill", self.layout.bombs.x, self.layout.bombs.y, self.GU.FONT_SIZE, 30)  
+  
+  self.radarDrawData.x = x
+  self.radarDrawData.y = y
+  self:drawRadar(gameData.forRadar, self.radarDrawData)
+  self:drawHealthBar(gameData.health)
+  
   
   love.graphics.setColor(255,255,255)
   self.GU:centeredText(gameData.lives, self.layout.lives.x, self.layout.lives.y)
@@ -108,10 +111,6 @@ function HUD:draw(gameData)
 
   local primaryAlert = self.alertMachine:getPrimaryAlert()
   self:drawAlertMessage(primaryAlert, self.layout.alert.x, self.layout.alert.y)
-
-  self.radarDrawData.x = x
-  self.radarDrawData.y = y
-  self:drawRadar(gameData.forRadar, self.radarDrawData)
   
   love.graphics.setShader()
   self.camera:detach()

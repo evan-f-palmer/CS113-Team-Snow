@@ -29,7 +29,6 @@ function Game:init()
   
   self.gameInput = GameIOController(self)
   
-  self.alertMachine:set({message = "Hello World!", lifespan = 3})
  -- self.soundSystem:playMusic("music/TheFatRat-Dancing-Naked.mp3")
   
   self.projectiles = Projectiles()
@@ -39,7 +38,10 @@ function Game:init()
   self.projectiles:define("Warrior Bullet", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {200,100,0}, speed = 2200, lifespan = 3})
   self.projectiles:define("Crystal", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {200,200,200}, speed = 180, lifespan = 8, radius = 30}) 
   
-  self.world:loadLevel("src/levels/testing2.lua")
+  local levelFileName = "src/levels/testing2.lua"
+  self.world:loadLevel(levelFileName)
+  self.alertMachine:set({message = levelFileName, lifespan = 3})
+  
   
   if not love.graphics.isSupported("canvas", "npot", "subtractive", "multicanvas") then
     love.window.showMessageBox("Sorry", "You do not meet the minimum system requirements to play this game.\nOpenGL 2.1+ or DirectX 9.0c+ required", 'info', true)
@@ -52,7 +54,6 @@ function Game:init()
 end
 
 function Game:update(dt)
-  self.isPaused = (not love.window.hasFocus()) or (not love.window.hasMouseFocus())
   self.gameInput:update(dt)
   
   if (not self.isPaused) or self.step then

@@ -34,9 +34,9 @@ function Player:init(gameData, playerInput)
   
   self.combat = Combat()
   self.combat:addCombatant("Player", {health = EntityParams.player.health})
-  self.combat:addWeapon("Player Primary R", {ammo = math.huge, projectileID = "Player Bullet", debounceTime = 0.1})
-  self.combat:addWeapon("Player Primary L", {ammo = math.huge, projectileID = "Player Bullet", debounceTime = 0.1})
-  self.combat:addWeapon("Player Secondary", {ammo = 0, projectileID = "Sinibomb", debounceTime = 1, maxAmmo = 12})
+  self.combat:addWeapon("Player Primary R", {ammo = math.huge, projectileID = "Player Bullet", debounceTime = EntityParams.player.primaryFireDebounce})
+  self.combat:addWeapon("Player Primary L", {ammo = math.huge, projectileID = "Player Bullet", debounceTime = EntityParams.player.primaryFireDebounce})
+  self.combat:addWeapon("Player Secondary", {ammo = 0, projectileID = "Sinibomb", debounceTime = EntityParams.player.secondaryFireDebounce, maxAmmo = EntityParams.player.secondaryMaxAmmo})
   
   self.render = self.variations[math.random(#self.variations)]
   
@@ -70,7 +70,7 @@ function Player:update(dt)
     self.soundSystem:play("sound/marinealarm.ogg")
   end
 
-  self.combat:heal(self.id, dt / 3)
+  self.combat:heal(self.id, dt * EntityParams.player.healpersec)
   self.gameData.bombs = self.combat:getAmmo("Player Secondary")
   self.gameData.health = self.combat:getHealthPercent("Player")
   self.isDead = self.combat:isDead("Player")
@@ -80,23 +80,22 @@ function Player:onCollision(other)
   local type = other.type
   
   if type == "Warrior Bullet" then
-    self.combat:attack("Player", self.gameData.damageFromCollisionWithWarriorBullet)
+    self.combat:attack("Player", EntityParams.player.damageFrom.warriorBullet)
     other.isDead = true
   end
   
   if type == "Worker Bullet" then
-    self.combat:attack("Player", self.gameData.damageFromCollisionWithWorkerBullet)
+    self.combat:attack("Player", EntityParams.player.damageFrom.workerBullet)
     other.isDead = true
   end
   
   if type == "Sinistar" then
-    self.combat:attack("Player", self.gameData.damageFromCollisionWithSinistar)
+    self.combat:attack("Player", EntityParams.player.damageFrom.sinistarCollision)
   end
   
   if type == "Crystal" then
     self.gameData:increaseScore(self.gameData.crystalValue)
-    self.combat:supplyAmmo("Player Secondary", self.gameData.bombAmmoFromCrystalPickup)
-    --self.combat:heal(self.id, 1)
+    self.combat:supplyAmmo("Player Secondary", EntityParams.player.bombAmmoFromCrystalPickup)
     other.isDead = true
   end
   
