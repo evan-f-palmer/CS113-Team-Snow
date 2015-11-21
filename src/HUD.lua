@@ -3,8 +3,10 @@ local Camera = require('hump.camera')
 local Blinker = require('Blinker')
 local DrawCommon = require('DrawCommon')
 local AlertMachine = require('AlertMachine')
-local InputParams = require("InputParams")
+local InputDeviceLayout = require("InputDeviceLayout")
 local ViewportParams = require("ViewportParams")
+local FontParams = require("FontParams")
+local HUDLayout = require("HUDLayout")
 
 local ALERT_DIM_COLOR = {150,150,150,200}
 
@@ -52,16 +54,8 @@ function HUD:init()
   self.bloomShader = love.graphics.newShader("shaders/bloom.glsl")
   self.background = love.graphics.newImage("assets/hud.png")
   
-  self.textOffset = self.GU.FONT_SIZE * (2)
-  self.layout = {
-    lives = { x = love.graphics.getWidth() * (1/5), y = love.graphics.getHeight() * (11/12) },
-    bombs = { x = love.graphics.getWidth() * (4/5), y = love.graphics.getHeight() * (11/12) },
-    score = { x = love.graphics.getWidth() * (1/2), y = love.graphics.getHeight() * (1/12) },
-    health = { x = love.graphics.getWidth() * (3/10), y = love.graphics.getHeight() * (11/12) - (self.GU.FONT_SIZE/2), 
-               w = love.graphics.getWidth() * (4/10), h = (self.GU.FONT_SIZE)},
-    alert = { x = love.graphics.getWidth() * (1/2), y = love.graphics.getHeight() * (5/6)},
-    viewport = ViewportParams,
-  }
+  self.textOffset = FontParams.FONT_SIZE * (2)
+  self.layout = HUDLayout
   
   self.radarCanvas = love.graphics.newCanvas()
   local radarRadius = self.layout.viewport.r - 5
@@ -94,9 +88,9 @@ function HUD:draw(gameData)
   local HUDcolor = self:getHeadsUpDisplayColor()
   love.graphics.setColor(HUDcolor[1], HUDcolor[2], HUDcolor[3], HUDcolor[4])
 
-  local x, y, minR = InputParams.movementJoystick.x, InputParams.movementJoystick.y, InputParams.movementJoystick.minR
+  local x, y, minR = InputDeviceLayout.movementJoystick.x, InputDeviceLayout.movementJoystick.y, InputDeviceLayout.movementJoystick.minR
   love.graphics.circle("line", x, y, minR)
-  x, y, minR = InputParams.directionalJoystick.x, InputParams.directionalJoystick.y, InputParams.directionalJoystick.minR
+  x, y, minR = InputDeviceLayout.directionalJoystick.x, InputDeviceLayout.directionalJoystick.y, InputDeviceLayout.directionalJoystick.minR
   love.graphics.circle("line", x, y, minR)
 
   love.graphics.circle("fill", self.layout.lives.x, self.layout.lives.y, self.GU.FONT_SIZE, 30)

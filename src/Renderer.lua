@@ -1,10 +1,11 @@
 local Class  = require('hump.class')
 local Camera = require('hump.camera')
 local DrawCommon = require('DrawCommon')
-local InputParams = require("InputParams")
+local InputDeviceLayout = require("InputDeviceLayout")
 local CollisionSystem = require('CollisionSystem')
 local Combat = require('Combat')
 local ViewportParams = require("ViewportParams")
+local RendererParams = require("RendererParams")
 
 local Renderer = Class {}
 
@@ -16,8 +17,8 @@ function Renderer:init()
   self.collider = CollisionSystem()
   self.combat = Combat()
   
-  self.captureDeviceRadius = (ViewportParams.r + 50) / (self.camera.scale)
-  self.radarDeviceRadius = (ViewportParams.r * 3) / (self.camera.scale)
+  self.captureRadius = RendererParams.captureRadius / (self.camera.scale)
+  self.radarRadius = RendererParams.radarRadius / (self.camera.scale)
   
   self.DEFAULT_COLOR = {255,255,255}
   self.TEXT_Y_OFFSET = 2 * self.GU.FONT_SIZE
@@ -30,13 +31,13 @@ function Renderer:draw(xWorld)
   local player = xWorld.player
   local playerX, playerY = player.loc.x, player.loc.y
   local playerAngle = self.GU:getAngle(player.dir)
-  local movementJoystickMinR = InputParams.movementJoystick.minR
+  local movementJoystickMinR = InputDeviceLayout.movementJoystick.minR
   local projectiles = xWorld.projectiles
   local inverseCameraScale = 1/self.camera.scale
   
-  local inCDView = player.getNeighbors(self.captureDeviceRadius)
+  local inCDView = player.getNeighbors(self.captureRadius)
   local inViewByType = self:getObjectsInViewByType(inCDView)
-  local inRDView = player.getNeighbors(self.radarDeviceRadius)
+  local inRDView = player.getNeighbors(self.radarRadius)
   local inRadarViewByType = self:getObjectsInViewByType(inRDView)
   
   xWorld.gameData.worldCameraScale = self.camera.scale

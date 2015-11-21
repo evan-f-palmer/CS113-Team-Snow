@@ -1,7 +1,6 @@
 local Class = require('hump.class')
 local Vector = require('hump.vector')
 local Combat = require("Combat")
-local InputParams = require("InputParams")
 local SoundSystem = require('SoundSystem')
 
 local LEFT_MOUSE_BUTTON = 'l'

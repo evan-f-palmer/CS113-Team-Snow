@@ -1,12 +1,13 @@
 local Class  = require('hump.class')
 local Vector = require('hump.vector')
 local Singleton = require('Singleton')
+local ViewportParams = require("ViewportParams")
+local FontParams = require("FontParams")
 
 local DrawCommon = Class {}
-
 DrawCommon.UP_VECTOR = Vector(0, 1)
-DrawCommon.FONT_FILE = nil
-DrawCommon.FONT_SIZE = 14
+DrawCommon.FONT_SIZE = FontParams.FONT_SIZE
+DrawCommon.FONT_FILE = FontParams.FONT_FILE
 
 function DrawCommon:init()
   self.font = love.graphics.newFont(DrawCommon.FONT_SIZE)

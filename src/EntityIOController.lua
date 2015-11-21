@@ -1,6 +1,6 @@
 local Class = require('hump.class')
 local Vector = require('hump.vector')
-local InputParams = require("InputParams")
+local InputDeviceLayout = require("InputDeviceLayout")
 
 local EntityIOController = Class{}
 EntityIOController.inputAmplifier = 100
@@ -17,8 +17,8 @@ local RIGHT_MOUSE_BUTTON = 'r'
 function EntityIOController:update(dt)
   self.primaryWeaponFire   = love.keyboard.isDown("f") or love.keyboard.isDown("j") or love.mouse.isDown(LEFT_MOUSE_BUTTON)
   self.secondaryWeaponFire = love.keyboard.isDown(" ") or love.mouse.isDown(RIGHT_MOUSE_BUTTON)
-  self:handleJoystick(InputParams.directionalJoystick, self.directionVec)
-  self:handleJoystick(InputParams.movementJoystick, self.movementVec)  
+  self:handleJoystick(InputDeviceLayout.directionalJoystick, self.directionVec)
+  self:handleJoystick(InputDeviceLayout.movementJoystick, self.movementVec)  
 end
 
 function EntityIOController:handleJoystick(xJoystick, xVector)
