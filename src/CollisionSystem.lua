@@ -62,15 +62,13 @@ function CollisionSystem:createCollisionObject(metaObject, radius)
 end
 
 function CollisionSystem:removeObject(metaObject)
-  for _, shape in pairs(self.collisionObjects[metaObject]) do
-    self.hc:remove(shape)
+  if self:isHandling(metaObject) then
+    for _, shape in pairs(self.collisionObjects[metaObject]) do
+      self.hc:remove(shape)
+    end
+    metaObject.getNeighbors = nil
+    self.collisionObjects[metaObject] = nil
   end
-  metaObject.getNeighbors = nil
-  self.collisionObjects[metaObject] = nil
-end
-
-function CollisionSystem:isHandling(metaObject)
-  return self.collisionObjects[metaObject] ~= nil
 end
 
 function CollisionSystem:update()
@@ -81,6 +79,11 @@ function CollisionSystem:update()
       self:worldWrap(metaObject)
     end
   end
+end
+
+-- private
+function CollisionSystem:isHandling(metaObject)
+  return self.collisionObjects[metaObject] ~= nil
 end
 
 -- private

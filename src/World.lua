@@ -52,11 +52,9 @@ function World:loadLevel(xLevelFileName)
 end
 
 function World:unload()
+  self.collider:removeObject(self.player)
   self.projectiles:clear()
   self.bodies:clear()
-  if self.collider:isHandling(self.player) then
-    self.collider:removeObject(self.player)
-  end
 end
 
 function World:update(dt)

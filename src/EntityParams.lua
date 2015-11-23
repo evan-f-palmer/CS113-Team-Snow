@@ -5,7 +5,7 @@ return {
     maxSpeed = 1750,
     radius = 70,
     primaryFireOffset = 30,
-    primaryFireDebounce = 0.1,
+    primaryFireDebounce = 0.3,
     secondaryFireDebounce = 1,
     secondaryMaxAmmo = 12,
     damageFrom = {
@@ -45,7 +45,7 @@ return {
     }
   },
   asteroid = {
-    health = 300,
+    health = 100,
     radius = 80,
     crystals = 6,
     crystalDebounce = 2.25,
@@ -62,7 +62,7 @@ return {
     },
   },
   playerBullet = {
-    speed = 2200, lifespan = 3, radius = 4,
+    speed = 2500, lifespan = 3, radius = 4,
   },
   sinibomb = {
     speed = 100, lifespan = 5, radius = 25,

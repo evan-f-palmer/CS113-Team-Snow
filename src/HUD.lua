@@ -77,8 +77,8 @@ function HUD:draw(gameData)
   local height = screenHeight / self.background:getHeight()
   local rotation = 0
  
-  --love.graphics.draw(self.background, 0, 0, rotation, width, height) 
-  --love.graphics.setShader(self.bloomShader)
+--  love.graphics.draw(self.background, 0, 0, rotation, width, height) 
+--  love.graphics.setShader(self.bloomShader)
 
   love.graphics.setColor(unpack(WHITE))
   love.graphics.circle("line", self.layout.viewport.x, self.layout.viewport.y, self.layout.viewport.r)
@@ -86,19 +86,21 @@ function HUD:draw(gameData)
   local HUDcolor = self:getHeadsUpDisplayColor()
   love.graphics.setColor(HUDcolor[1], HUDcolor[2], HUDcolor[3], HUDcolor[4])
 
+  love.graphics.setShader(self.bloomShader)
   local x, y, minR = InputDeviceLayout.movementJoystick.x, InputDeviceLayout.movementJoystick.y, InputDeviceLayout.movementJoystick.minR
   love.graphics.circle("line", x, y, minR)
   x, y, minR = InputDeviceLayout.directionalJoystick.x, InputDeviceLayout.directionalJoystick.y, InputDeviceLayout.directionalJoystick.minR
   love.graphics.circle("line", x, y, minR)
 
-  love.graphics.circle("fill", self.layout.lives.x, self.layout.lives.y, self.GU.FONT_SIZE, 30)
-  love.graphics.circle("fill", self.layout.bombs.x, self.layout.bombs.y, self.GU.FONT_SIZE, 30)  
+  love.graphics.circle("line", self.layout.lives.x, self.layout.lives.y, self.GU.FONT_SIZE, 30)
+  love.graphics.circle("line", self.layout.bombs.x, self.layout.bombs.y, self.GU.FONT_SIZE, 30)  
+  love.graphics.setShader()
   
   self.radarDrawData.x = x
   self.radarDrawData.y = y
-  self:drawRadar(gameData.forRadar, self.radarDrawData)
+  self:drawRadar(gameData.forRadar, self.radarDrawData)  
   self:drawHealthBar(gameData.health)
-  
+    
   love.graphics.setColor(unpack(WHITE))
   self.GU:centeredText(gameData.lives, self.layout.lives.x, self.layout.lives.y)
   self.GU:centeredText("LIVES", self.layout.lives.x, self.layout.lives.y + self.textOffset)  
@@ -107,9 +109,9 @@ function HUD:draw(gameData)
   self.GU:centeredText("BOMBS", self.layout.bombs.x, self.layout.bombs.y + self.textOffset)
   self.GU:centeredText(gameData.score, self.layout.score.x, self.layout.score.y)
   self.GU:centeredText("SCORE", self.layout.score.x, self.layout.score.y - self.textOffset)
-
+    
   local primaryAlert = self.alertMachine:getPrimaryAlert()
-  self:drawAlertMessage(primaryAlert, self.layout.alert.x, self.layout.alert.y)
+  self:drawAlertMessage(primaryAlert, self.layout.alert.x, self.layout.alert.y)  
   
   love.graphics.setShader()
   self.camera:detach()
