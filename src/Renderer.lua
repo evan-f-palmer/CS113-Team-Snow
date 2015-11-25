@@ -82,8 +82,14 @@ function Renderer:draw(xWorld)
         local angle = 0
         if obj.render.shouldRotate then
           angle = self.GU:getAngle(obj.dir)
-        end   
-        self.GU:drawRotatedImage(obj.render.image, x, y, angle)
+        end
+        
+        local image = obj.render.image 
+        if obj.render.animation then
+          image = obj.render.animation.image
+        end
+        
+        self.GU:drawRotatedImage(image, x, y, angle)
 --        if obj.radius then
 --          love.graphics.circle("line", x, y, obj.radius)
 --        end

@@ -10,6 +10,7 @@ local Combat       = require('Combat')
 local SoundSystem  = require('SoundSystem')
 local GameIOController = require('GameIOController')
 local EntityParams = require('EntityParams')
+local Animator = require('Animator')
 
 local Game = Class{}
 
@@ -27,6 +28,7 @@ function Game:init()
   self.combat         = Combat()
   self.combat:setProjectiles(self.projectiles)
   self.soundSystem = SoundSystem()
+  self.animator = Animator()
   
   self.gameInput = GameIOController(self)
   
@@ -69,6 +71,8 @@ function Game:update(dt)
     self.data:updateAlertData(self.alertMachine)
     self.hud:update(dt)
   end
+  
+  self.animator:update(dt)
   
   return self
 end
