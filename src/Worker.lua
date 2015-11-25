@@ -57,7 +57,7 @@ function Worker:update(dt)
   
   self.isDead = self.combat:isDead(self.id)
   
-  if self.isDead and (self.lastCollision == "Player Bullet" or self.lastCollision == "Sinibomb") then
+  if self.isDead and (self.lastCollision == "Player Bullet" or self.lastCollision == "Sinibomb" or self.lastCollision == "Sinibomb Blast") then
     self.gameData:increaseScore(self.gameData.workerKillValue)
   end
 end
@@ -78,6 +78,10 @@ function Worker:onCollision(other)
   if type == "Sinibomb" then
     self.combat:attack(self.id, EntityParams.worker.damageFrom.sinibomb)
     other.isDead = true
+  end
+  
+  if type == "Sinibomb Blast" then
+    self.combat:attack(self.id, EntityParams.worker.damageFrom.sinibombBlast)
   end
   
   if type == "Asteroid" then

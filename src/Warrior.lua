@@ -52,7 +52,7 @@ function Warrior:update(dt)
   
   self.isDead = self.combat:isDead(self.id)
   
-  if self.isDead and (self.lastCollision == "Player Bullet" or self.lastCollision == "Sinibomb") then
+  if self.isDead and (self.lastCollision == "Player Bullet" or self.lastCollision == "Sinibomb" or self.lastCollision == "Sinibomb Blast") then
     self.gameData:increaseScore(self.gameData.warriorKillValue)
   end
 end
@@ -73,6 +73,10 @@ function Warrior:onCollision(other)
   if type == "Sinibomb" then
     self.combat:attack(self.id, EntityParams.warrior.damageFrom.sinibomb)
     other.isDead = true
+  end
+  
+  if type == "Sinibomb Blast" then
+    self.combat:attack(self.id, EntityParams.warrior.damageFrom.sinibombBlast)
   end
   
   if type == "Asteroid" then

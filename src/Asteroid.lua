@@ -53,7 +53,7 @@ function Asteroid:update(dt)
   self.combat:heal(self.id, dt * 3)
   self.isDead = self.combat:isDead(self.id) or self.combat:isOutOfAmmo(self.id)
   
-  if self.isDead and (self.lastCollision == "Player Bullet" or self.lastCollision == "Sinibomb") then
+  if self.isDead and (self.lastCollision == "Player Bullet" or self.lastCollision == "Sinibomb" or self.lastCollision == "Sinibomb Blast") then
     self.gameData:increaseScore(self.gameData.asteroidKillValue)
   end
 end
@@ -64,7 +64,7 @@ function Asteroid:fire()
   self.combat:fire(self.id, self.loc + (dir * offset), dir)
 end
 
-function Asteroid:attack(xAmount)
+function Asteroid:damage(xAmount)
   self.combat:attack(self.id, xAmount)
 end
 
@@ -73,32 +73,34 @@ function Asteroid:onCollision(other)
   
   if type == "Player Bullet" then
     if self.combat:canFire(self.id) then
-      self:attack(EntityParams.asteroid.damageFrom.playerBullet)
+      self:damage(EntityParams.asteroid.damageFrom.playerBullet)
       self:fire()
     else
-      self:attack(EntityParams.asteroid.excessiveDamageFrom.playerBullet)
+      self:damage(EntityParams.asteroid.excessiveDamageFrom.playerBullet)
       self:fire()
     end
     other.isDead = true
-    self.lastCollision = type
   end
   if type == "Worker Bullet" then
-    self:attack(EntityParams.asteroid.damageFrom.workerBullet)
+    self:damage(EntityParams.asteroid.damageFrom.workerBullet)
     self:fire()
     other.isDead = true
-    self.lastCollision = type
   end
   if type == "Warrior Bullet" then
-    self:attack(EntityParams.asteroid.damageFrom.warriorBullet)
+    self:damage(EntityParams.asteroid.damageFrom.warriorBullet)
     self:fire()
     other.isDead = true
-    self.lastCollision = type
   end
   if type == "Sinibomb" then
-    self:attack(EntityParams.asteroid.damageFrom.sinibomb)
+    self:damage(EntityParams.asteroid.damageFrom.sinibomb)
     other.isDead = true
-    self.lastCollision = type
   end
+  
+  if type == "Sinibomb Blast" then
+    self:damage(EntityParams.asteroid.damageFrom.sinibombBlast)
+  end
+  
+  self.lastCollision = type
 end
 
 return Asteroid

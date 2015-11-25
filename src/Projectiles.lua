@@ -25,8 +25,9 @@ function Projectiles:update(dt)
   self:limit()  
   for i = #self, 1, -1 do
     local projectile = self[i]
-    projectile.time = projectile.time + dt    
-    if projectile.time >= projectile.lifespan or projectile.isDead then
+    projectile.time = projectile.time + dt
+    projectile.isDead = projectile.isDead or (projectile.time >= projectile.lifespan) or (projectile.externalControl and projectile.externalControl.isDead)
+    if projectile.isDead then
       self:remove(i)
     end
   end 
@@ -53,9 +54,9 @@ local function createProjectileVelocity(xSpeed, xDirection, xMomentum)
   return vel
 end
 
-function Projectiles:add(xProjectileType, xPosition, xDirection, xMomentum)
+function Projectiles:add(xProjectileType, xPosition, xDirection, xMomentum, xExternalControl)
   local projectileDef = self.DEFS[xProjectileType] or Projectiles.DEFAULT_DEF
-  local projectile = {time = 0, lifespan = projectileDef.lifespan, type = xProjectileType, render = projectileDef,}
+  local projectile = {time = 0, lifespan = projectileDef.lifespan, type = xProjectileType, render = projectileDef, onDeath = projectileDef.onDeath, externalControl = xExternalControl}
   projectile.loc = xPosition
   projectile.dir = xDirection
   projectile.vel = createProjectileVelocity(projectileDef.speed, xDirection, xMomentum)

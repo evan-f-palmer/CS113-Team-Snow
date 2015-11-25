@@ -12,6 +12,7 @@ return {
       sinistarCollision = 100,
       warriorBullet = 5,
       workerBullet = 1,
+      sinibombBlast = 0.1,
     },
     bombAmmoFromCrystalPickup = 1,
     healpersec = (1/3),
@@ -27,6 +28,7 @@ return {
     damageFrom = {
       playerBullet = 10,
       sinibomb = 10,
+      sinibombBlast = 1000,
     }
   },
   warrior = {  
@@ -42,6 +44,7 @@ return {
     damageFrom = {
       playerBullet = 10,
       sinibomb = 10,
+      sinibombBlast = 1000,
     }
   },
   asteroid = {
@@ -55,17 +58,20 @@ return {
       workerBullet = 1,
       warriorBullet = 0,
       sinibomb = 10,
+      sinibombBlast = 1000,
     },
     excessiveDamageFrom = {
       playerBullet = 5,
-      
     },
   },
   playerBullet = {
     speed = 2500, lifespan = 3, radius = 4,
   },
   sinibomb = {
-    speed = 100, lifespan = 5, radius = 25,
+    speed = 100, lifespan = 3, radius = 25, detonationArmingTime = 0.3,
+  },
+  sinibombBlast = {
+    speed = 1, lifespan = 1, radius = 300,
   },
   workerBullet = {
     speed = 1200, lifespan = 2, radius = 5,

@@ -45,7 +45,7 @@ function Player:init(gameData, playerInput)
   self.combat:addCombatant("Player", {health = EntityParams.player.health})
   self.combat:addWeapon("Player Primary R", {ammo = math.huge, projectileID = "Player Bullet", debounceTime = EntityParams.player.primaryFireDebounce})
   self.combat:addWeapon("Player Primary L", {ammo = math.huge, projectileID = "Player Bullet", debounceTime = EntityParams.player.primaryFireDebounce})
-  self.combat:addWeapon("Player Secondary", {ammo = 0, projectileID = "Sinibomb", debounceTime = EntityParams.player.secondaryFireDebounce, maxAmmo = EntityParams.player.secondaryMaxAmmo})
+  self.combat:addWeapon("Player Secondary", {ammo = 0, projectileID = "Sinibomb", debounceTime = EntityParams.player.secondaryFireDebounce, maxAmmo = EntityParams.player.secondaryMaxAmmo})  
     
   self.render = self.variations[math.random(#self.variations)]
   self.render.animation = ANIMATOR:newAnimation("Test", (1/2)) -- (1/2) is the fps. fps > 1 works too.
@@ -53,6 +53,10 @@ function Player:init(gameData, playerInput)
   
   self.alertMachine = AlertMachine()
   self.soundSystem = SoundSystem()
+  
+  self.hasActiveSinibomb = false
+  self.activeSinibombTimer = 0
+  self.sinibombDetonator = {isDead = false}
 end
 
 function Player:update(dt)
@@ -69,11 +73,22 @@ function Player:update(dt)
     self.soundSystem:play("sound/short.ogg")
   end
     
+  if self.hasActiveSinibomb then
+    self.activeSinibombTimer = self.activeSinibombTimer + dt
+  end
+    
   if self.playerInput.secondaryWeaponFire then
-    if self.combat:canFire("Player Secondary") then
+    if self.combat:canFire("Player Secondary") and not self.hasActiveSinibomb then
+      self.sinibombDetonator.isDead = false
       self.soundSystem:play("sound/laser.ogg")
+      self.combat:fire("Player Secondary", self.loc, -self.dir, nil, self.sinibombDetonator)
+      self.hasActiveSinibomb = true
+      self.activeSinibombTimer = 0
+    elseif self.activeSinibombTimer >= EntityParams.sinibomb.detonationArmingTime then
+      self.sinibombDetonator.isDead = true
+      self.hasActiveSinibomb = false
+      self.activeSinibombTimer = 0
     end
-    self.combat:fire("Player Secondary", self.loc, -self.dir)
   end
   
   if self.playerInput.secondaryWeaponFire and self.combat:isOutOfAmmo("Player Secondary") then
@@ -108,6 +123,10 @@ function Player:onCollision(other)
     self.gameData:increaseScore(self.gameData.crystalValue)
     self.combat:supplyAmmo("Player Secondary", EntityParams.player.bombAmmoFromCrystalPickup)
     other.isDead = true
+  end
+  
+  if type == "Sinibomb Blast" then
+    self.combat:attack("Player", EntityParams.player.damageFrom.sinibombBlast)
   end
   
   if type == "Asteroid" then
