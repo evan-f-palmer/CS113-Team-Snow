@@ -87,21 +87,25 @@ function Player:update(dt)
   self.isDead = self.combat:isDead("Player")
 end
 
+function Player:damage(xAmount)
+  self.combat:attack("Player", xAmount)
+end
+
 function Player:onCollision(other)
   local type = other.type
   
   if type == "Warrior Bullet" then
-    self.combat:attack("Player", EntityParams.player.damageFrom.warriorBullet)
+    self:damage(EntityParams.player.damageFrom.warriorBullet)
     other.isDead = true
   end
   
   if type == "Worker Bullet" then
-    self.combat:attack("Player", EntityParams.player.damageFrom.workerBullet)
+    self:damage(EntityParams.player.damageFrom.workerBullet)
     other.isDead = true
   end
   
   if type == "Sinistar" then
-    self.combat:attack("Player", EntityParams.player.damageFrom.sinistarCollision)
+    self:damage(EntityParams.player.damageFrom.sinistarCollision)
   end
   
   if type == "Crystal" then
@@ -111,7 +115,7 @@ function Player:onCollision(other)
   end
   
   if type == "Sinibomb Blast" then
-    self.combat:attack("Player", EntityParams.player.damageFrom.sinibombBlast)
+    self:damage(EntityParams.player.damageFrom.sinibombBlast)
   end
   
   if type == "Asteroid" then

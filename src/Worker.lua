@@ -62,6 +62,10 @@ function Worker:update(dt)
   end
 end
 
+function Worker:damage(xAmount)
+  self.combat:attack(self.id, xAmount)
+end
+
 function Worker:onCollision(other)
   local type = other.type
 
@@ -71,17 +75,17 @@ function Worker:onCollision(other)
   end
   
   if type == "Player Bullet" then
-    self.combat:attack(self.id, EntityParams.worker.damageFrom.playerBullet)
+    self:damage(EntityParams.worker.damageFrom.playerBullet)
     other.isDead = true
   end
   
   if type == "Sinibomb" then
-    self.combat:attack(self.id, EntityParams.worker.damageFrom.sinibomb)
+    self:damage(EntityParams.worker.damageFrom.sinibomb)
     other.isDead = true
   end
   
   if type == "Sinibomb Blast" then
-    self.combat:attack(self.id, EntityParams.worker.damageFrom.sinibombBlast)
+    self:damage(EntityParams.worker.damageFrom.sinibombBlast)
   end
   
   if type == "Asteroid" then

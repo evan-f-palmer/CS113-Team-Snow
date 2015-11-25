@@ -56,12 +56,13 @@ end
 
 function Projectiles:add(xProjectileType, xPosition, xDirection, xMomentum)
   local projectileDef = self.DEFS[xProjectileType] or Projectiles.DEFAULT_DEF
-  local projectile = {time = 0, lifespan = projectileDef.lifespan, type = xProjectileType, render = projectileDef, onDeath = projectileDef.onDeath}
+  local projectile = {time = 0, lifespan = projectileDef.lifespan, type = xProjectileType, render = projectileDef}
   projectile.loc = xPosition
   projectile.dir = xDirection
   projectile.vel = createProjectileVelocity(projectileDef.speed, xDirection, xMomentum)
   projectile.radius = projectileDef.radius
   projectile.onCollision = projectileDef.onCollision
+  projectile.onDeath = projectileDef.onDeath
   table.insert(self, projectile)
   self.collider:createCollisionObject(projectile, projectileDef.radius)
 end

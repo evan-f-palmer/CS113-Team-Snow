@@ -57,6 +57,10 @@ function Warrior:update(dt)
   end
 end
 
+function Warrior:damage(xAmount)
+  self.combat:attack(self.id, xAmount)
+end
+
 function Warrior:onCollision(other)
   local type = other.type
 
@@ -66,17 +70,17 @@ function Warrior:onCollision(other)
   end
   
   if type == "Player Bullet" then
-    self.combat:attack(self.id, EntityParams.warrior.damageFrom.playerBullet)
+    self:damage(EntityParams.warrior.damageFrom.playerBullet)
     other.isDead = true
   end
   
   if type == "Sinibomb" then
-    self.combat:attack(self.id, EntityParams.warrior.damageFrom.sinibomb)
+    self:damage(EntityParams.warrior.damageFrom.sinibomb)
     other.isDead = true
   end
   
   if type == "Sinibomb Blast" then
-    self.combat:attack(self.id, EntityParams.warrior.damageFrom.sinibombBlast)
+    self:damage(EntityParams.warrior.damageFrom.sinibombBlast)
   end
   
   if type == "Asteroid" then

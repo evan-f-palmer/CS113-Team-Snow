@@ -68,7 +68,7 @@ return {
     speed = 2500, lifespan = 3, radius = 4,
   },
   sinibomb = {
-    speed = 100, lifespan = 3, radius = 25, detonationArmingTime = 0.3,
+    speed = 100, lifespan = 3, radius = 25,
   },
   sinibombBlast = {
     speed = 1, lifespan = 1, radius = 300,
