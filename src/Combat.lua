@@ -59,13 +59,13 @@ function Combat:heal(xHealingCombatantID, xAmount)
   end
 end
 
-function Combat:fire(xWeaponID, xPosition, xDirection, xMomentum, xExternalControl)
+function Combat:fire(xWeaponID, xPosition, xDirection, xMomentum)
   if self:canFire(xWeaponID) then
     local loc, dir, vel = xPosition:clone(), xDirection:clone(), (xMomentum and xMomentum:clone())
     local weapon = self.weapons[xWeaponID]
     weapon.ammo = weapon.ammo - 1
     weapon.timer = 0
-    table.insert(self.actions, {type = "FIRE", weapon = weapon, startPos = loc, direction = dir, momentum = vel, externalControl = xExternalControl})
+    table.insert(self.actions, {type = "FIRE", weapon = weapon, startPos = loc, direction = dir, momentum = vel})
   end
 end
 
@@ -120,7 +120,7 @@ function Combat:chargeAllWeapons(dt)
 end
 
 Combat.ACTION_DISPATCH["FIRE"] = function(xFire)
-  Combat.PROJECTILES:add(xFire.weapon.projectileID, xFire.startPos, xFire.direction, xFire.momentum, xFire.externalControl)
+  Combat.PROJECTILES:add(xFire.weapon.projectileID, xFire.startPos, xFire.direction, xFire.momentum)
 end
 
 Combat.ACTION_DISPATCH["ATTACK"] = function(xAttack)

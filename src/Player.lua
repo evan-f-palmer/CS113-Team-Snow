@@ -53,10 +53,6 @@ function Player:init(gameData, playerInput)
   
   self.alertMachine = AlertMachine()
   self.soundSystem = SoundSystem()
-  
-  self.hasActiveSinibomb = false
-  self.activeSinibombTimer = 0
-  self.sinibombDetonator = {isDead = false}
 end
 
 function Player:update(dt)
@@ -73,21 +69,10 @@ function Player:update(dt)
     self.soundSystem:play("sound/short.ogg")
   end
     
-  if self.hasActiveSinibomb then
-    self.activeSinibombTimer = self.activeSinibombTimer + dt
-  end
-    
   if self.playerInput.secondaryWeaponFire then
-    if self.combat:canFire("Player Secondary") and not self.hasActiveSinibomb then
-      self.sinibombDetonator.isDead = false
+    if self.combat:canFire("Player Secondary") then
       self.soundSystem:play("sound/laser.ogg")
-      self.combat:fire("Player Secondary", self.loc, -self.dir, nil, self.sinibombDetonator)
-      self.hasActiveSinibomb = true
-      self.activeSinibombTimer = 0
-    elseif self.activeSinibombTimer >= EntityParams.sinibomb.detonationArmingTime then
-      self.sinibombDetonator.isDead = true
-      self.hasActiveSinibomb = false
-      self.activeSinibombTimer = 0
+      self.combat:fire("Player Secondary", self.loc, -self.dir)
     end
   end
   
