@@ -12,17 +12,17 @@ Asteroid.count = 0
 Asteroid.variations = {
   {
     image = love.graphics.newImage("assets/asteroid.png"),
-    color = {255,255,255},
+    color = {165,165,165},
     shouldRotate = true,
   },
   {
     image = love.graphics.newImage("assets/asteroid.png"),
-    color = {175,175,175},
+    color = {105,105,105},
     shouldRotate = true,
   },
   {
     image = love.graphics.newImage("assets/asteroid.png"),
-    color = {95,95,95},
+    color = {143,127,121},
     shouldRotate = true,
   },
 }

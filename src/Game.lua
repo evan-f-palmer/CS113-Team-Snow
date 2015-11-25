@@ -30,14 +30,14 @@ function Game:init()
   
   self.gameInput = GameIOController(self)
   
- -- self.soundSystem:playMusic("music/TheFatRat-Dancing-Naked.mp3")
+  --self.soundSystem:playMusic("music/TheFatRat-Dancing-Naked.mp3")
   
   self.projectiles = Projectiles()
   self.projectiles:define("Player Bullet", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {0,180,50}, speed = EntityParams.playerBullet.speed, lifespan = EntityParams.playerBullet.lifespan, radius = EntityParams.playerBullet.radius})
-  self.projectiles:define("Sinibomb", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {180,50,0}, speed = EntityParams.sinibomb.speed, lifespan = EntityParams.sinibomb.lifespan, radius = EntityParams.sinibomb.radius})
+  self.projectiles:define("Sinibomb", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {255,255,255}, speed = EntityParams.sinibomb.speed, lifespan = EntityParams.sinibomb.lifespan, radius = EntityParams.sinibomb.radius})
   self.projectiles:define("Worker Bullet", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {115,115,0}, speed = EntityParams.workerBullet.speed, lifespan = EntityParams.workerBullet.lifespan, radius = EntityParams.workerBullet.radius}) 
   self.projectiles:define("Warrior Bullet", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {200,100,0}, speed = EntityParams.warriorBullet.speed, lifespan = EntityParams.warriorBullet.lifespan, radius = EntityParams.warriorBullet.radius})
-  self.projectiles:define("Crystal", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {200,200,200}, speed = EntityParams.crystal.speed, lifespan = EntityParams.crystal.lifespan, radius = EntityParams.crystal.radius}) 
+  self.projectiles:define("Crystal", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {50,120,220}, speed = EntityParams.crystal.speed, lifespan = EntityParams.crystal.lifespan, radius = EntityParams.crystal.radius}) 
   
   local levelFileName = "src/levels/testing2.lua"
   self.world:loadLevel(levelFileName)
@@ -69,6 +69,8 @@ function Game:update(dt)
     self.data:updateAlertData(self.alertMachine)
     self.hud:update(dt)
   end
+  
+  return self
 end
 
 function Game:draw()

@@ -2,39 +2,49 @@ local Class        = require('hump.class')
 local SoundSystem  = require('SoundSystem')
 
 local GameMenu = Class{}
+GameMenu.defaultMusicFile = "music/TheFatRat-Dancing-Naked.mp3"
 
-local musicFile = "music/TheFatRat-Dancing-Naked.mp3"
-
-function GameMenu:init()
-  self.isOpen = false
-
+function GameMenu:init(xDef)
+  self.contexts  = xDef.contexts
+  self.layout    = xDef.layout
+  self.buttons   = xDef.buttons
+  self.musicFile = xDef.musicFile or self.defaultMusicFile
+  
   self.soundSystem = SoundSystem()
-  self.soundSystem:loadMusic(musicFile)
-  self.soundSystem:loop(musicFile)
+  self.soundSystem:loadMusic(self.musicFile)
+  self.soundSystem:loop(self.musicFile)
 end
 
-function GameMenu:open()
-  self.isOpen = true
-  self.soundSystem:playMusic(musicFile)
+function GameMenu:onOpen()
+  self.soundSystem:playMusic(self.musicFile)
+  -- load buttons and cursor collision bodies
 end
 
-function GameMenu:close()
-  self.isOpen = false
-  self.soundSystem:stop(musicFile)
+function GameMenu:onClose()
+  self.soundSystem:stop(self.musicFile)
+  -- unload buttons and cursor collision bodies
 end
 
 function GameMenu:update(dt)  
-  if self.isOpen then
-
+  local selection
+  local newContext
+  
+  -- choose "selection" via button logic here
+  
+  if selection then
+    self:onClose()
+    newContext = self.contexts[selection]
+    if newContext.onOpen then
+      newContext:onOpen()
+    end
   end
+  
+  return newContext or self
 end
 
 function GameMenu:draw()
   love.graphics.setBackgroundColor(0,0,0,0)
-  love.window.showMessageBox("HEY", "Press X to quit", 'info', true)  
-  
-  --love.graphics.setColor(255, 255, 255)
-  --love.graphics.rectangle('fill',0,0,love.window.getWidth(),love.window.getHeight())
+-- draw buttons and cursor  
 end
 
-return Game
+return GameMenu
