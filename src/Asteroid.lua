@@ -4,10 +4,12 @@ local AlertMachine = require('AlertMachine')
 local Combat = require('Combat')
 local SoundSystem = require('SoundSystem')
 local EntityParams = require('EntityParams')
+local Probability = require('Probability')
 
 local Asteroid = Class{}
 Asteroid.type = "Asteroid"
 Asteroid.count = 0
+Asteroid.probability = Probability()
 
 Asteroid.variations = {
   {
@@ -74,21 +76,29 @@ function Asteroid:onCollision(other)
   if type == "Player Bullet" then
     if self.combat:canFire(self.id) then
       self:damage(EntityParams.asteroid.damageFrom.playerBullet)
-      self:fire()
+      if self.probability:of(EntityParams.asteroid.crystalProductionProbabilityFor.playerBullet) then
+        self:fire()
+      end
     else
       self:damage(EntityParams.asteroid.excessiveDamageFrom.playerBullet)
-      self:fire()
+      if self.probability:of(EntityParams.asteroid.excessiveDamageCrystalProductionProbabilityFor.playerBullet) then
+        self:fire()
+      end
     end
     other.isDead = true
   end
   if type == "Worker Bullet" then
     self:damage(EntityParams.asteroid.damageFrom.workerBullet)
-    self:fire()
+    if self.probability:of(EntityParams.asteroid.crystalProductionProbabilityFor.workerBullet) then
+      self:fire()
+    end
     other.isDead = true
   end
   if type == "Warrior Bullet" then
     self:damage(EntityParams.asteroid.damageFrom.warriorBullet)
-    self:fire()
+    if self.probability:of(EntityParams.asteroid.crystalProductionProbabilityFor.warriorBullet) then
+      self:fire()
+    end
     other.isDead = true
   end
   if type == "Sinibomb" then

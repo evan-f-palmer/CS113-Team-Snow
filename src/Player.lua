@@ -60,7 +60,7 @@ function Player:update(dt)
   self.vel = self.playerInput.movementVec
   self.vel:trim_inplace(self.maxSpeed)
 
-  if self.playerInput.primaryWeaponFire then
+  if self.playerInput.primaryWeaponFire and self.combat:canFire("Player Primary R") and self.combat:canFire("Player Primary L") then
     local offset = self.dir:perpendicular()
     offset = offset:normalize_inplace()
     offset = offset:scale_inplace(self.primaryFireOffset)
@@ -69,9 +69,11 @@ function Player:update(dt)
     self.soundSystem:play("sound/short.ogg")
   end
     
-  if self.playerInput.secondaryWeaponFire then
-    if self.combat:canFire("Player Secondary") then
-      self.soundSystem:play("sound/laser.ogg")
+  if self.playerInput.secondaryWeaponFire and self.combat:canFire("Player Secondary") then
+    self.soundSystem:play("sound/laser.ogg")
+    if self.vel.x == 0 and self.vel.y == 0 then
+      self.combat:fire("Player Secondary", self.loc, self.dir)
+    else
       self.combat:fire("Player Secondary", self.loc, -self.dir)
     end
   end

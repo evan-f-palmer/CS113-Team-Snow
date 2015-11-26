@@ -5,13 +5,13 @@ return {
     maxSpeed = 1750,
     radius = 70,
     primaryFireOffset = 30,
-    primaryFireDebounce = 0.3,
+    primaryFireDebounce = 0.18,
     secondaryFireDebounce = 1,
     secondaryMaxAmmo = 12,
     damageFrom = {
       sinistarCollision = 100,
-      warriorBullet = 5,
-      workerBullet = 1,
+      warriorBullet = 15,
+      workerBullet = 5,
       sinibombBlast = 0.1,
     },
     bombAmmoFromCrystalPickup = 1,
@@ -23,10 +23,10 @@ return {
     sightRadius = 2000,
     maxSpeedScale = 0.9,
     maxForceScale = 1,
-    fireDebounce = 5.6,
+    fireDebounce = 2.6,
     closestProximity = 400,
     damageFrom = {
-      playerBullet = 10,
+      playerBullet = 8,
       sinibomb = 10,
       sinibombBlast = 1000,
     }
@@ -42,7 +42,7 @@ return {
     fireDebounce = 3,
     closestProximity = 800,
     damageFrom = {
-      playerBullet = 10,
+      playerBullet = 8,
       sinibomb = 10,
       sinibombBlast = 1000,
     }
@@ -60,15 +60,23 @@ return {
       sinibomb = 10,
       sinibombBlast = 1000,
     },
+    crystalProductionProbabilityFor = {
+      playerBullet = 0.4,
+      workerBullet = 0.2,
+      warriorBullet = 0,
+    },
     excessiveDamageFrom = {
       playerBullet = 5,
     },
+    excessiveDamageCrystalProductionProbabilityFor = {
+      playerBullet = 0.5,
+    }
   },
   playerBullet = {
     speed = 2500, lifespan = 3, radius = 4,
   },
   sinibomb = {
-    speed = 100, lifespan = 3, radius = 25,
+    speed = 200, lifespan = 3, radius = 25,
   },
   sinibombBlast = {
     speed = 1, lifespan = 1, radius = 300,
