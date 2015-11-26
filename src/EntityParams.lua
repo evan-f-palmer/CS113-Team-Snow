@@ -26,8 +26,8 @@ return {
     fireDebounce = 2.6,
     closestProximity = 400,
     damageFrom = {
-      playerBullet = 8,
-      sinibomb = 10,
+      playerBullet = 5,
+      sinibomb = 15,
       sinibombBlast = 1000,
     }
   },
@@ -42,8 +42,8 @@ return {
     fireDebounce = 3,
     closestProximity = 800,
     damageFrom = {
-      playerBullet = 8,
-      sinibomb = 10,
+      playerBullet = 5,
+      sinibomb = 15,
       sinibombBlast = 1000,
     }
   },
@@ -57,7 +57,7 @@ return {
       playerBullet = 2,
       workerBullet = 1,
       warriorBullet = 0,
-      sinibomb = 10,
+      sinibomb = 15,
       sinibombBlast = 1000,
     },
     crystalProductionProbabilityFor = {
@@ -88,6 +88,6 @@ return {
     speed = 1800, lifespan = 3, radius = 5,
   },
   crystal = {
-    speed = 180, lifespan = 8, radius = 30,
+    speed = 180, lifespan = 8, radius = 35,
   },
 }

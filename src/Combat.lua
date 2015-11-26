@@ -109,6 +109,11 @@ function Combat:getRechargePercent(xWeaponID)
   return math.min((weapon.timer / weapon.debounceTime), Combat.ONE_HUNDRED_PERCENT)
 end
 
+function Combat:recharge(xWeaponID)
+  local weapon = self.weapons[xWeaponID] or {timer = 0, debounceTime = Combat.DEFAULT_WEAPON_DEBOUNCE}
+  weapon.timer = weapon.debounceTime
+end
+
 function Combat:canFire(xWeaponID)
   return not self:isOutOfAmmo(xWeaponID) and self:getRechargePercent(xWeaponID) >= Combat.ONE_HUNDRED_PERCENT
 end
