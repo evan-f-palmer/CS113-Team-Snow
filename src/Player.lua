@@ -74,7 +74,7 @@ function Player:update(dt)
     if self.vel.x == 0 and self.vel.y == 0 then
       self.combat:fire("Player Secondary", self.loc, self.dir)
     else
-      self.combat:fire("Player Secondary", self.loc, -self.dir)
+      self.combat:fire("Player Secondary", self.loc, -self.dir, self.vel)
     end
   end
   
