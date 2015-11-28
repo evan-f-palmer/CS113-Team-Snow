@@ -4,7 +4,6 @@ local AlertMachine = require('AlertMachine')
 local Combat = require('Combat')
 local SoundSystem = require('SoundSystem')
 local EntityParams = require('EntityParams')
-local Animator = require('Animator')
 
 local PRIMARY_FIRE_MESSAGE   = {message = "[Primary Fire]", lifespan = 0.5}
 local SECONDARY_FIRE_MESSAGE = {message = "[Secondary Fire]", lifespan = 0.5}
@@ -15,11 +14,6 @@ Player.type = "Player"
 Player.maxSpeed = EntityParams.player.maxSpeed
 Player.radius = EntityParams.player.radius
 Player.primaryFireOffset = EntityParams.player.primaryFireOffset
-
-local ANIMATOR = Animator()
-ANIMATOR:define("Test", {
-  love.graphics.newImage("assets/player.png"),
-})
 
 Player.variations = {
   {
@@ -45,8 +39,6 @@ function Player:init(gameData, playerInput)
   self.combat:addWeapon("Player Secondary", {ammo = 0, projectileID = "Sinibomb", debounceTime = EntityParams.player.secondaryFireDebounce, maxAmmo = EntityParams.player.secondaryMaxAmmo})  
     
   self.render = self.variations[math.random(#self.variations)]
-  self.render.animation = ANIMATOR:newAnimation("Test", (1/2)) -- (1/2) is the fps. fps > 1 works too.
-  self.render.animation.start() -- you must tell it to start when you want it to start
   
   self.alertMachine = AlertMachine()
   self.soundSystem = SoundSystem()

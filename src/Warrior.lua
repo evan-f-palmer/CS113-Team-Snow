@@ -18,20 +18,8 @@ Warrior.maxDistanceFromFlock = EntityParams.warrior.maxDistanceFromFlock
 Warrior.minDistance2 = math.pow(EntityParams.warrior.closestProximity, 2)
 
 local ANIMATOR = Animator()
-local nolights = love.graphics.newImage("assets/warrior/warrior1.png")
-ANIMATOR:define("WarriorLights", {
-  nolights, nolights, nolights, nolights, nolights, nolights,
-  love.graphics.newImage("assets/warrior/warrior2.png"),
-  love.graphics.newImage("assets/warrior/warrior3.png"),
-  love.graphics.newImage("assets/warrior/warrior4.png"),
-  love.graphics.newImage("assets/warrior/warrior5.png"),
-  love.graphics.newImage("assets/warrior/warrior6.png"),
-  love.graphics.newImage("assets/warrior/warrior7.png"),
-  love.graphics.newImage("assets/warrior/warrior8.png"),
-})
 
 Warrior.render = {
-  image = love.graphics.newImage("assets/warrior/warrior1.png"),
   color = {255,255,255},
   shouldRotate = false,
 }
