@@ -18,15 +18,12 @@ Player.primaryFireOffset = EntityParams.player.primaryFireOffset
 
 local ANIMATOR = Animator()
 ANIMATOR:define("Test", {
-  love.graphics.newImage("assets/ship.png"),
-  love.graphics.newImage("assets/asteroid.png"),
-  love.graphics.newImage("assets/worker.png"),
-  love.graphics.newImage("assets/warrior.png"),
+  love.graphics.newImage("assets/player.png"),
 })
 
 Player.variations = {
   {
-    image = love.graphics.newImage("assets/ship.png"),
+    image = love.graphics.newImage("assets/player.png"),
     color = {255,255,255},
     shouldRotate = true,
   },
@@ -66,11 +63,11 @@ function Player:update(dt)
     offset = offset:scale_inplace(self.primaryFireOffset)
     self.combat:fire("Player Primary R", self.loc + offset, self.dir, self.vel)
     self.combat:fire("Player Primary L", self.loc - offset, self.dir, self.vel)
-    self.soundSystem:play("sound/short.ogg")
+    self.soundSystem:play("sound/playerShot.wav")
   end
     
   if self.playerInput.secondaryWeaponFire and self.combat:canFire("Player Secondary") then
-    self.soundSystem:play("sound/laser.ogg")
+    self.soundSystem:play("sound/playerShot.wav")
     if self.vel.x == 0 and self.vel.y == 0 then
       self.combat:fire("Player Secondary", self.loc, self.dir)
     else

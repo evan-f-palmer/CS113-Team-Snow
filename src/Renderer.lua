@@ -40,6 +40,7 @@ function Renderer:draw(xWorld)
   local inRDView = player.getNeighbors(self.radarRadius)
   local inRadarViewByType = self:getObjectsInViewByType(inRDView)  
   xWorld.gameData.forRadar = inRadarViewByType 
+ -- love.graphics.setBackgroundColor(255,255,255,0)
   
   -- ALWAYS LOOK AT THE PLAYER
   self.camera:lookAt(playerX, playerY)

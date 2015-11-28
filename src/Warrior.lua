@@ -4,6 +4,8 @@ local Boid   = require('Boid')
 local Heap   = require('Heap')
 local Combat = require('Combat')
 local EntityParams = require('EntityParams')
+local SoundSystem = require('SoundSystem')
+local Animator = require('Animator')
 
 local Warrior = Class{__includes = Boid}
 Warrior.count = 0
@@ -15,8 +17,21 @@ Warrior.radius = EntityParams.warrior.radius
 Warrior.maxDistanceFromFlock = EntityParams.warrior.maxDistanceFromFlock
 Warrior.minDistance2 = math.pow(EntityParams.warrior.closestProximity, 2)
 
+local ANIMATOR = Animator()
+ANIMATOR:define("WarriorLights", {
+  love.graphics.newImage("assets/warrior/warrior1.png"),
+  love.graphics.newImage("assets/warrior/warrior2.png"),
+  love.graphics.newImage("assets/warrior/warrior3.png"),
+  love.graphics.newImage("assets/warrior/warrior4.png"),
+  love.graphics.newImage("assets/warrior/warrior5.png"),
+  love.graphics.newImage("assets/warrior/warrior6.png"),
+  love.graphics.newImage("assets/warrior/warrior7.png"),
+  love.graphics.newImage("assets/warrior/warrior8.png"),
+  love.graphics.newImage("assets/warrior/warrior9.png"),
+})
+
 Warrior.render = {
-  image = love.graphics.newImage("assets/warrior.png"),
+  image = love.graphics.newImage("assets/warrior/warrior1.png"),
   color = {255,255,255},
   shouldRotate = false,
 }
@@ -35,6 +50,10 @@ function Warrior:init(gameData)
   self.combat = Combat()
   self.combat:addCombatant(self.id, {health = EntityParams.warrior.health})
   self.combat:addWeapon(self.id, {ammo = math.huge, projectileID = "Warrior Bullet", debounceTime = EntityParams.warrior.fireDebounce})
+  self.soundSystem = SoundSystem()  
+  
+  self.render.animation = ANIMATOR:newAnimation("WarriorLights", (15)) -- (1/2) is the fps. fps > 1 works too.
+  self.render.animation.start() -- you must tell it to start when you want it to start
 end
 
 function Warrior:setFlock(xFlock)
@@ -42,7 +61,6 @@ function Warrior:setFlock(xFlock)
 end
 
 function Warrior:update(dt)
---  print(self.id, self.loc)
   Boid.update(self, dt)
   
   if self.currentTarget  then 
@@ -54,6 +72,7 @@ function Warrior:update(dt)
   
   if self.isDead and (self.lastCollision == "Player Bullet" or self.lastCollision == "Sinibomb" or self.lastCollision == "Sinibomb Blast") then
     self.gameData:increaseScore(self.gameData.warriorKillValue)
+    self.soundSystem:play("sound/explosion.wav", 0.5)    
   end
 end
 
@@ -115,18 +134,7 @@ end
 function Warrior:updateSteering(target, asteroids)
   local steer = Vector(0, 0)
   
-  local isTooFarFromFlock = self.flock.avgLoc:dist2(self.loc) > self.maxDistanceFromFlock
-  -- Move towards target
-  local tmp
-  if isTooFarFromFlock and target and self.loc:dist2(target.loc) > self.minDistance2 then
-    tmp = self:seek(target.loc)
-  elseif isTooFarFromFlock then
-    tmp = self:seek(self.flock.avgLoc)
-  else 
-    tmp = self:wander()
-  end
-  
-  steer:add_inplace(tmp)
+  steer:add_inplace(self:wander())
   
   -- Avoid Asteroids
   for _, asteroid in pairs(asteroids.data) do

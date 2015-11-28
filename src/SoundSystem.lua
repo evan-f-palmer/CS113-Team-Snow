@@ -9,20 +9,22 @@ function SoundSystem:init()
   self.status = {}
 end
 
-function SoundSystem:play(xSoundFileName)
+function SoundSystem:play(xSoundFileName, xVolume)
   if not self.soundSources[xSoundFileName] then
     self:load(xSoundFileName)
   end
   local src = self.soundSources[xSoundFileName]
+  src:setVolume(xVolume or 1)
   love.audio.play(src)
   self.status[xSoundFileName] = "Playing"
 end
 
-function SoundSystem:playMusic(xMusicFileName)
+function SoundSystem:playMusic(xMusicFileName, xVolume)
   if not self.musicSources[xMusicFileName] then
     self:loadMusic(xMusicFileName)
   end
   local src = self.musicSources[xMusicFileName]
+  src:setVolume(xVolume or 1)
   love.audio.play(src)
   self.status[xMusicFileName] = "Playing"
 end

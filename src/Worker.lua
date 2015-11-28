@@ -4,6 +4,7 @@ local Boid   = require('Boid')
 local Heap   = require('Heap')
 local Combat = require('Combat')
 local EntityParams = require('EntityParams')
+local SoundSystem = require('SoundSystem')
 
 local Worker = Class{__includes = Boid}
 Worker.count = 0
@@ -34,6 +35,7 @@ function Worker:init(gameData)
   self.combat = Combat()
   self.combat:addCombatant(self.id, {health = EntityParams.worker.health})
   self.combat:addWeapon(self.id, {ammo = math.huge, projectileID = "Worker Bullet", debounceTime = EntityParams.worker.fireDebounce})
+  self.soundSystem = SoundSystem()    
 end
 
 function Worker:setFlock(xFlock)
@@ -59,6 +61,7 @@ function Worker:update(dt)
   
   if self.isDead and (self.lastCollision == "Player Bullet" or self.lastCollision == "Sinibomb" or self.lastCollision == "Sinibomb Blast") then
     self.gameData:increaseScore(self.gameData.workerKillValue)
+    self.soundSystem:play("sound/explosion.wav", 0.5)    
   end
 end
 
