@@ -24,7 +24,7 @@ function Renderer:init()
   self.TEXT_Y_OFFSET = 2 * self.GU.FONT_SIZE
   self.TEXT_COLOR = {80, 80, 200}
   
-  self.DRAW_ORDERING = {"Asteroid", "Worker Bullet", "Player Bullet", "Warrior Bullet", "Crystal", "Sinistar", "Sinibomb", "Worker", "Warrior", "Player", "Sinibomb Blast"}
+  self.DRAW_ORDERING = {"Worker Bullet", "Player Bullet", "Warrior Bullet", "Asteroid", "Crystal", "Sinistar", "Sinibomb", "Worker", "Warrior", "Player", "Sinibomb Blast"}
 end
 
 function Renderer:draw(xWorld)
@@ -77,19 +77,19 @@ function Renderer:draw(xWorld)
       local tx, ty = player.getRelativeLoc(obj)
       local x, y = (player.loc.x + tx), (player.loc.y + ty)
       
-      if obj.render.image then
+      local image = obj.render.image 
+      if obj.render.animation then
+        image = obj.render.animation.image
+      end
+      
+      if image then
         local color = obj.render.color or self.DEFAULT_COLOR
         love.graphics.setColor(color[1], color[2], color[3], color[4])
         local angle = 0
         if obj.render.shouldRotate then
           angle = self.GU:getAngle(obj.dir)
         end
-        
-        local image = obj.render.image 
-        if obj.render.animation then
-          image = obj.render.animation.image
-        end
-        
+
         self.GU:drawRotatedImage(image, x, y, angle)
         if obj.radius then
           love.graphics.circle("line", x, y, obj.radius)

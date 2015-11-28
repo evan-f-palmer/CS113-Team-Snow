@@ -3,11 +3,11 @@ return {
   player = {
     health = 100,
     maxSpeed = 1750,
-    radius = 70,
+    radius = 65,
     primaryFireOffset = 30,
     primaryFireDebounce = 0.18,
     secondaryFireDebounce = 1,
-    secondaryMaxAmmo = 12,
+    secondaryMaxAmmo = 20,
     damageFrom = {
       sinistarCollision = 100,
       warriorBullet = 15,
@@ -19,9 +19,9 @@ return {
   },
   worker = {
     health = 40,
-    radius = 70,
+    radius = 80,
     sightRadius = 2000,
-    maxSpeedScale = 0.9,
+    maxSpeedScale = 0.95,
     maxForceScale = 1,
     fireDebounce = 2.6,
     closestProximity = 400,
@@ -33,14 +33,14 @@ return {
   },
   warrior = {  
     health = 60,  
-    radius = 70,
+    radius = 180,
     primaryFireOffset = 20,
-    sightRadius = 2000,
-    maxSpeedScale = 0.75,
+    sightRadius = 1000,
+    maxSpeedScale = 1.15,
     maxForceScale = 0.85,
-    maxDistanceFromFlock = 1000,
+    maxDistanceFromFlock = 20,
     fireDebounce = 3,
-    closestProximity = 800,
+    closestProximity = 200,
     damageFrom = {
       playerBullet = 5,
       sinibomb = 15,
@@ -49,7 +49,7 @@ return {
   },
   asteroid = {
     health = 100,
-    radius = 80,
+    radius = 120,
     crystals = 6,
     crystalDebounce = 2.25,
     fireOffset = 20,
@@ -73,21 +73,21 @@ return {
     }
   },
   playerBullet = {
-    speed = 2500, lifespan = 3, radius = 4,
+    speed = 2500, lifespan = 1.75, radius = 4,
   },
   sinibomb = {
-    speed = 450, lifespan = 3, radius = 25,
+    speed = 650, lifespan = 1.5, radius = 40,
   },
   sinibombBlast = {
     speed = 1, lifespan = 1, radius = 300,
   },
   workerBullet = {
-    speed = 1200, lifespan = 2, radius = 5,
+    speed = 1300, lifespan = 2, radius = 5,
   },
   warriorBullet = {
-    speed = 1800, lifespan = 3, radius = 5,
+    speed = 2200, lifespan = 3, radius = 5,
   },
   crystal = {
-    speed = 180, lifespan = 8, radius = 35,
+    speed = 180, lifespan = 8, radius = 20, -- radius 35 for pickup
   },
 }

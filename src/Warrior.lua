@@ -18,8 +18,9 @@ Warrior.maxDistanceFromFlock = EntityParams.warrior.maxDistanceFromFlock
 Warrior.minDistance2 = math.pow(EntityParams.warrior.closestProximity, 2)
 
 local ANIMATOR = Animator()
+local nolights = love.graphics.newImage("assets/warrior/warrior1.png")
 ANIMATOR:define("WarriorLights", {
-  love.graphics.newImage("assets/warrior/warrior1.png"),
+  nolights, nolights, nolights, nolights, nolights, nolights,
   love.graphics.newImage("assets/warrior/warrior2.png"),
   love.graphics.newImage("assets/warrior/warrior3.png"),
   love.graphics.newImage("assets/warrior/warrior4.png"),
@@ -27,7 +28,6 @@ ANIMATOR:define("WarriorLights", {
   love.graphics.newImage("assets/warrior/warrior6.png"),
   love.graphics.newImage("assets/warrior/warrior7.png"),
   love.graphics.newImage("assets/warrior/warrior8.png"),
-  love.graphics.newImage("assets/warrior/warrior9.png"),
 })
 
 Warrior.render = {
@@ -52,7 +52,7 @@ function Warrior:init(gameData)
   self.combat:addWeapon(self.id, {ammo = math.huge, projectileID = "Warrior Bullet", debounceTime = EntityParams.warrior.fireDebounce})
   self.soundSystem = SoundSystem()  
   
-  self.render.animation = ANIMATOR:newAnimation("WarriorLights", (15)) -- (1/2) is the fps. fps > 1 works too.
+  self.render.animation = ANIMATOR:newAnimation("WarriorLights", (2)) -- (1/2) is the fps. fps > 1 works too.
   self.render.animation.start() -- you must tell it to start when you want it to start
 end
 

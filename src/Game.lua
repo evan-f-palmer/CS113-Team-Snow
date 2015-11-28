@@ -40,19 +40,22 @@ function Game:init()
   self.combat:addWeapon("Sinibomb Detonator", {ammo = math.huge, projectileID = "Sinibomb Blast", debounceTime = 0})
   local sinibombDeath = function(sinibomb)
     self.combat:fire("Sinibomb Detonator", sinibomb.loc, sinibomb.dir)
-      self.soundSystem:play("sound/sinibombExplosion.wav", 1)
+    self.soundSystem:play("sound/sinibombExplosion.wav", 1)
   end
   local sinibombCollision = function(sinibomb, other)
     if other.type == "Sinibomb Blast" then
       sinibomb.isDead = true
-      self.soundSystem:play("sound/sinibombExplosion.wav")
     end
   end
   
+  self.animator:define("Sinibomb Explosion", {love.graphics.newImage("assets/explosion/explosion1.png"), love.graphics.newImage("assets/explosion/explosion2.png"), love.graphics.newImage("assets/explosion/explosion3.png")})
+  local sinibombBlastAnimation = self.animator:newAnimation("Sinibomb Explosion", 3)
+  sinibombBlastAnimation.start()
+  
   self.projectiles:define("Player Bullet", {shouldRotate = true, image = love.graphics.newImage("assets/projectiles/projectile1.png"), color = {0,180,50}, speed = EntityParams.playerBullet.speed, lifespan = EntityParams.playerBullet.lifespan, radius = EntityParams.playerBullet.radius})
-  self.projectiles:define("Sinibomb", {shouldRotate = true, image = love.graphics.newImage("assets/temp/redLaserRay.png"), color = {255,255,255}, speed = EntityParams.sinibomb.speed, lifespan = EntityParams.sinibomb.lifespan, radius = EntityParams.sinibomb.radius, onDeath = sinibombDeath, onCollision = sinibombCollision})
-  self.projectiles:define("Sinibomb Blast", {shouldRotate = false, image = love.graphics.newImage("assets/explosion/explosion2.png"), color = {255,255,255}, speed = EntityParams.sinibombBlast.speed, lifespan = EntityParams.sinibombBlast.lifespan, radius = EntityParams.sinibombBlast.radius})
-  self.projectiles:define("Worker Bullet", {shouldRotate = true, image = love.graphics.newImage("assets/projectiles/projectile3.png"), color = {115,115,0}, speed = EntityParams.workerBullet.speed, lifespan = EntityParams.workerBullet.lifespan, radius = EntityParams.workerBullet.radius}) 
+  self.projectiles:define("Sinibomb", {shouldRotate = true, image = love.graphics.newImage("assets/projectiles/projectile4.png"), color = {255,255,255}, speed = EntityParams.sinibomb.speed, lifespan = EntityParams.sinibomb.lifespan, radius = EntityParams.sinibomb.radius, onDeath = sinibombDeath, onCollision = sinibombCollision})
+  self.projectiles:define("Sinibomb Blast", {shouldRotate = false, animation = sinibombBlastAnimation, color = {255,255,255}, speed = EntityParams.sinibombBlast.speed, lifespan = EntityParams.sinibombBlast.lifespan, radius = EntityParams.sinibombBlast.radius})
+  self.projectiles:define("Worker Bullet", {shouldRotate = true, image = love.graphics.newImage("assets/projectiles/projectile3.png"), color = {195,145,40}, speed = EntityParams.workerBullet.speed, lifespan = EntityParams.workerBullet.lifespan, radius = EntityParams.workerBullet.radius}) 
   self.projectiles:define("Warrior Bullet", {shouldRotate = true, image = love.graphics.newImage("assets/projectiles/projectile6.png"), color = {200,100,0}, speed = EntityParams.warriorBullet.speed, lifespan = EntityParams.warriorBullet.lifespan, radius = EntityParams.warriorBullet.radius})
   self.projectiles:define("Crystal", {shouldRotate = true, image = love.graphics.newImage("assets/crystal.png"), color = {50,120,220}, speed = EntityParams.crystal.speed, lifespan = EntityParams.crystal.lifespan, radius = EntityParams.crystal.radius}) 
   
