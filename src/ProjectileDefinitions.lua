@@ -41,7 +41,7 @@ projectiles:define("Sinibomb", {
   onCollision = sinibombCollision
 })
 projectiles:define("Sinibomb Blast", {
-  shouldRotate = false, 
+  shouldRotate = true, 
   animation = sinibombBlastAnimation, 
   speed = EntityParams.sinibombBlast.speed, 
   lifespan = EntityParams.sinibombBlast.lifespan, 

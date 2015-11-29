@@ -95,9 +95,9 @@ function Renderer:draw(xWorld)
         self.GU:drawRotatedImage(image, x, y, angle)
         self.GU:END()
 
-        if obj.radius then
-          love.graphics.circle("line", x, y, obj.radius)
-        end
+--        if obj.radius then
+--          love.graphics.circle("line", x, y, obj.radius)
+--        end
       end
   
 --      love.graphics.setColor(self.TEXT_COLOR[1], self.TEXT_COLOR[2], self.TEXT_COLOR[3], self.TEXT_COLOR[4])

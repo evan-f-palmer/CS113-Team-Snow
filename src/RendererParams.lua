@@ -9,7 +9,7 @@ return {
     ["Player Bullet"] = 1.3, 
     ["Warrior Bullet"] = 2, 
     ["Asteroid"] = 1.4, 
-    ["Crystal"] = 0.4, 
+    ["Crystal"] = 0.5, 
     ["Sinistar"] = 1, 
     ["Sinibomb"] = 1.8, 
     ["Worker"] = 1.4, 
