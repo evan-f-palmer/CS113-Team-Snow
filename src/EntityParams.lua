@@ -33,7 +33,7 @@ return {
   },
   warrior = {  
     health = 60,  
-    radius = 180,
+    radius = 120, -- 180 should fit width
     primaryFireOffset = 20,
     sightRadius = 1000,
     maxSpeedScale = 1.15,
@@ -88,6 +88,6 @@ return {
     speed = 2200, lifespan = 3, radius = 5,
   },
   crystal = {
-    speed = 180, lifespan = 8, radius = 20, -- radius 35 for pickup
+    speed = 180, lifespan = 8, radius = 45,
   },
 }

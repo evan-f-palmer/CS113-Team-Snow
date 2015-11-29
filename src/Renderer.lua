@@ -19,6 +19,7 @@ function Renderer:init()
   
   self.captureRadius = RendererParams.captureRadius / (self.camera.scale)
   self.radarRadius = RendererParams.radarRadius / (self.camera.scale)
+  self.drawScale = RendererParams.drawScale
   
   self.DEFAULT_COLOR = {255,255,255}
   self.TEXT_Y_OFFSET = 2 * self.GU.FONT_SIZE
@@ -90,7 +91,10 @@ function Renderer:draw(xWorld)
           angle = self.GU:getAngle(obj.dir)
         end
 
+        self.GU:BEGIN_SCALE(x, y, self.drawScale[layerToDraw])
         self.GU:drawRotatedImage(image, x, y, angle)
+        self.GU:END()
+
         if obj.radius then
           love.graphics.circle("line", x, y, obj.radius)
         end
