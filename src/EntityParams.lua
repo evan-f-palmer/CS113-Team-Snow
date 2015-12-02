@@ -48,7 +48,7 @@ return {
     }
   },
   asteroid = {
-    health = 100,
+    health = 180,
     radius = 120,
     crystals = 6,
     crystalDebounce = 2.25,
@@ -61,7 +61,7 @@ return {
       sinibombBlast = 1000,
     },
     crystalProductionProbabilityFor = {
-      playerBullet = 0.4,
+      playerBullet = 0.08,
       workerBullet = 0.2,
       warriorBullet = 0,
     },

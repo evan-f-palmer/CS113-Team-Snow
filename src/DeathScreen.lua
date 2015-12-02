@@ -19,7 +19,7 @@ end
 
 function DeathScreen:update(dt)
   self.lifetime = self.lifetime + dt
-  if (self.lifetime > self.maxLifetime) or ((love.mouse.isDown('l') or love.mouse.isDown('r')) and self.lifetime > 0.25) then
+  if (self.lifetime > self.maxLifetime) then
     return self.transition
   else
     return DeathScreen
