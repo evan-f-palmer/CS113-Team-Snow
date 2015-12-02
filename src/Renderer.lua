@@ -17,6 +17,8 @@ function Renderer:init()
   self.collider = CollisionSystem()
   self.combat = Combat()
   
+  self.background = love.graphics.newImage("assets/screens/HUD1.JPG")
+  
   self.captureRadius = RendererParams.captureRadius / (self.camera.scale)
   self.radarRadius = RendererParams.radarRadius / (self.camera.scale)
   self.drawScale = RendererParams.drawScale
@@ -25,7 +27,7 @@ function Renderer:init()
   self.TEXT_Y_OFFSET = 2 * self.GU.FONT_SIZE
   self.TEXT_COLOR = {80, 80, 200}
   
-  self.DRAW_ORDERING = {"Worker Bullet", "Player Bullet", "Warrior Bullet", "Asteroid", "Crystal", "Sinistar", "Sinibomb", "Player", "Worker", "Warrior", "Sinibomb Blast"}
+  self.DRAW_ORDERING = {"Worker Bullet", "Player Bullet", "Warrior Bullet", "Asteroid", "Crystal", "Sinistar", "Sinibomb", "Worker", "Player", "Warrior", "Sinibomb Blast"}
 end
 
 function Renderer:draw(xWorld)
@@ -41,7 +43,11 @@ function Renderer:draw(xWorld)
   local inRDView = player.getNeighbors(self.radarRadius)
   local inRadarViewByType = self:getObjectsInViewByType(inRDView)  
   xWorld.gameData.forRadar = inRadarViewByType 
- -- love.graphics.setBackgroundColor(255,255,255,0)
+  
+  --love.graphics.setColor(128,128,128)
+  --love.graphics.setColor(255,255,255)
+  
+  self.GU:drawFullscreen(self.background)
   
   -- ALWAYS LOOK AT THE PLAYER
   self.camera:lookAt(playerX, playerY)

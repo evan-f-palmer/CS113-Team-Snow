@@ -19,6 +19,8 @@ local function DIM(xColor)
   return {xColor[1], xColor[2], xColor[3], 127}
 end
 
+local GRAY = DIM(WHITE)
+
 local ALERT_PRIORITY_COLORS = {
   [0] = {SOLID(WHITE), DIM(WHITE)}, -- DEFAULT
   [1] = {SOLID(WHITE), DIM(WHITE)}, -- STANDARD MESSAGE
@@ -49,7 +51,7 @@ function HUD:init()
   self.alertMachine = AlertMachine()
   
   self.bloomShader = love.graphics.newShader("shaders/bloom.glsl")
-  self.background = love.graphics.newImage("assets/hud.png")
+  self.background = love.graphics.newImage("assets/screens/face.JPG")
   
   self.textOffset = FontParams.FONT_SIZE * (2)
   self.layout = HUDLayout
@@ -74,7 +76,7 @@ function HUD:draw(gameData)
   local height = screenHeight / self.background:getHeight()
   local rotation = 0
  
---  love.graphics.draw(self.background, 0, 0, rotation, width, height) 
+  --self.GU:drawFullscreen(self.background)
 --  love.graphics.setShader(self.bloomShader)
 
   love.graphics.setColor(unpack(WHITE))
@@ -122,6 +124,9 @@ function HUD:drawAlertMessage(xAlert, x, y)
   local color = self:getAlertColor(xAlert.priority)
   love.graphics.setColor(color[1], color[2], color[3], color[4])
   self.GU:centeredText(xAlert.message, x, y)
+  if xAlert.priority < 2 then
+    love.graphics.setColor(unpack(GRAY))
+  end
 end
 
 function HUD:getAlertColor(xPriority)

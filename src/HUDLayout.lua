@@ -5,10 +5,10 @@ local width, height = love.graphics.getDimensions()
 local fontSize = FontParams.FONT_SIZE
 
 return {
-  lives  = { x = width * (1/5),  y = height * (11/12) },
-  bombs  = { x = width * (4/5),  y = height * (11/12) },
+  lives  = { x = width * (9/40),  y = height * (21/24) },
+  bombs  = { x = width * (31/40),  y = height * (21/24) },
   score  = { x = width * (1/2),  y = height * (1/12)  },
-  health = { x = width * (3/10), y = height * (11/12) - (fontSize/2), w = width * (4/10), h = (fontSize)},
-  alert  = { x = width * (1/2),  y = height * (5/6)   },
+  health = { x = width * (3/10), y = height * (41/48) - (fontSize/2), w = width * (4/10), h = (fontSize)},
+  alert  = { x = width * (1/2),  y = height * (38/48)   },
   viewport = ViewportParams,
 }
