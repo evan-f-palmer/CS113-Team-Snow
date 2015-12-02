@@ -23,12 +23,18 @@ function love.load(arg)
       return startScreen
     end
   end)
+  local logo = love.graphics.newImage("assets/screens/logo.JPG")
   startScreen:setDrawer(function()
     local width, height = love.graphics.getDimensions()
+    
     love.graphics.setColor(255,0,0)
     love.graphics.rectangle("fill", 0, 0, width, height)
+    
     love.graphics.setColor(255,255,255)
-    graphics:centeredText("Click to Start", width/2, height/2)
+    graphics:drawFullscreen(logo)
+    
+    love.graphics.setColor(255,255,255)
+    graphics:centeredText("Click to Start", width*(1/2), height*(3/4))
   end)
   
   current = startScreen

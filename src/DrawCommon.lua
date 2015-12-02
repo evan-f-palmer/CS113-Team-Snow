@@ -27,10 +27,17 @@ function DrawCommon:drawRotatedImage(image, centerX, centerY, angle)
   self:END()
 end
 
-function DrawCommon:BEGIN_SCALE(x, y, xScale)
+function DrawCommon:drawFullscreen(image)
+  local width, height = love.graphics.getDimensions()
+  self:BEGIN_SCALE(0, 0, width/image:getWidth(), height/image:getHeight())
+  love.graphics.draw(image, 0, 0)
+  self:END()
+end
+
+function DrawCommon:BEGIN_SCALE(x, y, xScale, yScale)
   love.graphics.push()
   love.graphics.translate(x, y)
-  love.graphics.scale(xScale, xScale)
+  love.graphics.scale(xScale, yScale or xScale)
   love.graphics.translate(-x, -y)
 end
 
