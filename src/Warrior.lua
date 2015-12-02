@@ -58,9 +58,11 @@ function Warrior:update(dt)
   
   self.isDead = self.combat:isDead(self.id)
   
-  if self.isDead and (self.lastCollision == "Player Bullet" or self.lastCollision == "Sinibomb" or self.lastCollision == "Sinibomb Blast") then
-    self.gameData:increaseScore(self.gameData.warriorKillValue)
+  if self.isDead then
     self.soundSystem:play("sound/explosion.wav", 0.5)    
+    if (self.lastCollision == "Player Bullet" or self.lastCollision == "Sinibomb" or self.lastCollision == "Sinibomb Blast") then
+      self.gameData:increaseScore(self.gameData.warriorKillValue)  
+    end
   end
 end
 
@@ -88,10 +90,6 @@ function Warrior:onCollision(other)
   
   if type == "Sinibomb Blast" then
     self:damage(EntityParams.warrior.damageFrom.sinibombBlast)
-  end
-  
-  if type == "Asteroid" then
-    self.vel = -self.vel -- but controls vector just overrides it...
   end
   
   self.lastCollision = type

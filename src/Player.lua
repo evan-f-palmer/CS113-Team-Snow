@@ -8,6 +8,7 @@ local EntityParams = require('EntityParams')
 local PRIMARY_FIRE_MESSAGE   = {message = "[Primary Fire]", lifespan = 0.5}
 local SECONDARY_FIRE_MESSAGE = {message = "[Secondary Fire]", lifespan = 0.5}
 
+local SCORE_MESSAGE          = {message = "+", lifespan = 0.75, priority = 1}
 local LOW_HEALTH_ALERT       = {message = "[Sheilds Low]", lifespan = 0.5, priority = 2}
 local CRITICAL_HEALTH_ALERT  = {message = "[Sheilds Critical]", lifespan = 0.5, priority = 3}
 local OUT_OF_SINIBOMBS_ALERT = {message = "[Out of Sinibombs]", lifespan = 1.5, priority = 2}
@@ -47,6 +48,7 @@ function Player:init(gameData, playerInput)
   
   self.alertMachine = AlertMachine()
   self.soundSystem = SoundSystem()
+  self.previousScore = 0
 end
 
 function Player:update(dt)
@@ -82,11 +84,22 @@ function Player:update(dt)
   self.gameData.health = self.combat:getHealthPercent("Player")
   self.isDead = self.combat:isDead("Player")
   
+  local score = self.gameData.score
+  if score > self.previousScore then
+    SCORE_MESSAGE.message = "+"..(score-self.previousScore)
+    self.alertMachine:set(SCORE_MESSAGE)
+  end 
+  self.previousScore = score
+  
   if self.gameData.health < 0.25 then
     self.alertMachine:set(CRITICAL_HEALTH_ALERT)    
   elseif self.gameData.health < 0.5 then
     self.alertMachine:set(LOW_HEALTH_ALERT)
   end
+  
+  if self.isDead then
+    self.soundSystem:play("sound/explosion.wav", 0.5)
+  end 
 end
 
 function Player:damage(xAmount)
@@ -119,10 +132,6 @@ function Player:onCollision(other)
   
   if type == "Sinibomb Blast" then
     self:damage(EntityParams.player.damageFrom.sinibombBlast)
-  end
-  
-  if type == "Asteroid" then
-    self.vel = -self.vel -- but controls vector just overrides it...
   end
 end
 
