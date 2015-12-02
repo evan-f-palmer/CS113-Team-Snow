@@ -71,7 +71,9 @@ function Game:update(dt)
   
   self.animator:update(dt)
   
-  return self
+  local transition = self.transition or self
+  self.transition = self
+  return transition
 end
 
 function Game:draw()

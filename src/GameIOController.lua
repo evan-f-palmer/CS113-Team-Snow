@@ -47,6 +47,7 @@ function GameIOController:update(dt)
   
   if love.keyboard.isDown("p") then
     self.soundSystem:pause("music/TheFatRat-Dancing-Naked.mp3")
+    self.game.transition = self.game.scores
   end
   
   if love.keyboard.isDown("r") then
