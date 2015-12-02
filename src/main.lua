@@ -41,7 +41,7 @@ function love.load(arg)
 end
 
 function love.update(dt)
-  if love.keyboard.isDown('x') then
+  if love.keyboard.isDown('escape') then
     love.event.quit()
   end
 
