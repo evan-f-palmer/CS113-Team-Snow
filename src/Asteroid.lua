@@ -43,6 +43,7 @@ function Asteroid:init(gameData)
   self.combat = Combat()
   self.combat:addCombatant(self.id, {health = EntityParams.asteroid.health})
   self.combat:addWeapon(self.id, {ammo = EntityParams.asteroid.crystals, projectileID = "Crystal", debounceTime = EntityParams.asteroid.crystalDebounce})
+  self.combat:recharge(self.id)
   
   self.render = self.variations[math.random(#self.variations)]
   
