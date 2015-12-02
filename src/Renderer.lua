@@ -26,7 +26,7 @@ function Renderer:init()
   self.TEXT_Y_OFFSET = 2 * self.GU.FONT_SIZE
   self.TEXT_COLOR = {80, 80, 200}
   
-  self.DRAW_ORDERING = {"Worker Bullet", "Player Bullet", "Warrior Bullet", "Asteroid", "Crystal", "Sinistar", "Sinibomb", "Worker", "Player", "Warrior", "Sinibomb Blast"}
+  self.DRAW_ORDERING = {"Worker Bullet", "Player Bullet", "Asteroid", "Crystal", "Sinistar", "Warrior Bullet", "Sinibomb", "Worker", "Player", "Warrior", "Sinibomb Blast"}
 end
 
 function Renderer:draw(xWorld)

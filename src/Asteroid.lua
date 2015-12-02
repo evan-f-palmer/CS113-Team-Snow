@@ -95,13 +95,7 @@ function Asteroid:onCollision(other)
     end
     other.isDead = true
   end
-  if type == "Warrior Bullet" then
-    self:damage(EntityParams.asteroid.damageFrom.warriorBullet)
-    if self.probability:of(EntityParams.asteroid.crystalProductionProbabilityFor.warriorBullet) then
-      self:fire()
-    end
-    other.isDead = true
-  end
+
   if type == "Sinibomb" then
     self:damage(EntityParams.asteroid.damageFrom.sinibomb)
     other.isDead = true

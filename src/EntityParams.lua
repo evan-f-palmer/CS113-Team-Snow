@@ -10,20 +10,20 @@ return {
     secondaryMaxAmmo = 20,
     damageFrom = {
       sinistarCollision = 100,
-      warriorBullet = 15,
-      workerBullet = 5,
+      warriorBullet = 10,
+      workerBullet = 2.5,
       sinibombBlast = 0.1,
     },
     bombAmmoFromCrystalPickup = 1,
     healpersec = (1/3),
   },
   worker = {
-    health = 40,
+    health = 80,
     radius = 80,
     sightRadius = 2000,
     maxSpeedScale = 1.95,
     maxForceScale = 1,
-    fireDebounce = 2.6,
+    fireDebounce = 0.7,
     closestProximity = 400,
     damageFrom = {
       playerBullet = 5,
@@ -32,14 +32,14 @@ return {
     }
   },
   warrior = {  
-    health = 60,  
+    health = 120,  
     radius = 120, -- 180 should fit width
     primaryFireOffset = 20,
     sightRadius = 1000,
     maxSpeedScale = 1.55,
     maxForceScale = 1.85,
     maxDistanceFromFlock = 20,
-    fireDebounce = 3,
+    fireDebounce = 1.5,
     closestProximity = 1000,
     damageFrom = {
       playerBullet = 5,
@@ -62,7 +62,7 @@ return {
     },
     crystalProductionProbabilityFor = {
       playerBullet = 0.08,
-      workerBullet = 0.2,
+      workerBullet = 0.1,
       warriorBullet = 0,
     },
     excessiveDamageFrom = {
