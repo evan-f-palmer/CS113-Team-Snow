@@ -34,7 +34,9 @@ function love.load(arg)
     graphics:drawFullscreen(logo)
     
     love.graphics.setColor(255,255,255)
-    graphics:centeredText("Click to Start", width*(1/2), height*(3/4))
+    graphics:centeredText("Click Mouse to Start", width*(1/2), height*(3/4))
+    local x, y = width*(1/2)-width*(1/8), height*(3/4)-height*(1/32)
+    love.graphics.rectangle("line", x, y, width*(1/4), 1)
   end)
   
   current = startScreen
