@@ -26,8 +26,12 @@ function love.load(arg)
 end
 
 function love.update(dt)
-  current = current:update(dt)
   isGamePaused = game.isPaused
+  local previous = current
+  current = current:update(dt)
+  if current ~= previous then
+    current:load()
+  end
 end
 
 function love.draw()

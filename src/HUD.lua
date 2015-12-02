@@ -9,11 +9,8 @@ local FontParams = require("FontParams")
 local HUDLayout = require("HUDLayout")
 local RendererParams = require("RendererParams")
 
-local RED = {255, 50, 50, 180}
-local BLUE = {50, 120, 255, 140}
-local GREEN = {50, 255, 120, 120}
-local YELLOW = {180, 170, 40, 220}
-local WHITE = {255,255,255,225}
+local Palette = require('Palette')
+local RED, BLUE, GREEN, YELLOW, WHITE = Palette.RED, Palette.BLUE, Palette.GREEN, Palette.YELLOW, Palette.WHITE
 
 local function SOLID(xColor)
   return {xColor[1], xColor[2], xColor[3], 255}

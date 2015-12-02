@@ -52,6 +52,10 @@ function Game:init()
   end
 end
 
+function Game:load()
+
+end
+
 function Game:update(dt)
   self.gameInput:update(dt)
   
