@@ -98,8 +98,8 @@ function Boid:arrive(target, damping)
   return steer
 end
 
-function Boid:pursue(movingTarget)  
-  return self:seek(movingTarget.loc + movingTarget.vel)
+function Boid:pursue(loc, vel)  
+  return self:seek(loc + vel)
 end
 
 function Boid:evade(movingTarget)  

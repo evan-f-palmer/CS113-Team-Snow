@@ -40,7 +40,7 @@ return {
     maxForceScale = 0.85,
     maxDistanceFromFlock = 20,
     fireDebounce = 3,
-    closestProximity = 200,
+    closestProximity = 1000,
     damageFrom = {
       playerBullet = 5,
       sinibomb = 15,

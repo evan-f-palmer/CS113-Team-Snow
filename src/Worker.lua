@@ -48,7 +48,9 @@ function Worker:update(dt)
   
   if self.currentTarget and self.shouldFire then 
     if self.currentTarget.type == "Player" then
-      local angle = self:pursue(self.currentTarget)
+      local x, y = self.getRelativeLoc(self.currentTarget)
+      local loc = Vector(x + self.loc.x, y + self.loc.y)
+      local angle = self:pursue(loc, self.currentTarget.vel)
       self.combat:fire(self.id, self.loc, angle, self.vel)
     else
       -- Need more logic here for asteroid mining
@@ -136,7 +138,9 @@ function Worker:updateSteering(target, asteroids)
   -- Move towards target
   local tmp
   if target and (target.type == "Crystal" or self.loc:dist2(target.loc) > self.minDistance2) then
-    tmp = self:seek(target.loc)
+    local x, y = self.getRelativeLoc(target)
+    local loc = Vector(x + self.loc.x, y + self.loc.y)
+    tmp = self:seek(loc)
   else
     tmp = self:wander()
   end
@@ -145,8 +149,10 @@ function Worker:updateSteering(target, asteroids)
   
   -- Avoid Asteroids
   for _, asteroid in pairs(asteroids.data) do
-    tmp = self:flee(asteroid.loc)
-    tmp:scale_inplace(1 / self.loc:dist2(asteroid.loc)) -- Use inverse square 
+    local x, y = self.getRelativeLoc(asteroid)
+    local loc = Vector(x + self.loc.x, y + self.loc.y)
+    tmp = self:flee(loc)
+    tmp:scale_inplace(1 / self.loc:dist2(loc)) -- Use inverse square 
     steer:add_inplace(tmp)
   end
   
