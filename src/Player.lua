@@ -13,7 +13,7 @@ local LOW_HEALTH_ALERT       = {message = "[Sheilds Low]", lifespan = 0.5, prior
 local CRITICAL_HEALTH_ALERT  = {message = "[Sheilds Critical]", lifespan = 0.5, priority = 3}
 local OUT_OF_SINIBOMBS_ALERT = {message = "[Out of Sinibombs]", lifespan = 1.5, priority = 2}
 local GOT_CRYSTAL_MESSAGE    = {message = "[Retrieved Crystal]", lifespan = 1, priority = 4}
-local RESPAWN_MESSAGE        = {message = "[Invincible]", lifespan = 5, priority = 5}
+local RESPAWN_MESSAGE        = {message = "[Invincible]", lifespan = 3, priority = 5}
 
 local Player = Class{}
 Player.type = "Player"
@@ -49,6 +49,7 @@ function Player:init(gameData, playerInput)
   self.alertMachine = AlertMachine()
   self.soundSystem = SoundSystem()
   self.previousScore = 0
+  self.invincibilityTimer = 0
 end
 
 function Player:update(dt)
@@ -100,10 +101,16 @@ function Player:update(dt)
   if self.isDead then
     self.soundSystem:play("sound/explosion.wav", 0.5)
   end 
+  
+  if self.invincibilityTimer > 0 then
+    self.invincibilityTimer = self.invincibilityTimer - dt
+  end
 end
 
 function Player:damage(xAmount)
-  self.combat:attack("Player", xAmount)
+  if self.invincibilityTimer <= 0 then
+    self.combat:attack("Player", xAmount)
+  end
 end
 
 function Player:onCollision(other)
@@ -136,6 +143,7 @@ function Player:onCollision(other)
 end
 
 function Player:respawn()
+  self.invincibilityTimer = RESPAWN_MESSAGE.lifespan
   self.alertMachine:set(RESPAWN_MESSAGE)
   self.combat:addCombatant("Player", {health = EntityParams.player.health})
   self.isDead = self.combat:isDead("Player")
