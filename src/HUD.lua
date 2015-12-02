@@ -40,6 +40,7 @@ local HUD_COLORS = {
 local HEALTH_BAR_COLORS = { RED, YELLOW, GREEN, GREEN, GREEN}
 
 local HUD = Class {}
+--HUD.background = love.graphics.newImage("assets/screens/face.JPG")
 
 HUD.RADAR_DRAW_ORDERING = {"Asteroid", "Crystal", "Worker", "Warrior", "Sinistar"}
 HUD.RADAR_COLORS = {["Asteroid"] = GREEN, ["Crystal"] = BLUE, ["Worker"] = RED, ["Warrior"] = RED, ["Sinistar"] = YELLOW,}
@@ -51,8 +52,7 @@ function HUD:init()
   self.GU = DrawCommon()
   self.alertMachine = AlertMachine()
   
-  self.bloomShader = love.graphics.newShader("shaders/bloom.glsl")
-  self.background = love.graphics.newImage("assets/screens/face.JPG")
+  --self.bloomShader = love.graphics.newShader("shaders/bloom.glsl")
   
   self.textOffset = FontParams.FONT_SIZE * (2)
   self.layout = HUDLayout
@@ -73,8 +73,6 @@ function HUD:draw(gameData)
   
   local screenWidth  = love.graphics.getWidth()
   local screenHeight = love.graphics.getHeight()    
-  local width  = screenWidth / self.background:getWidth()
-  local height = screenHeight / self.background:getHeight()
   local rotation = 0
  
   --self.GU:drawFullscreen(self.background)

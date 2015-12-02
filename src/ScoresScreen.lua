@@ -1,4 +1,3 @@
-local background = love.graphics.newImage("assets/screens/fancy.JPG")
 local DrawCommon = require('DrawCommon')
 local graphics = DrawCommon()
 
@@ -9,6 +8,9 @@ local ScoresScreen = {}
 ScoresScreen.lifetime = 0
 
 function ScoresScreen:load()
+  self.background = love.graphics.newImage("assets/screens/fancy.JPG")
+  self.lifetime = 0
+
   local readscores = {
     {name = "Example", score = 0}, 
     {name = "Bob", score = 1000}, 
@@ -34,10 +36,13 @@ function ScoresScreen:load()
   end
 end
 
+function ScoresScreen:unload()
+  self.background = nil
+end
+
 function ScoresScreen:update(dt)
   self.lifetime = self.lifetime + dt
   if (love.mouse.isDown('l') or love.mouse.isDown('r')) and self.lifetime > 0.25 then
-    self.lifetime = 0
     return self.transition
   else
     return ScoresScreen
@@ -48,12 +53,15 @@ function ScoresScreen:draw()
   local width, height = love.graphics.getDimensions()
   
   love.graphics.setColor(255,255,255)
-  graphics:drawFullscreen(background)
+  graphics:drawFullscreen(self.background)
  
   love.graphics.setColor(WHITE[1],WHITE[2],WHITE[3],WHITE[4])
   graphics:centeredText("Click Mouse to Play", width*(1/2), height*(31/32))
   local x, y = width*(1/2)-width*(1/8), height*(30/32)
   love.graphics.rectangle("line", x, y, width*(1/4), 1)
+ 
+  love.graphics.push()
+  love.graphics.translate(width*(3/16), 0)
 
   love.graphics.setColor(WHITE[1],WHITE[2],WHITE[3],WHITE[4])
   graphics:centeredText("High Scores", width*(1/2), height*(1/16))
@@ -66,6 +74,8 @@ function ScoresScreen:draw()
   x, y = width*(1/2)-width*(1/8), height*(3/32)
   love.graphics.rectangle("line", x, y, width*(1/4), 1)  
   self:drawScores()
+  
+  love.graphics.pop()
 end
 
 function ScoresScreen:drawScores()

@@ -20,16 +20,36 @@ function love.load(arg)
   local startScreen = require("StartScreen")
   startScreen.transition = scoresScreen
   
-  game.scores = scoresScreen
+  local pausedScreen = require("PausedScreen")
+  pausedScreen.transition = game
+  
+  local deathScreen = require("DeathScreen")
+  deathScreen.transition = game
+  
+  local gameOverScreen = require("GameOverScreen")
+  gameOverScreen.transition = scoresScreen
+  
+  game.scoresScreen = scoresScreen
+  game.pausedScreen = pausedScreen
+  game.deathScreen = deathScreen
+  game.gameOverScreen = gameOverScreen
+  gameOverScreen.game = game
+  deathScreen.game = game
   
   current = startScreen
+  current:load()
 end
 
 function love.update(dt)
+  if love.keyboard.isDown('x') then
+    love.event.quit()
+  end
+
   isGamePaused = game.isPaused
   local previous = current
   current = current:update(dt)
   if current ~= previous then
+    previous:unload()
     current:load()
   end
 end

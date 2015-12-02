@@ -46,20 +46,7 @@ function GameIOController:update(dt)
   end
   
   if love.keyboard.isDown("p") then
-    self.soundSystem:pause("music/TheFatRat-Dancing-Naked.mp3")
-    self.game.transition = self.game.scores
-  end
-  
-  if love.keyboard.isDown("r") then
-    self.soundSystem:resume("music/TheFatRat-Dancing-Naked.mp3")
-  end
-  
-  if love.keyboard.isDown("l") then
-    self.soundSystem:loop("sound/short.ogg")
-  end
-  
-  if love.keyboard.isDown('k') then
-    self.soundSystem:stop("sound/short.ogg")
+    self.game.transition = self.game.pausedScreen
   end
   
   if love.keyboard.isDown("c") then
@@ -77,10 +64,6 @@ function GameIOController:update(dt)
   
   if self:isDown('w') then self:press('w')
     self.game.step = true
-  end
-  
-  if self:isDown('x') then self:press('x')
-    love.event.quit()
   end
 end
 

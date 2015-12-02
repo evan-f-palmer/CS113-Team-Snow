@@ -12,6 +12,10 @@ GameData.startingLives = 3
 GameData.numberOfCrystalsToBuildSinistar = 100
 
 function GameData:init()
+  self:reset()
+end
+
+function GameData:reset()
   self.lives   = GameData.startingLives
   self.health  = 0
   self.score   = 0

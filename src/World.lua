@@ -12,6 +12,7 @@ World.make = {
   Flock    = require('Flock'),
 }
 World.levelScale = 15
+World.collider = CollisionSystem()
 
 function World:init(playerInput, gameData, projectiles)
   self.player = Player(gameData, playerInput)
@@ -19,11 +20,9 @@ function World:init(playerInput, gameData, projectiles)
   self.gameData = gameData
   self.projectiles = projectiles
   self.bodies = Bodies()
-  self.collider = CollisionSystem()
   self.projectiles:setCollider(self.collider)
   self.bodies:setCollider(self.collider)  
   self.flocks = {}
-
 end
 
 function World:respawnPlayer()

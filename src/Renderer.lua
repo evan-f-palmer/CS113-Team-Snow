@@ -8,6 +8,7 @@ local ViewportParams = require("ViewportParams")
 local RendererParams = require("RendererParams")
 
 local Renderer = Class {}
+Renderer.background = love.graphics.newImage("assets/screens/HUD1.JPG")
 
 function Renderer:init()
   self.camera = Camera()
@@ -16,9 +17,7 @@ function Renderer:init()
   self.GU = DrawCommon()
   self.collider = CollisionSystem()
   self.combat = Combat()
-  
-  self.background = love.graphics.newImage("assets/screens/HUD1.JPG")
-  
+    
   self.captureRadius = RendererParams.captureRadius / (self.camera.scale)
   self.radarRadius = RendererParams.radarRadius / (self.camera.scale)
   self.drawScale = RendererParams.drawScale
@@ -106,7 +105,7 @@ function Renderer:draw(xWorld)
 --      love.graphics.setColor(self.TEXT_COLOR[1], self.TEXT_COLOR[2], self.TEXT_COLOR[3], self.TEXT_COLOR[4])
 --      self.GU:BEGIN_SCALE(x, y, inverseCameraScale)
 --        self.GU:centeredText(obj.type .. "\n" .. math.floor(self.combat:getHealthPercent(obj.id) * 100) .. '%' .. "\n" .. math.floor(x) .. ", " .. math.floor(y), x, y + self.TEXT_Y_OFFSET)
---      self.GU:END()      
+--      self.GU:END()     
     end
   end
   
