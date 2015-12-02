@@ -13,13 +13,12 @@ function ScoresScreen:load()
   self.background = love.graphics.newImage("assets/screens/fancy.JPG")
   self.lifetime = 0
 
-  local readscores = {
-    {name = "Example", score = 0}, 
-    {name = "Bob", score = 1000}, 
-    {name = "Steve", score = 2000}, 
-    {name = "Yeep", score = 0}, 
-    {name = "Yarp", score = 0}, 
-  }
+  local f = assert(io.open('src/scores/history', 'r'))
+  local filestring = f:read('*all')
+  f:close()
+
+  filestring = 'return {' .. filestring .. '}'
+  local readscores = loadstring(filestring)()
   
   self.scores = {}
   local size = #readscores 
