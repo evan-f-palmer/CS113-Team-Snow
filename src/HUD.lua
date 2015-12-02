@@ -27,6 +27,7 @@ local ALERT_PRIORITY_COLORS = {
   [2] = {SOLID(YELLOW), DIM(YELLOW),}, -- MEDIUM PRIORITY
   [3] = {SOLID(RED), DIM(RED), SOLID(RED), DIM(RED),}, -- HIGH PRIORITY
   [4] = {SOLID(BLUE), DIM(BLUE)}, -- FOR DEBUG MESSAGES
+  [5] = {SOLID(GREEN), DIM(GREEN)}, -- Player Respawn Invincibility
 }
 
 local HUD_COLORS = {

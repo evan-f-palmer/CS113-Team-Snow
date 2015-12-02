@@ -7,7 +7,12 @@ local EntityParams = require('EntityParams')
 
 local PRIMARY_FIRE_MESSAGE   = {message = "[Primary Fire]", lifespan = 0.5}
 local SECONDARY_FIRE_MESSAGE = {message = "[Secondary Fire]", lifespan = 0.5}
+
+local LOW_HEALTH_ALERT       = {message = "[Sheilds Low]", lifespan = 0.5, priority = 2}
+local CRITICAL_HEALTH_ALERT  = {message = "[Sheilds Critical]", lifespan = 0.5, priority = 3}
 local OUT_OF_SINIBOMBS_ALERT = {message = "[Out of Sinibombs]", lifespan = 1.5, priority = 2}
+local GOT_CRYSTAL_MESSAGE    = {message = "[Retrieved Crystal]", lifespan = 1, priority = 4}
+local RESPAWN_MESSAGE        = {message = "[Invincible]", lifespan = 5, priority = 5}
 
 local Player = Class{}
 Player.type = "Player"
@@ -76,6 +81,12 @@ function Player:update(dt)
   self.gameData.bombs = self.combat:getAmmo("Player Secondary")
   self.gameData.health = self.combat:getHealthPercent("Player")
   self.isDead = self.combat:isDead("Player")
+  
+  if self.gameData.health < 0.25 then
+    self.alertMachine:set(CRITICAL_HEALTH_ALERT)    
+  elseif self.gameData.health < 0.5 then
+    self.alertMachine:set(LOW_HEALTH_ALERT)
+  end
 end
 
 function Player:damage(xAmount)
@@ -103,6 +114,7 @@ function Player:onCollision(other)
     self.gameData:increaseScore(self.gameData.crystalValue)
     self.combat:supplyAmmo("Player Secondary", EntityParams.player.bombAmmoFromCrystalPickup)
     other.isDead = true
+    self.alertMachine:set(GOT_CRYSTAL_MESSAGE)
   end
   
   if type == "Sinibomb Blast" then
@@ -115,6 +127,7 @@ function Player:onCollision(other)
 end
 
 function Player:respawn()
+  self.alertMachine:set(RESPAWN_MESSAGE)
   self.combat:addCombatant("Player", {health = EntityParams.player.health})
   self.isDead = self.combat:isDead("Player")
 end

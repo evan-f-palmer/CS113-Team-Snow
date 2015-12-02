@@ -44,9 +44,6 @@ function Renderer:draw(xWorld)
   local inRadarViewByType = self:getObjectsInViewByType(inRDView)  
   xWorld.gameData.forRadar = inRadarViewByType 
   
-  --love.graphics.setColor(128,128,128)
-  --love.graphics.setColor(255,255,255)
-  
   self.GU:drawFullscreen(self.background)
   
   -- ALWAYS LOOK AT THE PLAYER

@@ -54,7 +54,6 @@ function ScoresScreen:draw()
   graphics:centeredText("Click Mouse to Play", width*(1/2), height*(31/32))
   local x, y = width*(1/2)-width*(1/8), height*(30/32)
   love.graphics.rectangle("line", x, y, width*(1/4), 1)
-  
 
   love.graphics.setColor(WHITE[1],WHITE[2],WHITE[3],WHITE[4])
   graphics:centeredText("High Scores", width*(1/2), height*(1/16))
