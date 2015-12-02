@@ -12,7 +12,7 @@ local SCORE_MESSAGE          = {message = "+", lifespan = 0.75, priority = 1}
 local LOW_HEALTH_ALERT       = {message = "[Shields Low]", lifespan = 0.5, priority = 2}
 local CRITICAL_HEALTH_ALERT  = {message = "[Shields Critical]", lifespan = 0.5, priority = 3}
 local OUT_OF_SINIBOMBS_ALERT = {message = "[Out of Sinibombs]", lifespan = 1.5, priority = 2}
-local GOT_CRYSTAL_MESSAGE    = {message = "[Retrieved Crystal]", lifespan = 1, priority = 4}
+local GOT_CRYSTAL_MESSAGE    = {message = "[Retrieved Crystal]", lifespan = 2, priority = 4}
 local RESPAWN_MESSAGE        = {message = "[Invincible]", lifespan = 3, priority = 5}
 
 local Player = Class{}

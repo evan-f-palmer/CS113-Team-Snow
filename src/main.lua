@@ -36,7 +36,7 @@ function love.load(arg)
   gameOverScreen.game = game
   deathScreen.game = game
   
-  current = startScreen
+  current = startScreen --gameOverScreen
   current:load()
 end
 
