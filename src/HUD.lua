@@ -68,6 +68,75 @@ function HUD:update(dt)
   self.blinker:update(dt)
 end
 
+function HUD:drawPorthole()
+  love.graphics.setColor(unpack(WHITE))
+  love.graphics.circle("line", self.layout.viewport.x, self.layout.viewport.y, self.layout.viewport.r)
+end
+
+function HUD:drawPartial(gameData)
+  self.camera:attach()
+
+  local screenWidth  = love.graphics.getWidth()
+  local screenHeight = love.graphics.getHeight()    
+  local rotation = 0
+ 
+  local primaryAlert = self.alertMachine:getPrimaryAlert()
+ 
+--  -- IMAGE CANVAS, DRAWING HUD FOREGROUND IMAGE WITH A CUTOUT
+  self.imageCanvas:clear()
+  love.graphics.setCanvas(self.imageCanvas)
+  self.GU:drawFullscreen(self.background)
+  love.graphics.setBlendMode('subtractive')
+  love.graphics.setColor(255,255,255)
+  local width, height = love.graphics.getDimensions()
+  love.graphics.circle("fill", width/2, height/2, ViewportParams.r, 50)
+  love.graphics.setBlendMode('alpha')
+  -- GO BACK TO MAIN CANVAS
+  love.graphics.setCanvas()
+  
+  local color = self:getAlertColor(primaryAlert.priority)
+  if primaryAlert.priority < 2 then
+    love.graphics.setColor(GRAY[1], GRAY[2], GRAY[3])
+  else
+    love.graphics.setColor(color[1], color[2], color[3])
+  end
+  self.GU:drawFullscreen(self.imageCanvas)
+  -- END HUD FOREGROUND IMAGE
+  
+--  love.graphics.setShader(self.bloomShader)
+
+  self:drawPorthole()
+    
+  local HUDcolor = self:getHeadsUpDisplayColor()
+  love.graphics.setColor(HUDcolor[1], HUDcolor[2], HUDcolor[3], HUDcolor[4])
+
+  love.graphics.setShader(self.bloomShader)
+  local x, y, minR = InputDeviceLayout.movementJoystick.x, InputDeviceLayout.movementJoystick.y, InputDeviceLayout.movementJoystick.minR
+  love.graphics.circle("line", x, y, minR)
+  x, y, minR = InputDeviceLayout.directionalJoystick.x, InputDeviceLayout.directionalJoystick.y, InputDeviceLayout.directionalJoystick.minR
+  love.graphics.circle("line", x, y, minR)
+
+  love.graphics.circle("line", self.layout.lives.x, self.layout.lives.y, self.GU.FONT_SIZE, 30)
+  love.graphics.circle("line", self.layout.bombs.x, self.layout.bombs.y, self.GU.FONT_SIZE, 30)  
+  love.graphics.setShader()
+  
+  self:drawHealthBar(gameData.health)
+    
+  love.graphics.setColor(unpack(WHITE))
+  self.GU:centeredText(gameData.lives, self.layout.lives.x, self.layout.lives.y)
+  self.GU:centeredText("LIVES", self.layout.lives.x, self.layout.lives.y + self.textOffset)  
+  self.GU:centeredText(math.floor(gameData.health * 100)..'%', self.layout.health.x + self.layout.health.w/2, self.layout.health.y + self.layout.health.h/2)
+  self.GU:centeredText(gameData.bombs, self.layout.bombs.x, self.layout.bombs.y)
+  self.GU:centeredText("BOMBS", self.layout.bombs.x, self.layout.bombs.y + self.textOffset)
+  self.GU:centeredText(gameData.score, self.layout.score.x, self.layout.score.y)
+  self.GU:centeredText("SCORE", self.layout.score.x, self.layout.score.y - self.textOffset)
+    
+  self:drawAlertMessage(primaryAlert, self.layout.alert.x, self.layout.alert.y)  
+  
+  love.graphics.setShader()
+  self.camera:detach()
+end
+
 function HUD:draw(gameData)
   self.camera:attach()
   

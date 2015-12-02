@@ -63,11 +63,11 @@ function Player:update(dt)
     offset = offset:scale_inplace(self.primaryFireOffset)
     self.combat:fire("Player Primary R", self.loc + offset, self.dir, self.vel)
     self.combat:fire("Player Primary L", self.loc - offset, self.dir, self.vel)
-    self.soundSystem:play("sound/playerShot.wav")
+    self.soundSystem:play("sound/playerShot.wav", 0.5)
   end
     
   if self.playerInput.secondaryWeaponFire and self.combat:canFire("Player Secondary") then
-    self.soundSystem:play("sound/playerShot.wav")
+    self.soundSystem:play("sound/playerShot.wav", 0.5)
     if self.vel.x == 0 and self.vel.y == 0 then
       self.combat:fire("Player Secondary", self.loc, self.dir)
     else
@@ -77,7 +77,7 @@ function Player:update(dt)
   
   if self.playerInput.secondaryWeaponFire and self.combat:isOutOfAmmo("Player Secondary") then
     self.alertMachine:set(OUT_OF_SINIBOMBS_ALERT)
-    self.soundSystem:play("sound/marinealarm.ogg")
+    self.soundSystem:play("sound/marinealarm.ogg",0.5)
   end
 
   self.combat:heal(self.id, dt * EntityParams.player.healpersec)
