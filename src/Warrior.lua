@@ -11,7 +11,7 @@ local Warrior = Class{__includes = Boid}
 Warrior.count = 0
 Warrior.type = "Warrior"
 Warrior.MAX_SPEED = 20000  * EntityParams.warrior.maxSpeedScale
-Warrior.MAX_FORCE = 100000 * EntityParams.warrior.maxForceScale
+Warrior.MAX_FORCE = 40000 * EntityParams.warrior.maxForceScale
 Warrior.sightRadius = EntityParams.warrior.sightRadius
 Warrior.radius = EntityParams.warrior.radius
 Warrior.maxDistanceFromFlock = EntityParams.warrior.maxDistanceFromFlock
@@ -52,7 +52,10 @@ function Warrior:update(dt)
   Boid.update(self, dt)
   
   if self.currentTarget  then 
-    local angle = self:pursue(self.currentTarget)
+    local x, y = self.getRelativeLoc(self.currentTarget)
+    local loc = Vector(x + self.loc.x, y + self.loc.y)
+    
+    local angle = self:pursue(loc, self.currentTarget.vel)
     self.combat:fire(self.id, self.loc, angle, self.vel)
   end
   
@@ -119,14 +122,35 @@ end
 
 function Warrior:updateSteering(target, asteroids)
   local steer = Vector(0, 0)
+
   
-  steer:add_inplace(self:wander())
+  if target then
+    local x, y = self.getRelativeLoc(target)
+    local loc = Vector(x + self.loc.x, y + self.loc.y)
+    if self.loc:dist2(loc) > self.minDistance2 then
+     steer:add_inplace(self:seek(loc))
+    else
+      steer:add_inplace(self:wander())
+    end
+  else
+    steer:add_inplace(self:wander())
+  end
+  
+--  if (target) then
+--    local x, y = self.getRelativeLoc(target)
+--    local loc = Vector(x + self.loc.x, y + self.loc.y)
+--    local tmp = self:warnderAround(loc, 1000, 1)
+--    tmp:scale_inplace(self.loc:dist2(loc))
+--  else 
+--    steer:add_inplace(self:wander())
+--  end
   
   -- Avoid Asteroids
   for _, asteroid in pairs(asteroids.data) do
-    tmp = self:flee(asteroid.loc)
-    tmp:scale_inplace(1 / self.loc:dist2(asteroid.loc)) -- Use inverse square 
-    steer:add_inplace(tmp)
+    local loc = Vector(self.getRelativeLoc(asteroid))
+    local tmp = self:flee(loc)
+    tmp:scale_inplace(1 / self.loc:dist2(loc)) -- Use inverse square 
+    --steer:add_inplace(tmp)
   end
   
   self.acc = steer
