@@ -51,8 +51,8 @@ function Renderer:draw(xWorld)
   love.graphics.setScissor(ViewportParams.x - ViewportParams.r, ViewportParams.y - ViewportParams.r, ViewportParams.r*2, ViewportParams.r*2)
   
   -- THE ORIGIN
-  love.graphics.setColor(255, 0, 0)
-  love.graphics.circle("fill", 0, 0, 30, 20)
+  --love.graphics.setColor(255, 0, 0)
+  --love.graphics.circle("fill", 0, 0, 30, 20)
   
   -- TEMP --
   local worldW, worldH = xWorld.width, xWorld.height
@@ -66,10 +66,10 @@ function Renderer:draw(xWorld)
   love.graphics.line(0, -worldYT, -worldXT, 0)
   -- END TEMP --
   
-  love.graphics.setColor(255,255,255)
-  self.GU:BEGIN_SCALE(0, 0, inverseCameraScale)
-    self.GU:centeredText("ORIGIN", 0, self.TEXT_Y_OFFSET)
-  self.GU:END()
+--  love.graphics.setColor(255,255,255)
+--  self.GU:BEGIN_SCALE(0, 0, inverseCameraScale)
+--    self.GU:centeredText("ORIGIN", 0, self.TEXT_Y_OFFSET)
+--  self.GU:END()
   
   for i = 1, #self.DRAW_ORDERING do
     local layerToDraw = self.DRAW_ORDERING[i]

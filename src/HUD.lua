@@ -16,7 +16,7 @@ local function SOLID(xColor)
   return {xColor[1], xColor[2], xColor[3], 255}
 end
 local function DIM(xColor)
-  return {xColor[1], xColor[2], xColor[3], 127}
+  return {xColor[1]/2, xColor[2]/2, xColor[3]/2, 255}
 end
 
 local GRAY = DIM(WHITE)
@@ -40,7 +40,7 @@ local HUD_COLORS = {
 local HEALTH_BAR_COLORS = { RED, YELLOW, GREEN, GREEN, GREEN}
 
 local HUD = Class {}
---HUD.background = love.graphics.newImage("assets/screens/face.JPG")
+HUD.background = love.graphics.newImage("assets/screens/HUD1.JPG")
 
 HUD.RADAR_DRAW_ORDERING = {"Asteroid", "Crystal", "Worker", "Warrior", "Sinistar"}
 HUD.RADAR_COLORS = {["Asteroid"] = GREEN, ["Crystal"] = BLUE, ["Worker"] = RED, ["Warrior"] = RED, ["Sinistar"] = YELLOW,}
@@ -60,6 +60,8 @@ function HUD:init()
   self.radarCanvas = love.graphics.newCanvas()
   local radarRadius = self.layout.viewport.r - 5
   self.radarDrawData = {x = 0, y = 0, radius = radarRadius, cutoutRadius = radarRadius - 10, minimumDistance = radarRadius, segmentSize = (math.pi/15), distanceTaperDivisor = 2000}
+
+  self.imageCanvas = love.graphics.newCanvas()
 end
 
 function HUD:update(dt)
@@ -75,7 +77,29 @@ function HUD:draw(gameData)
   local screenHeight = love.graphics.getHeight()    
   local rotation = 0
  
-  --self.GU:drawFullscreen(self.background)
+  local primaryAlert = self.alertMachine:getPrimaryAlert()
+ 
+  -- IMAGE CANVAS, DRAWING HUD FOREGROUND IMAGE WITH A CUTOUT
+  self.imageCanvas:clear()
+  love.graphics.setCanvas(self.imageCanvas)
+  self.GU:drawFullscreen(self.background)
+  love.graphics.setBlendMode('subtractive')
+  love.graphics.setColor(255,255,255)
+  local width, height = love.graphics.getDimensions()
+  love.graphics.circle("fill", width/2, height/2, ViewportParams.r, 50)
+  love.graphics.setBlendMode('alpha')
+  -- GO BACK TO MAIN CANVAS
+  love.graphics.setCanvas()
+  
+  local color = self:getAlertColor(primaryAlert.priority)
+  if primaryAlert.priority < 2 then
+    love.graphics.setColor(GRAY[1], GRAY[2], GRAY[3])
+  else
+    love.graphics.setColor(color[1], color[2], color[3])
+  end
+  self.GU:drawFullscreen(self.imageCanvas)
+  -- END HUD FOREGROUND IMAGE
+  
 --  love.graphics.setShader(self.bloomShader)
 
   love.graphics.setColor(unpack(WHITE))
@@ -108,7 +132,6 @@ function HUD:draw(gameData)
   self.GU:centeredText(gameData.score, self.layout.score.x, self.layout.score.y)
   self.GU:centeredText("SCORE", self.layout.score.x, self.layout.score.y - self.textOffset)
     
-  local primaryAlert = self.alertMachine:getPrimaryAlert()
   self:drawAlertMessage(primaryAlert, self.layout.alert.x, self.layout.alert.y)  
   
   love.graphics.setShader()

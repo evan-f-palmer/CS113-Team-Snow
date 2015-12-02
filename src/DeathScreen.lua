@@ -29,7 +29,7 @@ end
 function DeathScreen:draw()
   local width, height = love.graphics.getDimensions()
   
-  love.graphics.setColor(255,255,255,128)
+  love.graphics.setColor(255,255,255)
   graphics:drawFullscreen(self.background)
 
   love.graphics.setColor(WHITE[1],WHITE[2],WHITE[3],WHITE[4])
