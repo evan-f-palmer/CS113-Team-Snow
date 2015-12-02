@@ -7,36 +7,31 @@ function love.load(arg)
   io.stdout:setvbuf('no')
   love.window.setTitle(" ")
   love.window.setFullscreen(true, 'desktop')
-  
+
   local Game = require('Game')
-  game = Game()
+  game = Game()  
   
---  local GameMenu = require('GameMenu')
---  local ClickButton = { onHover = function(self) return false end, onClick = function(self) return true end, }
---  local HoverButton = { onHover = function(self) return true end, onClick = function(self) return false end, }
---  local width, height = love.graphics.getDimensions()
---  local credits  = GameMenu {}
---  local settings = GameMenu {}
---  local scores   = GameMenu {}
---  
---  local buttonR = height/16
---  local mainMenu = GameMenu {
---    contexts = {
---      ["Play"] = game, ["Settings"] = settings, ["Credits"] = credits, ["High Scores"] = scores,
---    },
---    layout = {
---      ["Play"]        = {x = width*(4/16),  y = height*(3/4), r = buttonR},
---      ["Settings"]    = {x = width*(7/16),  y = height*(3/4), r = buttonR},
---      ["Credits"]     = {x = width*(9/16),  y = height*(3/4), r = buttonR},
---      ["High Scores"] = {x = width*(12/16), y = height*(3/4), r = buttonR},
---    },
---    buttons = {
---      ["Play"] = ClickButton, ["Settings"] = ClickButton, ["Credits"] = ClickButton, ["High Scores"] = HoverButton,
---    },
---  }
+  local DrawCommon = require('DrawCommon')
+  local graphics = DrawCommon()
   
---  current = mainMenu
-  current = game
+  local LoadingScreen = require('LoadingScreen')
+  local startScreen = LoadingScreen()
+  startScreen:setLoader(function()
+    if love.mouse.isDown('l') or love.mouse.isDown('r') then
+      return game
+    else
+      return startScreen
+    end
+  end)
+  startScreen:setDrawer(function()
+    local width, height = love.graphics.getDimensions()
+    love.graphics.setColor(255,0,0)
+    love.graphics.rectangle("fill", 0, 0, width, height)
+    love.graphics.setColor(255,255,255)
+    graphics:centeredText("Click to Start", width/2, height/2)
+  end)
+  
+  current = startScreen
 end
 
 function love.update(dt)
