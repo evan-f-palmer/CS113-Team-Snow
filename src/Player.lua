@@ -67,7 +67,7 @@ function Player:update(dt)
   end
     
   if self.playerInput.secondaryWeaponFire and self.combat:canFire("Player Secondary") then
-    self.soundSystem:play("sound/playerShot.wav", 0.5)
+    self.soundSystem:play("sound/bombFire.wav", 0.5)
     if self.vel.x == 0 and self.vel.y == 0 then
       self.combat:fire("Player Secondary", self.loc, self.dir)
     else

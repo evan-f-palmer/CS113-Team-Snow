@@ -10,6 +10,7 @@ combat:addWeapon("Sinibomb Detonator", {ammo = math.huge, projectileID = "Sinibo
 local soundSystem = SoundSystem()
 local sinibombDeath = function(sinibomb)
   combat:fire("Sinibomb Detonator", sinibomb.loc, sinibomb.dir)
+  soundSystem:stop("sound/bombFire.wav")
   soundSystem:play("sound/sinibombExplosion.wav", 1)
 end
 local sinibombCollision = function(sinibomb, other)

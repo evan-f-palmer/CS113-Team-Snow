@@ -8,7 +8,7 @@ World.make = {
   Warrior  = require('Warrior'),
   Worker   = require('Worker'),
   Asteroid = require('Asteroid'),
-  Sinistar = require('Asteroid'), -- temporary placeholder
+  Sinistar = require('Sinistar'),
   Flock    = require('Flock'),
 }
 World.levelScale = 15
@@ -123,7 +123,7 @@ end
 
 function World:spawnSquads(xSquadLayer)  
   for k, obj in pairs(xSquadLayer.objects) do
-    local flock = World.make["Flock"]({}, 1/100, 50, 1/10)
+    local flock = World.make["Flock"]({}, 100, 5, 1/10)
     
     local numWorkers = obj.properties["Workers"] or 0
     for i = 1, numWorkers do
@@ -142,6 +142,8 @@ function World:spawnSquads(xSquadLayer)
     end
     table.insert(self.flocks, flock)
   end
+  local body = self:makeBody("Sinistar", 1000, 1000, self.gameData)
+  body.player = self.player
 end
 
 return World
