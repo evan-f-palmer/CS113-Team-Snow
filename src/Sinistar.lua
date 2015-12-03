@@ -70,7 +70,7 @@ function Sinistar:update(dt)
   if self.isDead then
     self.soundSystem:play("sound/explosion.wav", 0.5)    
     if (self.lastCollision == "Player Bullet" or self.lastCollision == "Sinibomb" or self.lastCollision == "Sinibomb Blast") then
-      self.gameData:increaseScore(self.gameData.SinistarKillValue)  
+      self.gameData:increaseScore(self.gameData.sinistarKillValue)  
     end
   end
 end

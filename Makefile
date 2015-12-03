@@ -3,5 +3,7 @@ createLove:
 	cd ..
 	mv src/game.love .
 
-runLove: createLove
+game.love: createLove
+
+runLove: game.love
 	love game.love
