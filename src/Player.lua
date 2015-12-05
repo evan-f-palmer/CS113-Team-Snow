@@ -110,6 +110,7 @@ function Player:onDeath()
   self.soundSystem:play("sound/explosion.wav", 0.5)
   self.gameData:decrementLives()
   self.world:spawnPlayer()
+  print('player death')
 end
 
 function Player:damage(xAmount)

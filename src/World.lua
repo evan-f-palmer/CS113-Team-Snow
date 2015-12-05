@@ -37,6 +37,8 @@ function World:loadLevel(xLevelFileName)
   self.collider:setWidth(self.width)
   self.collider:setHeight(self.height)
   
+  self.bodyAdditionQueue = {}
+  
   self:spawnAllFromAsType(layers["Asteroid"], "Asteroid")
   self:spawnSquads(layers["Squad"])
   self:spawnPlayer()
