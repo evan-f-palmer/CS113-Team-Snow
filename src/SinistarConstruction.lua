@@ -22,7 +22,7 @@ local ANIMATOR = Animator()
 
 SinistarConstruction.render = {
   image = love.graphics.newImage("assets/sinistar.png"),
-  color = {255,255,255},
+  color = {50,200,200},
   shouldRotate = false,
 }
 
