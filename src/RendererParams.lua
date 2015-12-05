@@ -3,7 +3,7 @@ local ViewportParams = require("ViewportParams")
 return {
   captureRadius = (ViewportParams.r + 50),
   radarRadius   = (ViewportParams.r * 3),
-  cameraScale   = (5/24),
+  cameraScale   = (11/48),
   drawScale = {
     ["Worker Bullet"] = 1.3, 
     ["Player Bullet"] = 1.3, 
