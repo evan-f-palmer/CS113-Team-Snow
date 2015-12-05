@@ -6,6 +6,8 @@ local Palette = require('Palette')
 local RED, BLUE, GREEN, YELLOW, WHITE, GRAY = Palette.RED, Palette.BLUE, Palette.GREEN, Palette.YELLOW, Palette.WHITE, Palette.GRAY
 local DIMWHITE = {WHITE[1], WHITE[2], WHITE[3], 127}
 local DIMGRAY = {GRAY[1], GRAY[2], GRAY[3], 127}
+local SOLIDWHITE = {WHITE[1], WHITE[2], WHITE[3], 255}
+local SOLIDGRAY = {GRAY[1], GRAY[2], GRAY[3], 255}
 local HUDLayout = require("HUDLayout")
 local FontParams = require('FontParams')
 
@@ -89,15 +91,16 @@ local keysorder = {
   '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 
   'DEL', 'OK',
 }
-local keyoffset = FontParams.FONT_SIZE
-local viewportscale = (11/16)
-local centerCircleScale = (8/16)
-local backgroundColor = DIMWHITE
-local backgroundTrimColor = WHITE
+local keyoffset = - FontParams.FONT_SIZE
+local selectorOffset = FontParams.FONT_SIZE/2
+local viewportscale = (11/16) --11/16
+local centerCircleScale = (37/64) --8/16
+local backgroundColor = {0,0,0,0} --DIMWHITE
+local backgroundTrimColor = DIMWHITE --DIMWHITE
 local textColor       = WHITE
-local textBackgroundColor = DIMGRAY
-local selectorColor   = WHITE
-local foregroundColor = WHITE
+local textBackgroundColor = {0,0,0,0} --DIMGRAY
+local selectorColor   = RED
+local foregroundColor = SOLIDWHITE
 function GameOverScreen:drawKeyboardPalette()
   local sectorlength = math.pi / (#keysorder)
   local tx, ty = self:getMouseOffsetRelativeToCenter(self.layout.viewport.x, self.layout.viewport.y)
@@ -110,6 +113,10 @@ function GameOverScreen:drawKeyboardPalette()
   
   love.graphics.setColor(unpack(textBackgroundColor))
   love.graphics.circle("fill", self.layout.viewport.x, self.layout.viewport.y, (self.layout.viewport.r * viewportscale + keyoffset*2))
+  
+  local angle1, angle2 = mouseAngle - sectorlength, mouseAngle + sectorlength
+  love.graphics.setColor(unpack(selectorColor))
+  love.graphics.arc("fill", self.layout.viewport.x, self.layout.viewport.y, self.layout.viewport.r * viewportscale + selectorOffset, angle1, angle2, 3)  
   
   for i, key in ipairs(keysorder) do
     local angle = (2*math.pi) * (i/(#keysorder))
@@ -125,9 +132,6 @@ function GameOverScreen:drawKeyboardPalette()
                                self.layout.viewport.y + math.sin(angle)*(self.layout.viewport.r * viewportscale + keyoffset))
   end
   
-  local angle1, angle2 = mouseAngle - sectorlength, mouseAngle + sectorlength
-  love.graphics.setColor(unpack(selectorColor))
-  love.graphics.arc("fill", self.layout.viewport.x, self.layout.viewport.y, self.layout.viewport.r * viewportscale, angle1, angle2, 3)  
   love.graphics.setColor(unpack(foregroundColor))
   love.graphics.circle("fill", self.layout.viewport.x, self.layout.viewport.y, self.layout.viewport.r * centerCircleScale)
 end
