@@ -10,7 +10,7 @@ return {
     ["Warrior Bullet"] = 2, 
     ["Asteroid"] = 1.4, 
     ["Crystal"] = 0.5, 
-    ["Sinistar"] = 1, 
+    ["Sinistar"] = 0.4, 
     ["Sinibomb"] = 1.8, 
     ["Worker"] = 1.4, 
     ["Warrior"] = 3.0, 

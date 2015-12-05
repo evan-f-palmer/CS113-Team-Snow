@@ -74,7 +74,7 @@ return {
   },
   sinistar = {
     health = 100,
-    radius = 500,
+    radius = 230,
     maxSpeedScale = 1.25,
     maxForceScale = 2,
     damageFrom = {
