@@ -31,7 +31,6 @@ function Warrior:init(gameData)
   self.currentTarget  = nil
   self.previousTarget = nil
   self.render = Warrior.render
-  self.shouldFire = nil
   
   self.id = "Warrior:" .. Warrior.count
   Warrior.count = Warrior.count + 1
@@ -63,9 +62,7 @@ function Warrior:update(dt)
   
   if self.isDead then
     self.soundSystem:play("sound/explosion.wav", 0.5)    
-    if (self.lastCollision == "Player Bullet" or self.lastCollision == "Sinibomb" or self.lastCollision == "Sinibomb Blast") then
-      self.gameData:increaseScore(self.gameData.warriorKillValue)  
-    end
+    self.gameData:increaseScore(self.gameData.warriorKillValue)
   end
 end
 
@@ -94,8 +91,6 @@ function Warrior:onCollision(other)
   if type == "Sinibomb Blast" then
     self:damage(EntityParams.warrior.damageFrom.sinibombBlast)
   end
-  
-  self.lastCollision = type
 end
 
 function Warrior:updateAI()
@@ -154,14 +149,6 @@ function Warrior:updateSteering(target, asteroids)
   end
   
   self.acc = steer
-end
-
-function Warrior:updateFiring(target)
-  if target == nil then
-    self.shouldFire = nil
-  else
-    self.shouldFire = true
-  end
 end
 
 function Warrior:makeAsteroidPriority()  

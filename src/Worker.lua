@@ -63,9 +63,7 @@ function Worker:update(dt)
 
   if self.isDead then
     self.soundSystem:play("sound/explosion.wav", 0.5)    
-    if (self.lastCollision == "Player Bullet" or self.lastCollision == "Sinibomb" or self.lastCollision == "Sinibomb Blast") then
-      self.gameData:increaseScore(self.gameData.workerKillValue)  
-    end
+    self.gameData:increaseScore(self.gameData.workerKillValue)
   end
 end
 
@@ -94,8 +92,6 @@ function Worker:onCollision(other)
   if type == "Sinibomb Blast" then
     self:damage(EntityParams.worker.damageFrom.sinibombBlast)
   end
-
-  self.lastCollision = type
 end
 
 function Worker:updateAI()

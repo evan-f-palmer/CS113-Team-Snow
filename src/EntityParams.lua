@@ -9,7 +9,7 @@ return {
     secondaryFireDebounce = 1,
     secondaryMaxAmmo = 20,
     damageFrom = {
-      sinistarCollision = 100,
+      sinistarCollision = 2.5,
       warriorBullet = 10,
       workerBullet = 2.5,
       sinibombBlast = 0.1,
@@ -76,18 +76,22 @@ return {
     health = 100,
     radius = 230,
     damageFrom = {
-      playerBullet = 0,
-      sinibomb = 0,
-      sinibombBlast = 10,
+      playerBullet = 0.001,
+      sinibomb = 5,
+      sinibombBlast = 1,
     },
 
-    maxWanderingSpeedScale = 1.25,
-    maxChargingSpeedScale = 1.2,
+    maxWanderingSpeedScale = 0.35,
+    maxChargingSpeedScale = 0.9,
     maxChasingSpeedScale = 1.1,
     
-    maxWanderingForceScale = 1.0,
-    maxChargingForceScale = 1.3,
-    maxChasingForceScale = 1.2,
+    maxWanderingForceScale = 0.3,
+    maxChargingForceScale = 1.0,
+    maxChasingForceScale = 0.8,
+    
+    wanderingTime = 3.75,
+    chargingTime = 2,
+    chasingTime = 1.25,
   },
   playerBullet = {
     speed = 2500, lifespan = 1.75, radius = 4,
