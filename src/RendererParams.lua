@@ -3,7 +3,7 @@ local ViewportParams = require("ViewportParams")
 return {
   captureRadius = (ViewportParams.r + 50),
   radarRadius   = (ViewportParams.r * 3),
-  cameraScale   = (11/48),
+  cameraScale   = (11/48), --5/48 to see what the hell is going on with all the AI at once
   drawScale = {
     ["Worker Bullet"] = 1.3, 
     ["Player Bullet"] = 1.3, 
