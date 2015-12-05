@@ -61,6 +61,10 @@ function GameData:shouldSinistarBeCompleted()
   return self.sinistarCrystals >= self.numberOfCrystalsToBuildSinistar
 end
 
+function GameData:getSinistarCompletionPercentage()
+  return math.min(self.sinistarCrystals / self.numberOfCrystalsToBuildSinistar, 1.0)
+end
+
 function GameData:incrementSinistarCrystals()
   self.sinistarCrystals = self.sinistarCrystals + 1
 end

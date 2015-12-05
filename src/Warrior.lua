@@ -96,7 +96,6 @@ end
 function Warrior:updateAI()
   local target, asteroids = self:pickTarget()
   self:updateSteering(target, asteroids)
-  self:updateFiring(target)
   self:setTarget(target)
 end
 

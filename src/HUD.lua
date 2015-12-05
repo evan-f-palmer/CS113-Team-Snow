@@ -43,8 +43,8 @@ local HUD = Class {}
 HUD.background = love.graphics.newImage("assets/screens/HUD1.JPG")
 HUD.life = love.graphics.newImage("assets/player.png")
 
-HUD.RADAR_DRAW_ORDERING = {"Asteroid", "Crystal", "Worker", "Warrior", "Sinistar"}
-HUD.RADAR_COLORS = {["Asteroid"] = GREEN, ["Crystal"] = BLUE, ["Worker"] = RED, ["Warrior"] = RED, ["Sinistar"] = YELLOW,}
+HUD.RADAR_DRAW_ORDERING = {"Asteroid", "Crystal", "Worker", "Warrior", "Sinistar", "Sinistar Construction"}
+HUD.RADAR_COLORS = {["Asteroid"] = GREEN, ["Crystal"] = BLUE, ["Worker"] = RED, ["Warrior"] = RED, ["Sinistar"] = YELLOW, ["Sinistar Construction"] = YELLOW,}
 
 function HUD:init()
   self.camera = Camera()
@@ -52,8 +52,6 @@ function HUD:init()
   self.blinker:setPeriod(1)
   self.GU = DrawCommon()
   self.alertMachine = AlertMachine()
-  
-  --self.bloomShader = love.graphics.newShader("shaders/bloom.glsl")
   
   self.textOffset = FontParams.FONT_SIZE * (15/8)
   self.layout = HUDLayout

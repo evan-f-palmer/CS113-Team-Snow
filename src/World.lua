@@ -8,7 +8,7 @@ World.make = {
   Warrior  = require('Warrior'),
   Worker   = require('Worker'),
   Asteroid = require('Asteroid'),
-  Sinistar = require('Sinistar'),
+  Sinistar = require('SinistarConstruction'),
   Flock    = require('Flock'),
 }
 World.levelScale = 15
