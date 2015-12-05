@@ -14,7 +14,7 @@ local SinistarConstruction = Class{__includes = Boid}
 SinistarConstruction.type = "Sinistar Construction"
 SinistarConstruction.radius = EntityParams.sinistar.radius
 
-local HALF_WAY_COMPLETED_ALERT  = {message = "[Sinistar Construction Half Complete]", lifespan = 3, priority = 2}
+local HALF_WAY_COMPLETED_ALERT  = {message = "[Sinistar Construction Half Complete]", lifespan = 3, priority = 1}
 local ALMOST_COMPLETED_ALERT  = {message = "[Sinistar Construction Almost Complete]", lifespan = 3, priority = 2}
 local COMPLETED_ALERT = {message = "[Sinistar Construction Completed]", lifespan = 3, priority = 3}
 
@@ -26,8 +26,10 @@ SinistarConstruction.render = {
   shouldRotate = false,
 }
 
-function SinistarConstruction:init(gameData)
+function SinistarConstruction:init(gameData, world, player)
   self.gameData = gameData
+  self.world = world
+  self.player = player
   
   Boid.init(self, 1, 1)
   self.render = SinistarConstruction.render
@@ -51,9 +53,8 @@ function SinistarConstruction:update(dt)
     self.hasAlertedAlmostComplete = true
   elseif self.gameData:shouldSinistarBeCompleted() then
     self.alertMachine:set(COMPLETED_ALERT)
-    local player = self.player
-    self = Sinistar(self.gameData)
-    self.player = player
+    self.isDead = true
+    self.world:makeBody("Sinistar", self.loc.x, self.loc.y, self.gameData, self.player)
   end
 end
 

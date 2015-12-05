@@ -47,8 +47,9 @@ Sinistar.modeMaxForces = {
   ["CHASE"]  = Sinistar.MAX_FORCE * EntityParams.sinistar.maxChasingForceScale,
 }
 
-function Sinistar:init(gameData)
+function Sinistar:init(gameData, player)
   self.gameData = gameData
+  self.player = player
   
   Boid.init(self, Sinistar.MAX_SPEED, Sinistar.MAX_FORCE)
   self.render = Sinistar.render

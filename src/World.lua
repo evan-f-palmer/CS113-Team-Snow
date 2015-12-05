@@ -8,8 +8,9 @@ World.make = {
   Warrior  = require('Warrior'),
   Worker   = require('Worker'),
   Asteroid = require('Asteroid'),
-  Sinistar = require('SinistarConstruction'),
+  Sinistar = require('Sinistar'),
   Flock    = require('Flock'),
+  SinistarConstruction = require('SinistarConstruction'),
 }
 World.levelScale = 15
 World.collider = CollisionSystem()
@@ -48,6 +49,7 @@ function World:loadLevel(xLevelFileName)
   self:spawnAllFromAsType(layers["Asteroid"], "Asteroid")
   self:spawnSquads(layers["Squad"])
   self:respawnPlayer()
+  self:makeBody("SinistarConstruction", 1000, 1000, self.gameData, self, self.player)
 end
 
 function World:unload()
@@ -142,8 +144,6 @@ function World:spawnSquads(xSquadLayer)
     end
     table.insert(self.flocks, flock)
   end
-  local body = self:makeBody("Sinistar", 1000, 1000, self.gameData)
-  body.player = self.player
 end
 
 return World
