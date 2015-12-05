@@ -11,13 +11,13 @@ local Probability = require('Probability')
 
 local Sinistar = Class{__includes = Boid}
 Sinistar.type = "Sinistar"
-Sinistar.MAX_SPEED = 40000  * EntityParams.sinistar.maxSpeedScale
-Sinistar.MAX_FORCE = 60000 * EntityParams.sinistar.maxForceScale
+Sinistar.MAX_SPEED = 40000
+Sinistar.MAX_FORCE = 60000
 Sinistar.radius    = EntityParams.sinistar.radius
 
-local CHARGING_ALERT  = {message = "[CHARGING]",  lifespan = 0.1, priority = 4}
-local WANDERING_ALERT = {message = "[WANDERING]", lifespan = 0.1, priority = 4}
-local CHASING_ALERT   = {message = "[CHASING]",   lifespan = 0.1, priority = 4}
+local CHARGING_ALERT  = {message = "[Sinistar Charging]",  lifespan = 0.1, priority = 1}
+local WANDERING_ALERT = {message = "[Sinistar Wandering]", lifespan = 0.1, priority = 1}
+local CHASING_ALERT   = {message = "[Sinistar in Pursuit]",   lifespan = 0.1, priority = 1}
 
 local ANIMATOR = Animator()
 
@@ -28,9 +28,21 @@ Sinistar.render = {
 }
 
 Sinistar.modeTimePeriods = {
-  ["WANDER"] = 1,
+  ["WANDER"] = 5,
   ["CHARGE"] = 2,
   ["CHASE"]  = 0.5,
+}
+
+Sinistar.modeMaxSpeeds = {
+  ["WANDER"] = Sinistar.MAX_SPEED * EntityParams.sinistar.maxWanderingSpeedScale,
+  ["CHARGE"] = Sinistar.MAX_SPEED * EntityParams.sinistar.maxChargingSpeedScale,
+  ["CHASE"]  = Sinistar.MAX_SPEED * EntityParams.sinistar.maxChasingSpeedScale,
+}
+
+Sinistar.modeMaxForces = {
+  ["WANDER"] = Sinistar.MAX_FORCE * EntityParams.sinistar.maxWanderingForceScale,
+  ["CHARGE"] = Sinistar.MAX_FORCE * EntityParams.sinistar.maxChargingForceScale,
+  ["CHASE"]  = Sinistar.MAX_FORCE * EntityParams.sinistar.maxChasingForceScale,
 }
 
 function Sinistar:init(gameData)
@@ -52,6 +64,8 @@ end
 
 function Sinistar:setMode(xMode)
   self.mode = xMode
+  self.maxSpeed = Sinistar.modeMaxSpeeds[xMode]
+  self.maxForce = Sinistar.modeMaxForces[xMode]
   self.timer = Sinistar.modeTimePeriods[xMode]
 end
 
@@ -91,10 +105,10 @@ function Sinistar:update(dt)
     if self.mode == "WANDER" then
       self:setMode(self.probability:of(0.1) and "CHASE" or "CHARGE")
     elseif self.mode == "CHASE" then
-      self:setMode("WANDER")
+      self:setMode(self.probability:of(0.3) and "CHARGE" or "WANDER")
     elseif self.mode == "CHARGE" then
       self.charge = nil
-      self:setMode(self.probability:of(0.6) and "CHARGE" or "WANDER")
+      self:setMode(self.probability:of(0.7) and "CHARGE" or "WANDER")
     end
   end
   
