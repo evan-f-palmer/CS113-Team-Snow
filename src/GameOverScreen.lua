@@ -3,8 +3,9 @@ local graphics = DrawCommon()
 local Blinker = require('Blinker')
 local blinker = Blinker()
 local Palette = require('Palette')
-local RED, BLUE, GREEN, YELLOW, WHITE = Palette.RED, Palette.BLUE, Palette.GREEN, Palette.YELLOW, Palette.WHITE
+local RED, BLUE, GREEN, YELLOW, WHITE, GRAY = Palette.RED, Palette.BLUE, Palette.GREEN, Palette.YELLOW, Palette.WHITE, Palette.GRAY
 local DIMWHITE = {WHITE[1], WHITE[2], WHITE[3], 127}
+local DIMGRAY = {GRAY[1], GRAY[2], GRAY[3], 127}
 local HUDLayout = require("HUDLayout")
 local FontParams = require('FontParams')
 
@@ -75,6 +76,8 @@ function GameOverScreen:draw()
     
   self:drawKeyboardPalette()
   
+  love.graphics.setColor(RED[1],RED[2],RED[3],RED[4])
+  graphics:centeredText(self.currentKey, width*(1/2), height*(1/2) - FontParams.FONT_SIZE)
   love.graphics.setColor(BLUE[1],BLUE[2],BLUE[3],BLUE[4])
   graphics:centeredText(self.username, width*(1/2), height*(1/2))
 end
@@ -88,13 +91,14 @@ local keysorder = {
 }
 local keyoffset = FontParams.FONT_SIZE
 local viewportscale = (11/16)
-local colororder = {WHITE}
-local centerCircleScale = (8/16) 
-local currentSelectionDrawYScale = (5/32)
+local centerCircleScale = (8/16)
+local backgroundColor = DIMWHITE
+local backgroundTrimColor = WHITE
+local textColor       = WHITE
+local textBackgroundColor = DIMGRAY
+local selectorColor   = WHITE
+local foregroundColor = WHITE
 function GameOverScreen:drawKeyboardPalette()
-  love.graphics.setColor(unpack(WHITE))
-  love.graphics.circle("line", self.layout.viewport.x, self.layout.viewport.y, self.layout.viewport.r * viewportscale)
-    
   local sectorlength = math.pi / (#keysorder)
   local tx, ty = self:getMouseOffsetRelativeToCenter(self.layout.viewport.x, self.layout.viewport.y)
   local mouseAngle = math.atan2(ty, tx)
@@ -104,28 +108,27 @@ function GameOverScreen:drawKeyboardPalette()
   
   self.currentKey = selectedKey
   
+  love.graphics.setColor(unpack(textBackgroundColor))
+  love.graphics.circle("fill", self.layout.viewport.x, self.layout.viewport.y, (self.layout.viewport.r * viewportscale + keyoffset*2))
+  
   for i, key in ipairs(keysorder) do
     local angle = (2*math.pi) * (i/(#keysorder))
     local angle1, angle2 = angle - sectorlength, angle + sectorlength
-    
-    love.graphics.setColor(DIMWHITE[1], DIMWHITE[2], DIMWHITE[3], DIMWHITE[4])
+        
+    love.graphics.setColor(backgroundColor[1], backgroundColor[2], backgroundColor[3], backgroundColor[4])
     love.graphics.arc("fill", self.layout.viewport.x, self.layout.viewport.y, self.layout.viewport.r * viewportscale, angle1, angle2, 3)
-    love.graphics.setColor(WHITE[1], WHITE[2], WHITE[3], WHITE[4])
+    love.graphics.setColor(backgroundTrimColor[1], backgroundTrimColor[2], backgroundTrimColor[3], backgroundTrimColor[4])
     love.graphics.arc("line", self.layout.viewport.x, self.layout.viewport.y, self.layout.viewport.r * viewportscale, angle1, angle2, 3)
     
-    love.graphics.setColor(WHITE[1], WHITE[2], WHITE[3], WHITE[4])
+    love.graphics.setColor(textColor[1], textColor[2], textColor[3], textColor[4])
     graphics:centeredText(key, self.layout.viewport.x + math.cos(angle)*(self.layout.viewport.r * viewportscale + keyoffset),
                                self.layout.viewport.y + math.sin(angle)*(self.layout.viewport.r * viewportscale + keyoffset))
   end
   
   local angle1, angle2 = mouseAngle - sectorlength, mouseAngle + sectorlength
-  local color = colororder[selectedIndex % (#colororder) + 1]
-  love.graphics.setColor(color[1], color[2], color[3], color[4])
+  love.graphics.setColor(unpack(selectorColor))
   love.graphics.arc("fill", self.layout.viewport.x, self.layout.viewport.y, self.layout.viewport.r * viewportscale, angle1, angle2, 3)  
-  local width, height = love.graphics.getDimensions()
-  graphics:centeredText(selectedKey, self.layout.viewport.x, height * currentSelectionDrawYScale)
-
-  love.graphics.setColor(WHITE[1],WHITE[2],WHITE[3],WHITE[4])
+  love.graphics.setColor(unpack(foregroundColor))
   love.graphics.circle("fill", self.layout.viewport.x, self.layout.viewport.y, self.layout.viewport.r * centerCircleScale)
 end
 

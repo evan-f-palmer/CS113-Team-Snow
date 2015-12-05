@@ -70,8 +70,7 @@ function HUD:draw(gameData)
   self.GU:drawFullscreen(self.imageCanvas)
   -- END HUD FOREGROUND IMAGE
   
-  love.graphics.setColor(unpack(Palette.WHITE))
-  love.graphics.circle("line", self.layout.viewport.x, self.layout.viewport.y, self.layout.viewport.r)
+  self:drawPorthole()
     
   local HUDcolor = self.colorer:getHeadsUpDisplayColor()
   love.graphics.setColor(HUDcolor[1], HUDcolor[2], HUDcolor[3], HUDcolor[4])
