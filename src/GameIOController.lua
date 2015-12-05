@@ -27,24 +27,6 @@ local INFO_MESSAGE = { message = "", lifespan = 0.5, priority = 4}
 function GameIOController:update(dt)
   self:updateDebounce(dt)
   
-  if love.keyboard.isDown("h") then
-    alertMachine:set(HIGH_PRIORITY_ALERT)
-    self.soundSystem:play("sound/arcadealarm.ogg")
-  end
-  
-  if love.keyboard.isDown("m") then
-    alertMachine:set(MEDIUM_PRIORITY_ALERT)
-    self.soundSystem:play("sound/marinealarm.ogg")
-  end
-  
-  if love.keyboard.isDown("a") then
-    COMBAT:attack("Player", 1)
-  end
-  
-  if love.keyboard.isDown("s") then
-    COMBAT:heal("Player", 1)
-  end
-  
   if love.keyboard.isDown("p") then
     self.game.transition = self.game.pausedScreen
   end
@@ -54,8 +36,28 @@ function GameIOController:update(dt)
     alertMachine:set(INFO_MESSAGE)
   end
   
+  if love.keyboard.isDown("-") then
+    COMBAT:attack("Player", 1)
+  end
+  
+  if love.keyboard.isDown("=") then
+    COMBAT:heal("Player", 1)
+  end
+  
   if self:isDown("b") then self:press('b')
     COMBAT:supplyAmmo("Player Secondary", 1)
+  end
+  
+  if love.keyboard.isDown("s") then
+    self.game.data:increaseScore(100)
+  end
+  
+  if self:isDown('l') then self:press('l')
+    self.game.data:incrementLives()
+  end
+  
+  if self:isDown('d') then self:press('d')
+    self.game.data:decrementLives()
   end
   
   if self:isDown('q') then self:press('q')
@@ -64,6 +66,16 @@ function GameIOController:update(dt)
   
   if self:isDown('w') then self:press('w')
     self.game.step = true
+  end
+  
+  if love.keyboard.isDown("h") then
+    alertMachine:set(HIGH_PRIORITY_ALERT)
+    self.soundSystem:play("sound/arcadealarm.ogg", 0.25)
+  end
+  
+  if love.keyboard.isDown("m") then
+    alertMachine:set(MEDIUM_PRIORITY_ALERT)
+    self.soundSystem:play("sound/marinealarm.ogg", 0.25)
   end
 end
 

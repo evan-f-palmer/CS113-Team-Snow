@@ -77,7 +77,7 @@ function Player:update(dt)
   
   if self.playerInput.secondaryWeaponFire and self.combat:isOutOfAmmo("Player Secondary") then
     self.alertMachine:set(OUT_OF_SINIBOMBS_ALERT)
-    self.soundSystem:play("sound/marinealarm.ogg",0.5)
+    self.soundSystem:play("sound/marinealarm.ogg",0.25)
   end
 
   self.combat:heal(self.id, dt * EntityParams.player.healpersec)

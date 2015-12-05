@@ -1,4 +1,5 @@
 local Class = require('hump.class')
+local SoundSystem  = require('SoundSystem')
 
 local GameData = Class{}
 
@@ -12,6 +13,7 @@ GameData.startingLives = 3
 GameData.numberOfCrystalsToBuildSinistar = 100
 
 function GameData:init()
+  self.soundSystem = SoundSystem()
   self:reset()
 end
 
@@ -23,6 +25,7 @@ function GameData:reset()
   self.alertMessage = ""
   self.alertPriority = 0
   self.sinistarCrystals = 0
+  self.lastLifeUpScore = 0
 end
 
 function GameData:updateAlertData(xAlertMachine)
@@ -37,10 +40,17 @@ end
 
 function GameData:increaseScore(xAmount)
   self.score = self.score + xAmount
+  if self.score - self.lastLifeUpScore >= 30000 then
+    self.lastLifeUpScore = self.score
+    self:incrementLives()
+  end
 end
 
 function GameData:incrementLives()
-  self.lives = self.lives + 1
+  if self.lives < 3 then
+    self.lives = self.lives + 1
+    self.soundSystem:play("sound/sinibombExplosion.wav", 0.5)
+  end
 end
 
 function GameData:decrementLives()

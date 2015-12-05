@@ -11,28 +11,23 @@ function love.load(arg)
   local Game = require('Game')
   game = Game()  
   
-  local DrawCommon = require('DrawCommon')
-  local graphics = DrawCommon()
-  
   local scoresScreen = require("ScoresScreen")
-  scoresScreen.transition = game
-  
   local startScreen = require("StartScreen")
-  startScreen.transition = scoresScreen
-  
   local pausedScreen = require("PausedScreen")
-  pausedScreen.transition = game
-  
   local deathScreen = require("DeathScreen")
-  deathScreen.transition = game
-  
   local gameOverScreen = require("GameOverScreen")
-  gameOverScreen.transition = scoresScreen
   
   game.scoresScreen = scoresScreen
   game.pausedScreen = pausedScreen
   game.deathScreen = deathScreen
   game.gameOverScreen = gameOverScreen
+  
+  scoresScreen.transition = game
+  startScreen.transition = game  
+  pausedScreen.transition = game
+  deathScreen.transition = game
+  gameOverScreen.transition = scoresScreen
+  
   gameOverScreen.game = game
   deathScreen.game = game
   pausedScreen.game = game

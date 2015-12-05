@@ -41,6 +41,7 @@ local HEALTH_BAR_COLORS = { RED, YELLOW, GREEN, GREEN, GREEN}
 
 local HUD = Class {}
 HUD.background = love.graphics.newImage("assets/screens/HUD1.JPG")
+HUD.life = love.graphics.newImage("assets/player.png")
 
 HUD.RADAR_DRAW_ORDERING = {"Asteroid", "Crystal", "Worker", "Warrior", "Sinistar"}
 HUD.RADAR_COLORS = {["Asteroid"] = GREEN, ["Crystal"] = BLUE, ["Worker"] = RED, ["Warrior"] = RED, ["Sinistar"] = YELLOW,}
@@ -54,7 +55,7 @@ function HUD:init()
   
   --self.bloomShader = love.graphics.newShader("shaders/bloom.glsl")
   
-  self.textOffset = FontParams.FONT_SIZE * (2)
+  self.textOffset = FontParams.FONT_SIZE * (15/8)
   self.layout = HUDLayout
   
   self.radarCanvas = love.graphics.newCanvas()
@@ -102,8 +103,6 @@ function HUD:drawPartial(gameData)
   end
   self.GU:drawFullscreen(self.imageCanvas)
   -- END HUD FOREGROUND IMAGE
-  
---  love.graphics.setShader(self.bloomShader)
 
   self:drawPorthole()
     
@@ -115,22 +114,32 @@ function HUD:drawPartial(gameData)
   love.graphics.circle("line", x, y, minR)
   x, y, minR = InputDeviceLayout.directionalJoystick.x, InputDeviceLayout.directionalJoystick.y, InputDeviceLayout.directionalJoystick.minR
   love.graphics.circle("line", x, y, minR)
-
-  love.graphics.circle("line", self.layout.lives.x, self.layout.lives.y, self.GU.FONT_SIZE, 30)
-  love.graphics.circle("line", self.layout.bombs.x, self.layout.bombs.y, self.GU.FONT_SIZE, 30)  
-  love.graphics.setShader()
   
   self:drawHealthBar(gameData.health)
-    
+  
   love.graphics.setColor(unpack(WHITE))
-  self.GU:centeredText(gameData.lives, self.layout.lives.x, self.layout.lives.y)
-  self.GU:centeredText("LIVES", self.layout.lives.x, self.layout.lives.y + self.textOffset)  
-  self.GU:centeredText(math.floor(gameData.health * 100)..'%', self.layout.health.x + self.layout.health.w/2, self.layout.health.y + self.layout.health.h/2)
+  self.GU:centeredText(math.floor(gameData.health * 100)..'%', self.layout.health.x + self.layout.health.w/2, self.layout.health.y + self.layout.health.h/2)  
+  
+  love.graphics.setColor(unpack(WHITE))
+  local x, y = self.layout.lives.x, self.layout.lives.y
+  local scale = 0.15
+  for i = 1, gameData.lives do
+    self.GU:BEGIN_SCALE(x, y, scale)
+    self.GU:drawRotatedImage(self.life, x, y, 0)
+    self.GU:END()
+    x = x + self.life:getWidth() * scale * (3/2)
+  end
+  
+  local HUDcolor = self:getHeadsUpDisplayColor()
+  love.graphics.setColor(HUDcolor[1], HUDcolor[2], HUDcolor[3], HUDcolor[4])
+  love.graphics.circle("line", self.layout.bombs.x, self.layout.bombs.y, self.GU.FONT_SIZE, 30)  
+  love.graphics.setColor(unpack(WHITE))
   self.GU:centeredText(gameData.bombs, self.layout.bombs.x, self.layout.bombs.y)
   self.GU:centeredText("BOMBS", self.layout.bombs.x, self.layout.bombs.y + self.textOffset)
+
   self.GU:centeredText(gameData.score, self.layout.score.x, self.layout.score.y)
   self.GU:centeredText("SCORE", self.layout.score.x, self.layout.score.y - self.textOffset)
-    
+  
   self:drawAlertMessage(primaryAlert, self.layout.alert.x, self.layout.alert.y)  
   
   love.graphics.setShader()
@@ -169,8 +178,6 @@ function HUD:draw(gameData)
   self.GU:drawFullscreen(self.imageCanvas)
   -- END HUD FOREGROUND IMAGE
   
---  love.graphics.setShader(self.bloomShader)
-
   love.graphics.setColor(unpack(WHITE))
   love.graphics.circle("line", self.layout.viewport.x, self.layout.viewport.y, self.layout.viewport.r)
     
@@ -182,25 +189,36 @@ function HUD:draw(gameData)
   love.graphics.circle("line", x, y, minR)
   x, y, minR = InputDeviceLayout.directionalJoystick.x, InputDeviceLayout.directionalJoystick.y, InputDeviceLayout.directionalJoystick.minR
   love.graphics.circle("line", x, y, minR)
-
-  love.graphics.circle("line", self.layout.lives.x, self.layout.lives.y, self.GU.FONT_SIZE, 30)
-  love.graphics.circle("line", self.layout.bombs.x, self.layout.bombs.y, self.GU.FONT_SIZE, 30)  
-  love.graphics.setShader()
   
   self.radarDrawData.x = x
   self.radarDrawData.y = y
   self:drawRadar(gameData.forRadar, self.radarDrawData)  
   self:drawHealthBar(gameData.health)
-    
+
   love.graphics.setColor(unpack(WHITE))
-  self.GU:centeredText(gameData.lives, self.layout.lives.x, self.layout.lives.y)
-  self.GU:centeredText("LIVES", self.layout.lives.x, self.layout.lives.y + self.textOffset)  
-  self.GU:centeredText(math.floor(gameData.health * 100)..'%', self.layout.health.x + self.layout.health.w/2, self.layout.health.y + self.layout.health.h/2)
+  self.GU:centeredText(math.floor(gameData.health * 100)..'%', self.layout.health.x + self.layout.health.w/2, self.layout.health.y + self.layout.health.h/2)  
+  
+  love.graphics.setColor(unpack(WHITE))
+  local x, y = self.layout.lives.x, self.layout.lives.y
+  local scale = 0.15
+  for i = 1, gameData.lives do
+    self.GU:BEGIN_SCALE(x, y, scale)
+    self.GU:drawRotatedImage(self.life, x, y, 0)
+    self.GU:END()
+    x = x + self.life:getWidth() * scale * (3/2)
+  end
+  
+  local HUDcolor = self:getHeadsUpDisplayColor()
+  love.graphics.setColor(HUDcolor[1], HUDcolor[2], HUDcolor[3], HUDcolor[4])
+  love.graphics.circle("line", self.layout.bombs.x, self.layout.bombs.y, self.GU.FONT_SIZE, 30)  
+  love.graphics.setColor(unpack(WHITE))
   self.GU:centeredText(gameData.bombs, self.layout.bombs.x, self.layout.bombs.y)
   self.GU:centeredText("BOMBS", self.layout.bombs.x, self.layout.bombs.y + self.textOffset)
+  
+  love.graphics.setColor(unpack(WHITE))
   self.GU:centeredText(gameData.score, self.layout.score.x, self.layout.score.y)
   self.GU:centeredText("SCORE", self.layout.score.x, self.layout.score.y - self.textOffset)
-    
+      
   self:drawAlertMessage(primaryAlert, self.layout.alert.x, self.layout.alert.y)  
   
   love.graphics.setShader()
