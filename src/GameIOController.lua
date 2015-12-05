@@ -58,6 +58,10 @@ function GameIOController:update(dt)
     COMBAT:heal("Player", 1)
   end
   
+  if love.keyboard.isDown("x") then
+    COMBAT:attack("Sinistar", 1)
+  end
+  
   if self:isDown("b") then self:press('b')
     COMBAT:supplyAmmo("Player Secondary", 1)
   end
