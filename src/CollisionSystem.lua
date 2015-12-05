@@ -54,6 +54,7 @@ function CollisionSystem:createCollisionObject(metaObject, radius)
   metaObject['getRelativeLoc'] = function(ofObject)
     local mx, my = collisionObject[MainObject]:center() -- Relative Origin
     local otherCollisionObject = self.collisionObjects[ofObject]
+    if not otherCollisionObject then return 0,0 end
     local ox, oy = otherCollisionObject[MainObject]:center()        
     local x, y = (ox - mx), (oy - my) -- Relative space
     x, y = self:getClosestTranslationToOrigin(x, y)

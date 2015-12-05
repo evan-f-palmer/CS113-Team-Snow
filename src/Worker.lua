@@ -60,11 +60,11 @@ function Worker:update(dt)
   end
   
   self.isDead = self.combat:isDead(self.id)
+end
 
-  if self.isDead then
-    self.soundSystem:play("sound/explosion.wav", 0.5)    
-    self.gameData:increaseScore(self.gameData.workerKillValue)
-  end
+function Worker:onDeath()
+  self.soundSystem:play("sound/explosion.wav", 0.5)    
+  self.gameData:increaseScore(self.gameData.workerKillValue)
 end
 
 function Worker:damage(xAmount)

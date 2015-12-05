@@ -26,8 +26,10 @@ local ALERT_PRIORITY_COLORS = {
   [1] = {SOLID(WHITE), DIM(WHITE)}, -- STANDARD MESSAGE
   [2] = {SOLID(YELLOW), DIM(YELLOW),}, -- MEDIUM PRIORITY
   [3] = {SOLID(RED), DIM(RED), SOLID(RED), DIM(RED),}, -- HIGH PRIORITY
-  [4] = {SOLID(BLUE), DIM(BLUE)}, -- FOR DEBUG MESSAGES
+  [4] = {SOLID(BLUE), DIM(BLUE)}, -- For Crystal Pickup
   [5] = {SOLID(GREEN), DIM(GREEN)}, -- Player Respawn Invincibility
+  [6] = {SOLID(GREEN), SOLID(BLUE), SOLID(YELLOW), SOLID(RED)}, -- For Sinistar Kill
+  [100] = {DIM(WHITE)}, -- DEBUG MESSAGES
 }
 
 local HUD_COLORS = {

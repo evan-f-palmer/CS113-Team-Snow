@@ -29,9 +29,10 @@ Player.variations = {
   },
 }
 
-function Player:init(gameData, playerInput)
+function Player:init(gameData, playerInput, world)
   self.playerInput = playerInput
   self.gameData = gameData
+  self.world = world
   
   self.loc = Vector(0, 0)
   self.vel = Vector(0, 0)
@@ -49,7 +50,9 @@ function Player:init(gameData, playerInput)
   self.alertMachine = AlertMachine()
   self.soundSystem = SoundSystem()
   self.previousScore = 0
-  self.invincibilityTimer = 0
+  
+  self.invincibilityTimer = RESPAWN_MESSAGE.lifespan
+  self.alertMachine:set(RESPAWN_MESSAGE)
 end
 
 function Player:update(dt)
@@ -99,13 +102,15 @@ function Player:update(dt)
     self.alertMachine:set(LOW_HEALTH_ALERT)
   end
   
-  if self.isDead then
-    self.soundSystem:play("sound/explosion.wav", 0.5)
-  end 
-  
   if self.invincibilityTimer > 0 then
     self.invincibilityTimer = self.invincibilityTimer - dt
   end
+end
+
+function Player:onDeath()
+  self.soundSystem:play("sound/explosion.wav", 0.5)
+  self.gameData:decrementLives()
+  self.world:spawnPlayer()
 end
 
 function Player:damage(xAmount)
@@ -142,13 +147,6 @@ function Player:onCollision(other)
   if type == "Sinibomb Blast" then
     self:damage(EntityParams.player.damageFrom.sinibombBlast)
   end
-end
-
-function Player:respawn()
-  self.invincibilityTimer = RESPAWN_MESSAGE.lifespan
-  self.alertMachine:set(RESPAWN_MESSAGE)
-  self.combat:addCombatant("Player", {health = EntityParams.player.health})
-  self.isDead = self.combat:isDead("Player")
 end
 
 return Player

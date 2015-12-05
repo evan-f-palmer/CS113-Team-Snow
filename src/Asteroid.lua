@@ -49,14 +49,16 @@ function Asteroid:init(gameData)
   
   self.alertMachine = AlertMachine()
   self.soundSystem = SoundSystem()
-  self.lastCollision = "None"
+  self.wasPlayerCausedCollision = false
 end
 
 function Asteroid:update(dt)
   self.combat:heal(self.id, dt * 3)
   self.isDead = self.combat:isDead(self.id) or self.combat:isOutOfAmmo(self.id)
-  
-  if self.isDead and (self.lastCollision == "Player Bullet" or self.lastCollision == "Sinibomb" or self.lastCollision == "Sinibomb Blast") then
+end
+
+function Asteroid:onDeath()
+  if self.wasPlayerCausedCollision then
     self.gameData:increaseScore(self.gameData.asteroidKillValue)
   end
 end
@@ -87,25 +89,28 @@ function Asteroid:onCollision(other)
       end
     end
     other.isDead = true
+    self.wasPlayerCausedCollision = true
   end
+
+  if type == "Sinibomb" then
+    self:damage(EntityParams.asteroid.damageFrom.sinibomb)
+    other.isDead = true
+    self.wasPlayerCausedCollision = true
+  end
+  
+  if type == "Sinibomb Blast" then
+    self:damage(EntityParams.asteroid.damageFrom.sinibombBlast)
+    self.wasPlayerCausedCollision = true
+  end
+  
   if type == "Worker Bullet" then
     self:damage(EntityParams.asteroid.damageFrom.workerBullet)
     if self.probability:of(EntityParams.asteroid.crystalProductionProbabilityFor.workerBullet) then
       self:fire()
     end
     other.isDead = true
+    self.wasPlayerCausedCollision = false
   end
-
-  if type == "Sinibomb" then
-    self:damage(EntityParams.asteroid.damageFrom.sinibomb)
-    other.isDead = true
-  end
-  
-  if type == "Sinibomb Blast" then
-    self:damage(EntityParams.asteroid.damageFrom.sinibombBlast)
-  end
-  
-  self.lastCollision = type
 end
 
 return Asteroid

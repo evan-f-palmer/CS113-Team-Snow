@@ -10,7 +10,7 @@ GameData.crystalValue = 100
 GameData.asteroidKillValue = 50
 
 GameData.startingLives = 3
-GameData.numberOfCrystalsToBuildSinistar = 100
+GameData.numberOfCrystalsToBuildSinistar = 10
 
 function GameData:init()
   self.soundSystem = SoundSystem()

@@ -26,10 +26,9 @@ SinistarConstruction.render = {
   shouldRotate = false,
 }
 
-function SinistarConstruction:init(gameData, world, player)
+function SinistarConstruction:init(gameData, world)
   self.gameData = gameData
   self.world = world
-  self.player = player
   
   Boid.init(self, 1, 1)
   self.render = SinistarConstruction.render
@@ -44,6 +43,7 @@ end
 
 function SinistarConstruction:update(dt)
   Boid.update(self, dt)
+  self.isDead = false
   
   if self.gameData:getSinistarCompletionPercentage() >= 0.5 and not self.hasAlertedHalfWay then
     self.alertMachine:set(HALF_WAY_COMPLETED_ALERT)
@@ -54,8 +54,11 @@ function SinistarConstruction:update(dt)
   elseif self.gameData:shouldSinistarBeCompleted() then
     self.alertMachine:set(COMPLETED_ALERT)
     self.isDead = true
-    self.world:makeBody("Sinistar", self.loc.x, self.loc.y, self.gameData, self.player)
   end
+end
+
+function SinistarConstruction:onDeath()
+  self.world:makeBody("Sinistar", self.loc.x, self.loc.y, self.gameData, self.world)
 end
 
 function SinistarConstruction:onCollision(other)

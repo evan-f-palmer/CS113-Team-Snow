@@ -15,11 +15,11 @@ Sinistar.MAX_SPEED = 40000
 Sinistar.MAX_FORCE = 60000
 Sinistar.radius    = EntityParams.sinistar.radius
 
-local CHARGING_ALERT  = {message = "[Sinistar Charging]", lifespan = 0.1, priority = 1}
-local WANDERING_ALERT = {message = "[Sinistar Wandering]", lifespan = 0.1, priority = 1}
-local CHASING_ALERT   = {message = "[Sinistar in Pursuit]", lifespan = 0.1, priority = 1}
-local SINISTAR_DEATH_MESSAGE = {message = "[Sinistar Destroyed]", lifespan = 3, priority = 1}
+local CHARGING_ALERT  = {message = "[Sinistar Charging]", lifespan = 0.1, priority = 100}
+local WANDERING_ALERT = {message = "[Sinistar Wandering]", lifespan = 0.1, priority = 100}
+local CHASING_ALERT   = {message = "[Sinistar in Pursuit]", lifespan = 0.1, priority = 100}
 
+local SINISTAR_DEATH_MESSAGE = {message = "[Sinistar Destroyed]", lifespan = 3, priority = 6}
 
 local ANIMATOR = Animator()
 
@@ -47,9 +47,10 @@ Sinistar.modeMaxForces = {
   ["CHASE"]  = Sinistar.MAX_FORCE * EntityParams.sinistar.maxChasingForceScale,
 }
 
-function Sinistar:init(gameData, player)
+function Sinistar:init(gameData, world)
   self.gameData = gameData
-  self.player = player
+  self.world = world
+  self.player = self.world.player
   
   Boid.init(self, Sinistar.MAX_SPEED, Sinistar.MAX_FORCE)
   self.render = Sinistar.render
@@ -74,6 +75,7 @@ end
 
 function Sinistar:update(dt)
   Boid.update(self, dt)
+  self.player = self.world.player
   
   if self.mode == "WANDER" then
     self.alertMachine:set(WANDERING_ALERT)
@@ -115,12 +117,12 @@ function Sinistar:update(dt)
   end
   
   self.isDead = self.combat:isDead(self.id)
-  
-  if self.isDead then
-    self.alertMachine:set(SINISTAR_DEATH_MESSAGE)
-    self.soundSystem:play("sound/explosion.wav", 0.5)    
-    self.gameData:increaseScore(self.gameData.sinistarKillValue)  
-  end
+end
+
+function Sinistar:onDeath()
+  self.alertMachine:set(SINISTAR_DEATH_MESSAGE)
+  self.soundSystem:play("sound/explosion.wav", 0.5)    
+  self.gameData:increaseScore(self.gameData.sinistarKillValue)
 end
 
 function Sinistar:damage(xAmount)

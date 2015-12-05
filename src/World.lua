@@ -1,10 +1,10 @@
 local Class  = require('hump.class')
-local Player = require('Player')
 local CollisionSystem = require('CollisionSystem')
 local Bodies = require('Bodies')
 
 local World = Class{}
 World.make = {
+  Player   = require('Player'),
   Warrior  = require('Warrior'),
   Worker   = require('Worker'),
   Asteroid = require('Asteroid'),
@@ -16,24 +16,14 @@ World.levelScale = 15
 World.collider = CollisionSystem()
 
 function World:init(playerInput, gameData, projectiles)
-  self.player = Player(gameData, playerInput)
-  self.player.spawn = {x = 0, y = 0}
   self.gameData = gameData
   self.projectiles = projectiles
   self.bodies = Bodies()
   self.projectiles:setCollider(self.collider)
   self.bodies:setCollider(self.collider)  
   self.flocks = {}
-end
-
-function World:respawnPlayer()
-  self.player.loc.x = self.player.spawn.x
-  self.player.loc.y = self.player.spawn.y
-  if self.player.isDead then
-    self.gameData:decrementLives()
-    self.player:respawn()
-  end
-  self.collider:createCollisionObject(self.player, self.player.radius)
+  self.playerInput = playerInput
+  self.bodyAdditionQueue = {}
 end
 
 function World:loadLevel(xLevelFileName)
@@ -48,27 +38,27 @@ function World:loadLevel(xLevelFileName)
   
   self:spawnAllFromAsType(layers["Asteroid"], "Asteroid")
   self:spawnSquads(layers["Squad"])
-  self:respawnPlayer()
-  self:makeBody("SinistarConstruction", 1000, 1000, self.gameData, self, self.player)
+  self:spawnPlayer()
+  self:makeBody("SinistarConstruction", 1000, 1000, self.gameData, self)
 end
 
 function World:unload()
-  self.collider:removeObject(self.player)
   self.projectiles:clear()
   self.bodies:clear()
 end
 
 function World:update(dt)
+  while #self.bodyAdditionQueue > 0 do
+    local bodyToAdd = table.remove(self.bodyAdditionQueue)
+    self.bodies:add(bodyToAdd)
+  end
+
   self:updateAllWorldObjects(dt)  
   self:moveAllWorldObjects(dt)
   self.collider:update()
 end
 
 function World:updateAllWorldObjects(dt)
-  self.player:update(dt)
-  if self.player.isDead then
-    self:respawnPlayer()
-  end
   self.projectiles:update(dt)
   self.bodies:update(dt)
 end
@@ -79,9 +69,12 @@ local function move(xBody, dt)
 end
 
 function World:moveAllWorldObjects(dt)
-  move(self.player, dt)
   self.projectiles:foreachdo(move, dt)
   self.bodies:foreachdo(move, dt)
+end
+
+function World:spawnPlayer()
+  self.player = self:makeBody("Player", 0, 0, self.gameData, self.playerInput, self)
 end
 
 function World:makeBody(type, x, y, ...)
@@ -89,7 +82,9 @@ function World:makeBody(type, x, y, ...)
   local obj = class(...)
   obj.loc.x = x
   obj.loc.y = y
-  self.bodies:add(obj)
+  table.insert(self.bodyAdditionQueue, obj)
+  obj.getNeighbors = function() return {} end
+  --self.bodies:add(obj)
   return obj
 end
 

@@ -19,10 +19,10 @@ end
 
 local AlertMachine = require('AlertMachine')
 local alertMachine = AlertMachine()
-local BRIEF_MESSAGE = { message = "", lifespan = 0.1, priority = 4 }
+local ALERT_TEST = {message = "ALERT TEST", lifespan = 0.1, priority = 0}
 local MEDIUM_PRIORITY_ALERT = {message = "Medium Priority Alert", lifespan = 0.1, priority = 2}
 local HIGH_PRIORITY_ALERT = {message = "High Priority Alert", lifespan = 0.1, priority = 3}
-local INFO_MESSAGE = { message = "", lifespan = 0.5, priority = 4}
+local INFO_MESSAGE = {message = "", lifespan = 0.5, priority = 100}
 
 function GameIOController:update(dt)
   self:updateDebounce(dt)
@@ -68,16 +68,29 @@ function GameIOController:update(dt)
     self.game.step = true
   end
   
-  if love.keyboard.isDown("h") then
-    alertMachine:set(HIGH_PRIORITY_ALERT)
-    self.soundSystem:play("sound/alarm.wav", 0.25)
-    --self.soundSystem:play("sound/arcadealarm.ogg", 0.25)
+  if love.keyboard.isDown('1') then
+    ALERT_TEST.priority = 1
+    alertMachine:set(ALERT_TEST)
   end
-  
-  if love.keyboard.isDown("m") then
-    alertMachine:set(MEDIUM_PRIORITY_ALERT)
-    self.soundSystem:play("sound/alarm.wav", 0.25)
-    --self.soundSystem:play("sound/marinealarm.ogg", 0.25)
+  if love.keyboard.isDown('2') then 
+    ALERT_TEST.priority = 2
+    alertMachine:set(ALERT_TEST)
+  end
+  if love.keyboard.isDown('3') then 
+    ALERT_TEST.priority = 3
+    alertMachine:set(ALERT_TEST)
+  end
+  if love.keyboard.isDown('4') then 
+    ALERT_TEST.priority = 4
+    alertMachine:set(ALERT_TEST)
+  end
+  if love.keyboard.isDown('5') then 
+    ALERT_TEST.priority = 5
+    alertMachine:set(ALERT_TEST)
+  end
+  if love.keyboard.isDown('6') then 
+    ALERT_TEST.priority = 6
+    alertMachine:set(ALERT_TEST)
   end
 end
 

@@ -10,8 +10,8 @@ return {
     secondaryMaxAmmo = 20,
     damageFrom = {
       sinistarCollision = 2.5,
-      warriorBullet = 10,
-      workerBullet = 2.5,
+      warriorBullet = 7.5,
+      workerBullet = 2,
       sinibombBlast = 0.1,
     },
     bombAmmoFromCrystalPickup = 1,
@@ -82,7 +82,7 @@ return {
     },
 
     maxWanderingSpeedScale = 0.35,
-    maxChargingSpeedScale = 0.9,
+    maxChargingSpeedScale = 1.0,
     maxChasingSpeedScale = 1.1,
     
     maxWanderingForceScale = 0.3,
