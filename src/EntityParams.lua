@@ -72,6 +72,17 @@ return {
       playerBullet = 0.5,
     }
   },
+  sinistar = {
+    health = 100,
+    radius = 500,
+    maxSpeedScale = 1.25,
+    maxForceScale = 2,
+    damageFrom = {
+      playerBullet = 0,
+      sinibomb = 10,
+      sinibombBlast = 0,
+    }
+  },
   playerBullet = {
     speed = 2500, lifespan = 1.75, radius = 4,
   },

@@ -70,12 +70,14 @@ function GameIOController:update(dt)
   
   if love.keyboard.isDown("h") then
     alertMachine:set(HIGH_PRIORITY_ALERT)
-    self.soundSystem:play("sound/arcadealarm.ogg", 0.25)
+    self.soundSystem:play("sound/alarm.ogg", 0.25)
+    --self.soundSystem:play("sound/arcadealarm.ogg", 0.25)
   end
   
   if love.keyboard.isDown("m") then
     alertMachine:set(MEDIUM_PRIORITY_ALERT)
-    self.soundSystem:play("sound/marinealarm.ogg", 0.25)
+    self.soundSystem:play("sound/alarm.ogg", 0.25)
+    --self.soundSystem:play("sound/marinealarm.ogg", 0.25)
   end
 end
 

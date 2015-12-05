@@ -67,7 +67,7 @@ function Player:update(dt)
   end
     
   if self.playerInput.secondaryWeaponFire and self.combat:canFire("Player Secondary") then
-    self.soundSystem:play("sound/playerShot.wav", 0.5)
+    self.soundSystem:play("sound/bombFire.wav", 0.5)
     if self.vel.x == 0 and self.vel.y == 0 then
       self.combat:fire("Player Secondary", self.loc, self.dir)
     else
@@ -77,7 +77,8 @@ function Player:update(dt)
   
   if self.playerInput.secondaryWeaponFire and self.combat:isOutOfAmmo("Player Secondary") then
     self.alertMachine:set(OUT_OF_SINIBOMBS_ALERT)
-    self.soundSystem:play("sound/marinealarm.ogg",0.25)
+--    self.soundSystem:play("sound/marinealarm.ogg",0.25)
+    self.soundSystem:play("sound/alarm.wav",0.5)
   end
 
   self.combat:heal(self.id, dt * EntityParams.player.healpersec)
@@ -134,6 +135,7 @@ function Player:onCollision(other)
     self.gameData:increaseScore(self.gameData.crystalValue)
     self.combat:supplyAmmo("Player Secondary", EntityParams.player.bombAmmoFromCrystalPickup)
     other.isDead = true
+    self.soundSystem:play("sound/crystalPickup.wav", 0.2)
     self.alertMachine:set(GOT_CRYSTAL_MESSAGE)
   end
   
