@@ -6,13 +6,18 @@ local Combat = require('Combat')
 local EntityParams = require('EntityParams')
 local SoundSystem = require('SoundSystem')
 local Animator = require('Animator')
+local AlertMachine = require('AlertMachine')
+local Probability = require('Probability')
 
 local Sinistar = Class{__includes = Boid}
-Sinistar.count = 0
 Sinistar.type = "Sinistar"
 Sinistar.MAX_SPEED = 40000  * EntityParams.sinistar.maxSpeedScale
 Sinistar.MAX_FORCE = 60000 * EntityParams.sinistar.maxForceScale
 Sinistar.radius    = EntityParams.sinistar.radius
+
+local CHARGING_ALERT  = {message = "[CHARGING]",  lifespan = 0.1, priority = 4}
+local WANDERING_ALERT = {message = "[WANDERING]", lifespan = 0.1, priority = 4}
+local CHASING_ALERT   = {message = "[CHASING]",   lifespan = 0.1, priority = 4}
 
 local ANIMATOR = Animator()
 
@@ -22,47 +27,75 @@ Sinistar.render = {
   shouldRotate = false,
 }
 
-Sinistar.chargeTime = 3
-Sinistar.totalChargeTime = 1
+Sinistar.modeTimePeriods = {
+  ["WANDER"] = 1,
+  ["CHARGE"] = 2,
+  ["CHASE"]  = 0.5,
+}
 
 function Sinistar:init(gameData)
   self.gameData = gameData
   
   Boid.init(self, Sinistar.MAX_SPEED, Sinistar.MAX_FORCE)
   self.render = Sinistar.render
-  self.shouldFire = nil
   
   self.id = "Sinistar"
-  Sinistar.count = Sinistar.count + 1
   self.combat = Combat()
   self.combat:addCombatant(self.id, {health = EntityParams.sinistar.health})
   self.soundSystem = SoundSystem()  
-  self.chargeTimer = Sinistar.chargeTime
-  self.coolDownTimer = 0
+
+  self:setMode("WANDER")
+  
+  self.alertMachine = AlertMachine()
+  self.probability = Probability()
+end
+
+function Sinistar:setMode(xMode)
+  self.mode = xMode
+  self.timer = Sinistar.modeTimePeriods[xMode]
 end
 
 function Sinistar:update(dt)
   Boid.update(self, dt)
   
-  self.chargeTimer = self.chargeTimer - dt
-  if (self.chargeTimer < 0) then
-    self.chargeTimer = Sinistar.chargeTime
-    local x, y = self.getRelativeLoc(self.player)
-    local loc = Vector(x + self.loc.x, y + self.loc.y)
-    self.charge = self:pursue(loc, self.player.vel)
-    self.coolDownTimer = Sinistar.chargeTime - Sinistar.totalChargeTime
-  end
-  
-  self.coolDownTimer = self.coolDownTimer - dt
-  if self.coolDownTimer < 0 then
-    self.charge = nil
-  end
-  
-  if self.charge then
-    self.acc = self.charge:clone()
-  else
+  if self.mode == "WANDER" then
+    self.alertMachine:set(WANDERING_ALERT)
     self.acc = self:wander()
     self.acc:scale_inplace(1 / 4)
+    
+  elseif self.mode == "CHASE" then
+    self.alertMachine:set(CHASING_ALERT)
+    local x, y = self.getRelativeLoc(self.player)
+    local loc = Vector(self.loc.x + x, self.loc.y + y)
+    self.acc = self:pursue(loc, self.player.vel)
+    
+  elseif self.mode == "CHARGE" then
+    self.alertMachine:set(CHARGING_ALERT)
+    
+    if not self.charge then
+      local x, y = self.getRelativeLoc(self.player)
+      local loc = Vector(self.loc.x + x, self.loc.y + y)
+      if self.probability:of(0.5) then
+        self.charge = self:seek(loc)
+      else
+        self.charge = self:pursue(loc, self.player.vel)
+      end
+    end
+    
+    self.acc = self.charge:clone()
+  end
+  
+  self.timer = self.timer - dt
+  
+  if self.timer < 0 then
+    if self.mode == "WANDER" then
+      self:setMode(self.probability:of(0.1) and "CHASE" or "CHARGE")
+    elseif self.mode == "CHASE" then
+      self:setMode("WANDER")
+    elseif self.mode == "CHARGE" then
+      self.charge = nil
+      self:setMode(self.probability:of(0.6) and "CHARGE" or "WANDER")
+    end
   end
   
   self.isDead = self.combat:isDead(self.id)

@@ -18,11 +18,11 @@ return {
     healpersec = (1/3),
   },
   worker = {
-    health = 80,
+    health = 25,
     radius = 80,
     sightRadius = 2000,
-    maxSpeedScale = 1.95,
-    maxForceScale = 1,
+    maxSpeedScale = 1.65,
+    maxForceScale = 0.9,
     fireDebounce = 0.7,
     closestProximity = 400,
     damageFrom = {
@@ -32,7 +32,7 @@ return {
     }
   },
   warrior = {  
-    health = 120,  
+    health = 50,  
     radius = 120, -- 180 should fit width
     primaryFireOffset = 20,
     sightRadius = 1000,
@@ -48,7 +48,7 @@ return {
     }
   },
   asteroid = {
-    health = 180,
+    health = 120,
     radius = 120,
     crystals = 6,
     crystalDebounce = 2.25,
@@ -69,18 +69,18 @@ return {
       playerBullet = 5,
     },
     excessiveDamageCrystalProductionProbabilityFor = {
-      playerBullet = 0.5,
+      playerBullet = 0.3,
     }
   },
   sinistar = {
     health = 100,
     radius = 230,
     maxSpeedScale = 1.25,
-    maxForceScale = 2,
+    maxForceScale = 1.25,
     damageFrom = {
       playerBullet = 0,
-      sinibomb = 10,
-      sinibombBlast = 0,
+      sinibomb = 0,
+      sinibombBlast = 10,
     }
   },
   playerBullet = {
