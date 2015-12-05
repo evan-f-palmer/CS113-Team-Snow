@@ -15,9 +15,9 @@ Sinistar.MAX_SPEED = 40000
 Sinistar.MAX_FORCE = 60000
 Sinistar.radius    = EntityParams.sinistar.radius
 
-local CHARGING_ALERT  = {message = "[Sinistar Charging]", lifespan = 0.1, priority = 100}
-local WANDERING_ALERT = {message = "[Sinistar Wandering]", lifespan = 0.1, priority = 100}
-local CHASING_ALERT   = {message = "[Sinistar in Pursuit]", lifespan = 0.1, priority = 100}
+local CHARGING_ALERT  = {message = "[Sinistar Charging]", lifespan = 0.1, priority = 1}
+local WANDERING_ALERT = {message = "[Sinistar Wandering]", lifespan = 0.1, priority = 1}
+local CHASING_ALERT   = {message = "[Sinistar in Pursuit]", lifespan = 0.1, priority = 1}
 
 local SINISTAR_DEATH_MESSAGE = {message = "[Sinistar Destroyed]", lifespan = 3, priority = 6}
 

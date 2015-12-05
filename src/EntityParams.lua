@@ -82,7 +82,7 @@ return {
     },
 
     maxWanderingSpeedScale = 0.35,
-    maxChargingSpeedScale = 1.0,
+    maxChargingSpeedScale = 1.1,
     maxChasingSpeedScale = 1.1,
     
     maxWanderingForceScale = 0.3,

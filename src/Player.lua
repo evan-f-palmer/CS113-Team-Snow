@@ -85,8 +85,6 @@ function Player:update(dt)
   end
 
   self.combat:heal(self.id, dt * EntityParams.player.healpersec)
-  self.gameData.bombs = self.combat:getAmmo("Player Secondary")
-  self.gameData.health = self.combat:getHealthPercent("Player")
   self.isDead = self.combat:isDead("Player")
   
   local score = self.gameData.score
@@ -96,9 +94,10 @@ function Player:update(dt)
   end 
   self.previousScore = score
   
-  if self.gameData.health < 0.25 then
+  local health = self.combat:getHealthPercent("Player")
+  if health < 0.25 then
     self.alertMachine:set(CRITICAL_HEALTH_ALERT)    
-  elseif self.gameData.health < 0.5 then
+  elseif health < 0.5 then
     self.alertMachine:set(LOW_HEALTH_ALERT)
   end
   

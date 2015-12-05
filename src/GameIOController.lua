@@ -27,6 +27,16 @@ local INFO_MESSAGE = {message = "", lifespan = 0.5, priority = 100}
 function GameIOController:update(dt)
   self:updateDebounce(dt)
   
+  if self:isDown('a') then self:press('a')
+    self.currentView = self.currentView == "Player" and "Sinistar" or "Player"
+    
+    if not self.game.combat:isDead(self.currentView) then
+      local obj = self.game.world:getByID(self.currentView)
+      self.game.renderer:follow(obj)
+      self.game.hud:setActor(obj)
+    end
+  end
+  
   if love.keyboard.isDown("p") then
     self.game.transition = self.game.pausedScreen
   end
@@ -54,10 +64,6 @@ function GameIOController:update(dt)
   
   if self:isDown('l') then self:press('l')
     self.game.data:incrementLives()
-  end
-  
-  if self:isDown('d') then self:press('d')
-    self.game.data:decrementLives()
   end
   
   if self:isDown('q') then self:press('q')

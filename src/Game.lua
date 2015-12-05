@@ -48,29 +48,48 @@ function Game:start()
   self.projectiles = Projectiles()  
   self.gameInput = GameIOController(self)
   
-  self.previousLives = self.data.lives
-  
   self.soundSystem:playMusic("music/Closet_Face_128.ogg", 0.3)
 
-  local levelFileName = "src/levels/testing2.lua"
-  self.world:loadLevel(levelFileName)
-  self.alertMachine:set({message = levelFileName, lifespan = 3})
+  self:newGameLoadLevel("testing2.lua")  
+  self.previousLives = self.data.lives
 end
 
-function Game:load()
+function Game:loadLevel(xLevelFileName)
   self.isLoading = true
-  if self.data:isGameOver() then
-    self.world:unload()
-    self.data:reset()
-    local levelFileName = "src/levels/testing2.lua"
-    self.world:loadLevel(levelFileName)
-    self.alertMachine:set({message = levelFileName, lifespan = 3})
-  end
+  local levelFilePath = "src/levels/" .. xLevelFileName
+  self.world:loadLevel(levelFilePath)
+  self.alertMachine:clear()
+  self.alertMachine:set({message = levelFilePath, lifespan = 3})
   self.isLoading = false
 end
 
-function Game:unload()
+function Game:newGameLoadLevel(xLevelFileName)
+  self:loadLevel(xLevelFileName)
+  self.data:reset()
+end
 
+function Game:load()
+  if self.data:isGameOver() then
+    self:newGameLoadLevel("testing2.lua")
+  end
+  
+  local player = self.world:getByID("Player")
+  self.renderer:follow(player)
+  self.hud:setActor(player)
+  
+  self.transition = self
+end
+
+function Game:unload()
+  if not self.combat:isDead("Player") then
+    local player = self.world:getByID("Player")
+    self.renderer:follow(player)
+    self.hud:setActor(player)
+  elseif not self.combat:isDead("Sinistar") then
+    local sinistar = self.world:getByID("Sinistar")
+    self.renderer:follow(sinistar)
+    self.hud:setActor(sinistar)
+  end
 end
 
 function Game:update(dt)
@@ -84,7 +103,8 @@ function Game:update(dt)
     self.combat:update(dt)
     self.world:update(dt)
     if self.data:isGameOver() then
-      self.alertMachine:set({message = "Game Over", lifespan = 3})
+      self.gameOverScreen:setFinalScore(self.data.score)
+      self.world:unload()
       self.transition = self.gameOverScreen
     elseif self.data.lives < self.previousLives then
       self.transition = self.deathScreen
@@ -97,13 +117,16 @@ function Game:update(dt)
   
   self.previousLives = self.data.lives
   
-  local transition = self.transition or self
-  self.transition = self
-  return transition
+  return self.transition
 end
 
 function Game:draw()
   if not self.isLoading then
+    if not self.renderer:isFollowing() then
+      local player = self.world:getByID("Player")
+      self.renderer:follow(player)
+      self.hud:setActor(player)
+    end
     self.renderer:draw(self.world)
     self.hud:draw(self.data)
   end

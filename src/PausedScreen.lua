@@ -47,7 +47,7 @@ function ScoresScreen:draw()
   graphics:centeredText("Click Mouse to Resume", width*(1/2), height*(11/16))
   
   love.graphics.setColor(255,255,255)
-  self.game.hud:drawPartial(self.game.data)
+  self.game.hud:draw(self.game.data)
 end
 
 return ScoresScreen

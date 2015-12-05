@@ -6,6 +6,7 @@ local CollisionSystem = require('CollisionSystem')
 local Combat = require('Combat')
 local ViewportParams = require("ViewportParams")
 local RendererParams = require("RendererParams")
+local Colorer = require('Colorer')
 
 local Renderer = Class {}
 Renderer.background = love.graphics.newImage("assets/screens/HUD1.JPG")
@@ -17,6 +18,7 @@ function Renderer:init()
   self.GU = DrawCommon()
   self.collider = CollisionSystem()
   self.combat = Combat()
+  self.colorer = Colorer()
     
   self.captureRadius = RendererParams.captureRadius / (self.camera.scale)
   self.radarRadius = RendererParams.radarRadius / (self.camera.scale)
@@ -24,93 +26,94 @@ function Renderer:init()
   
   self.DEFAULT_COLOR = {255,255,255}
   self.TEXT_Y_OFFSET = 2 * self.GU.FONT_SIZE
-  self.TEXT_COLOR = {80, 80, 200}
+  self.DEBUG_TEXT_COLOR = {80, 80, 200}
   
   self.DRAW_ORDERING = {"Worker Bullet", "Player Bullet", "Asteroid", "Crystal", "Sinistar Construction", "Sinistar", "Warrior Bullet", "Sinibomb", "Worker", "Player", "Warrior", "Sinibomb Blast"}
 end
 
+function Renderer:follow(xBody)
+  self.toFollow = xBody
+end
+
+function Renderer:isFollowing()
+  return self.toFollow
+end
+
 function Renderer:draw(xWorld)
-  local player = xWorld.player
-  local playerX, playerY = player.loc.x, player.loc.y
-  local playerAngle = self.GU:getAngle(player.dir)
-  local movementJoystickMinR = InputDeviceLayout.movementJoystick.minR
-  local projectiles = xWorld.projectiles
-  local inverseCameraScale = 1/self.camera.scale
-  
-  local inCDView = player.getNeighbors(self.captureRadius)
-  local inViewByType = self:getObjectsInViewByType(inCDView)
-  local inRDView = player.getNeighbors(self.radarRadius)
-  local inRadarViewByType = self:getObjectsInViewByType(inRDView)  
-  xWorld.gameData.forRadar = inRadarViewByType 
-  
+  local color = self.colorer:getCurrentAlertColor()
+  love.graphics.setColor(color[1], color[2], color[3])
+
   self.GU:drawFullscreen(self.background)
-  
-  -- ALWAYS LOOK AT THE PLAYER
-  self.camera:lookAt(playerX, playerY)
-  self.camera:attach()  
   love.graphics.setScissor(ViewportParams.x - ViewportParams.r, ViewportParams.y - ViewportParams.r, ViewportParams.r*2, ViewportParams.r*2)
   
-  -- THE ORIGIN
-  --love.graphics.setColor(255, 0, 0)
-  --love.graphics.circle("fill", 0, 0, 30, 20)
-  
-  -- TEMP --
-  local worldW, worldH = xWorld.width, xWorld.height
-  local worldXT, worldYT = worldW / 2, worldH / 2
-  love.graphics.setColor(255, 0, 0)
-  love.graphics.rectangle("line", -worldXT, -worldYT, worldW, worldH)
-  love.graphics.setColor(255, 120, 0)
-  love.graphics.line(0, worldYT, worldXT, 0)
-  love.graphics.line(0, worldYT, -worldXT, 0)
-  love.graphics.line(0, -worldYT, worldXT, 0)
-  love.graphics.line(0, -worldYT, -worldXT, 0)
-  -- END TEMP --
-  
---  love.graphics.setColor(255,255,255)
---  self.GU:BEGIN_SCALE(0, 0, inverseCameraScale)
---    self.GU:centeredText("ORIGIN", 0, self.TEXT_Y_OFFSET)
---  self.GU:END()
-  
-  for i = 1, #self.DRAW_ORDERING do
-    local layerToDraw = self.DRAW_ORDERING[i]
-    local layerObjects = inViewByType[layerToDraw] or {}
+  if self.toFollow then
+    local actor = self.toFollow
+    local actorX, actorY = actor.loc.x, actor.loc.y
+    local actorAngle = self.GU:getAngle(actor.dir)
+    local inCDView = actor.getNeighbors(self.captureRadius)
+    local inViewByType = self:getObjectsInViewByType(inCDView)
+    local inRDView = actor.getNeighbors(self.radarRadius)
+    local inRadarViewByType = self:getObjectsInViewByType(inRDView)  
+    xWorld.gameData.forRadar = inRadarViewByType
+
+    self.camera:lookAt(actorX, actorY)
+    self.camera:attach()  
     
-    for j = 1, #layerObjects do
-      local obj = layerObjects[j]
-      local tx, ty = player.getRelativeLoc(obj)
-      local x, y = (player.loc.x + tx), (player.loc.y + ty)
+    -- TEMP --
+    local worldW, worldH = xWorld.width, xWorld.height
+    local worldXT, worldYT = worldW / 2, worldH / 2
+    love.graphics.setColor(255, 0, 0)
+    love.graphics.rectangle("line", -worldXT, -worldYT, worldW, worldH)
+    love.graphics.setColor(255, 120, 0)
+    love.graphics.line(0, worldYT, worldXT, 0)
+    love.graphics.line(0, worldYT, -worldXT, 0)
+    love.graphics.line(0, -worldYT, worldXT, 0)
+    love.graphics.line(0, -worldYT, -worldXT, 0)
+    -- END TEMP --
+    
+    for i = 1, #self.DRAW_ORDERING do
+      local layerToDraw = self.DRAW_ORDERING[i]
+      local layerObjects = inViewByType[layerToDraw] or {}
       
-      local image = obj.render.image 
-      if obj.render.animation then
-        image = obj.render.animation.image
-      end
-      
-      if image then
-        local color = obj.render.color or self.DEFAULT_COLOR
-        love.graphics.setColor(color[1], color[2], color[3], color[4])
-        local angle = 0
-        if obj.render.shouldRotate then
-          angle = self.GU:getAngle(obj.dir)
+      for j = 1, #layerObjects do
+        local obj = layerObjects[j]
+        local tx, ty = actor.getRelativeLoc(obj)
+        local x, y = (actorX + tx), (actorY + ty)
+        
+        local image = obj.render.image 
+        if obj.render.animation then
+          image = obj.render.animation.image
         end
-
-        self.GU:BEGIN_SCALE(x, y, self.drawScale[layerToDraw])
-        self.GU:drawRotatedImage(image, x, y, angle)
-        self.GU:END()
-
---        if obj.radius then
---          love.graphics.circle("line", x, y, obj.radius)
---        end
+        
+        if image then
+          local color = obj.render.color or self.DEFAULT_COLOR
+          love.graphics.setColor(color[1], color[2], color[3], color[4])
+          local angle = 0
+          if obj.render.shouldRotate then
+            angle = self.GU:getAngle(obj.dir)
+          end
+  
+          self.GU:BEGIN_SCALE(x, y, self.drawScale[layerToDraw])
+          self.GU:drawRotatedImage(image, x, y, angle)
+          self.GU:END()
+  
+  --        if obj.radius then
+  --          love.graphics.circle("line", x, y, obj.radius)
+  --        end
+        end
+    
+  --      local inverseCameraScale = 1/self.camera.scale
+  --      love.graphics.setColor(self.DEBUG_TEXT_COLOR[1], self.DEBUG_TEXT_COLOR[2], self.DEBUG_TEXT_COLOR[3], self.DEBUG_TEXT_COLOR[4])
+  --      self.GU:BEGIN_SCALE(x, y, inverseCameraScale)
+  --        self.GU:centeredText(obj.type .. "\n" .. math.floor(self.combat:getHealthPercent(obj.id) * 100) .. '%' .. "\n" .. math.floor(x) .. ", " .. math.floor(y), x, y + self.TEXT_Y_OFFSET)
+  --      self.GU:END()     
       end
-  
---      love.graphics.setColor(self.TEXT_COLOR[1], self.TEXT_COLOR[2], self.TEXT_COLOR[3], self.TEXT_COLOR[4])
---      self.GU:BEGIN_SCALE(x, y, inverseCameraScale)
---        self.GU:centeredText(obj.type .. "\n" .. math.floor(self.combat:getHealthPercent(obj.id) * 100) .. '%' .. "\n" .. math.floor(x) .. ", " .. math.floor(y), x, y + self.TEXT_Y_OFFSET)
---      self.GU:END()     
     end
+    
+    self.camera:detach()
   end
-  
+  -- END FOLLOW
   love.graphics.setScissor()
-  self.camera:detach()  
 end
 
 function Renderer:getObjectsInViewByType(xInView)

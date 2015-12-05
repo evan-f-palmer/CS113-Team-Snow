@@ -68,8 +68,12 @@ function AlertMachine:cleanup(toKill)
 end
 
 function AlertMachine:clear(xAlert)
-  local ID = alertID(xAlert)
-  self.timeToLiveFor[ID] = 0
+  if xAlert then
+    local ID = alertID(xAlert)
+    self.timeToLiveFor[ID] = 0
+  else
+    self.alerts = {}
+  end
 end
 
 return Singleton(AlertMachine)
