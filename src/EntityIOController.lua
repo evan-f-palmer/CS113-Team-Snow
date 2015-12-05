@@ -1,9 +1,10 @@
 local Class = require('hump.class')
 local Vector = require('hump.vector')
 local InputDeviceLayout = require("InputDeviceLayout")
+local ViewportParams = require("ViewportParams")
 
 local EntityIOController = Class{}
-EntityIOController.inputAmplifier = 100
+EntityIOController.inputAmplifier = (1750 / ViewportParams.r) * (3/2) -- (Player speed / Viewport radius) * (Magic throttle constant)
 
 function EntityIOController:init()
   self.movementVec = Vector(0, 0)
