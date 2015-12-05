@@ -29,7 +29,6 @@ end
 function DeathScreen:draw()
   local width, height = love.graphics.getDimensions()
   
-  love.graphics.setColor(unpack(DIMWHITE))
   self.game.renderer:follow()
   self.game.renderer:draw(self.game.world)
   

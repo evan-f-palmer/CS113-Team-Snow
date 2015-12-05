@@ -3,35 +3,39 @@ local graphics = DrawCommon()
 local Blinker = require('Blinker')
 local blinker = Blinker()
 local Palette = require('Palette')
-local RED, BLUE, GREEN, YELLOW, WHITE = Palette.RED, Palette.BLUE, Palette.GREEN, Palette.YELLOW, Palette.WHITE
+local Colorer = require('Colorer')
+local colorer = Colorer()
+
+local WHITE = Palette.WHITE
 local DIMWHITE = {WHITE[1], WHITE[2], WHITE[3], 127}
 
-local ScoresScreen = {}
-ScoresScreen.lifetime = 0
+local PausedScreen = {}
+PausedScreen.lifetime = 0
 
-function ScoresScreen:load()
+function PausedScreen:load()
   self.background = love.graphics.newImage("assets/screens/HUD1.JPG")
   self.lifetime = 0
 end
 
-function ScoresScreen:unload()
+function PausedScreen:unload()
   self.background = nil
 end
 
-function ScoresScreen:update(dt)
+function PausedScreen:update(dt)
   blinker:update(dt)
   self.lifetime = self.lifetime + dt
   if (love.mouse.isDown('l') or love.mouse.isDown('r')) and self.lifetime > 0.25 then
     return self.transition
   else
-    return ScoresScreen
+    return PausedScreen
   end
 end
 
-function ScoresScreen:draw()
+function PausedScreen:draw()
   local width, height = love.graphics.getDimensions()
   
-  love.graphics.setColor(unpack(DIMWHITE))
+  local color = colorer:getCurrentAlertColor()
+  love.graphics.setColor(color[1], color[2], color[3])
   graphics:drawFullscreen(self.background)
 
   love.graphics.setColor(WHITE[1],WHITE[2],WHITE[3],WHITE[4])
@@ -50,4 +54,4 @@ function ScoresScreen:draw()
   self.game.hud:draw(self.game.data)
 end
 
-return ScoresScreen
+return PausedScreen

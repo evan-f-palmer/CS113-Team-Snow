@@ -19,10 +19,10 @@ end
 
 local AlertMachine = require('AlertMachine')
 local alertMachine = AlertMachine()
-local ALERT_TEST = {message = "ALERT TEST", lifespan = 0.1, priority = 0}
+local ALERT_TEST = {message = "ALERT TEST", lifespan = 0.1, priority = 1}
 local MEDIUM_PRIORITY_ALERT = {message = "Medium Priority Alert", lifespan = 0.1, priority = 2}
 local HIGH_PRIORITY_ALERT = {message = "High Priority Alert", lifespan = 0.1, priority = 3}
-local INFO_MESSAGE = {message = "", lifespan = 0.5, priority = 100}
+local INFO_MESSAGE = {message = "", lifespan = 0.5, priority = 1}
 
 function GameIOController:update(dt)
   self:updateDebounce(dt)
@@ -41,7 +41,11 @@ function GameIOController:update(dt)
     self.game.transition = self.game.pausedScreen
   end
   
-  if love.keyboard.isDown("c") then
+  if love.keyboard.isDown("v") then
+    INFO_MESSAGE.message = "Sinistar Crystals: " .. self.game.data.sinistarCrystals
+    alertMachine:set(INFO_MESSAGE)
+    self.game.data:incrementSinistarCrystals()
+  elseif love.keyboard.isDown("c") then
     INFO_MESSAGE.message = "Sinistar Crystals: " .. self.game.data.sinistarCrystals
     alertMachine:set(INFO_MESSAGE)
   end
