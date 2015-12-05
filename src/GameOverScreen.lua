@@ -91,14 +91,12 @@ local keysorder = {
   '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 
   'DEL', 'OK',
 }
-local keyoffset = - FontParams.FONT_SIZE
+local keyoffset = -FontParams.FONT_SIZE
 local selectorOffset = FontParams.FONT_SIZE/2
-local viewportscale = (11/16) --11/16
-local centerCircleScale = (37/64) --8/16
-local backgroundColor = {0,0,0,0} --DIMWHITE
-local backgroundTrimColor = DIMWHITE --DIMWHITE
+local viewportscale = (11/16)
+local centerCircleScale = (37/64)
+local backgroundTrimColor = DIMWHITE
 local textColor       = WHITE
-local textBackgroundColor = {0,0,0,0} --DIMGRAY
 local selectorColor   = RED
 local foregroundColor = SOLIDWHITE
 function GameOverScreen:drawKeyboardPalette()
@@ -111,9 +109,6 @@ function GameOverScreen:drawKeyboardPalette()
   
   self.currentKey = selectedKey
   
-  love.graphics.setColor(unpack(textBackgroundColor))
-  love.graphics.circle("fill", self.layout.viewport.x, self.layout.viewport.y, (self.layout.viewport.r * viewportscale + keyoffset*2))
-  
   local angle1, angle2 = mouseAngle - sectorlength, mouseAngle + sectorlength
   love.graphics.setColor(unpack(selectorColor))
   love.graphics.arc("fill", self.layout.viewport.x, self.layout.viewport.y, self.layout.viewport.r * viewportscale + selectorOffset, angle1, angle2, 3)  
@@ -122,8 +117,6 @@ function GameOverScreen:drawKeyboardPalette()
     local angle = (2*math.pi) * (i/(#keysorder))
     local angle1, angle2 = angle - sectorlength, angle + sectorlength
         
-    love.graphics.setColor(backgroundColor[1], backgroundColor[2], backgroundColor[3], backgroundColor[4])
-    love.graphics.arc("fill", self.layout.viewport.x, self.layout.viewport.y, self.layout.viewport.r * viewportscale, angle1, angle2, 3)
     love.graphics.setColor(backgroundTrimColor[1], backgroundTrimColor[2], backgroundTrimColor[3], backgroundTrimColor[4])
     love.graphics.arc("line", self.layout.viewport.x, self.layout.viewport.y, self.layout.viewport.r * viewportscale, angle1, angle2, 3)
     
