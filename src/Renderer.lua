@@ -35,8 +35,12 @@ function Renderer:follow(xBody)
   self.toFollow = xBody
 end
 
-function Renderer:isFollowing()
-  return self.toFollow
+function Renderer:isFollowing(xID)
+  local following = self.toFollow
+  if xID then
+    following = following and (self.toFollow.id == xID)
+  end
+  return following
 end
 
 function Renderer:draw(xWorld)

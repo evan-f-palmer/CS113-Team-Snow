@@ -63,6 +63,7 @@ function Game:loadLevel()
   self.world:loadLevel(levelFilePath)
   self.isLoading = false
   self.data:free()
+  self.data:resetSinistarCrystals()
   self.alertMachine:clear()
   self.alertMachine:set({message = levelFilePath .. ', Level: ' .. self.data.level, lifespan = 3})
 end
@@ -77,19 +78,15 @@ function Game:load()
   if self.data:isGameOver() then
     self:newGameLoadLevel()
   end
-  
-  local player = self.world:getByID("Player")
-  self.renderer:follow(player)
-  self.hud:setActor(player)
-  
   self.transition = self
+  self.renderer:follow()
+  self.hud:setActor()
 end
 
 function Game:unload()
   self.data:preserve()
-  local player = self.world:getByID("Player")
-  self.renderer:follow(player)
-  self.hud:setActor(player)
+  self.renderer:follow()
+  self.hud:setActor()
 end
 
 function Game:update(dt)
@@ -130,13 +127,17 @@ end
 
 function Game:draw()
   if not self.isLoading then
-    if not self.renderer:isFollowing() then
-      local player = self.world:getByID("Player")
-      self.renderer:follow(player)
-      self.hud:setActor(player)
-    end
+    self:rendererRecovery()
     self.renderer:draw(self.world)
     self.hud:draw(self.data)
+  end
+end
+
+function Game:rendererRecovery()
+  if not self.renderer:isFollowing() then
+    local player = self.world:getByID("Player")
+    self.renderer:follow(player)
+    self.hud:setActor(player)
   end
 end
 

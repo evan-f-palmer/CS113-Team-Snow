@@ -28,13 +28,15 @@ function GameIOController:update(dt)
   self:updateDebounce(dt)
   
   if self:isDown('a') then self:press('a')
-    self.currentView = self.currentView == "Player" and "Sinistar" or "Player"
-    
-    if not self.game.combat:isDead(self.currentView) then
-      local obj = self.game.world:getByID(self.currentView)
-      self.game.renderer:follow(obj)
-      self.game.hud:setActor(obj)
+    local toView = "Player"    
+    if self.game.renderer:isFollowing("Player") then
+      toView = "Sinistar"
+    else
+      toView = "Player"
     end
+    local obj = self.game.world:getByID(toView)
+    self.game.renderer:follow(obj)
+    self.game.hud:setActor(obj)
   end
   
   if love.keyboard.isDown("p") then
