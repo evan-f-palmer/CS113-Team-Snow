@@ -94,7 +94,7 @@ function Asteroid:init(gameData)
 end
 
 function Asteroid:update(dt)
-  self.combat:heal(self.id, dt * 3)
+  self.combat:heal(self.id, dt + dt + dt)
   self.isDead = self.combat:isDead(self.id) or self.combat:isOutOfAmmo(self.id)
 end
 

@@ -55,7 +55,7 @@ end
 
 function World:update(dt)
   self:createRequestedBodies()
-  self:updateFlocks(dt)
+  self:respawnFlocks(dt)
   self:updateAllWorldObjects(dt)  
   self:moveAllWorldObjects(dt)
   self.collider:update()
@@ -83,9 +83,11 @@ function World:getByID(id)
   return self.bodies:getByID(id)
 end
 
-function World:updateFlocks(dt)
+function World:respawnFlocks(dt)
   for k, flock in pairs(self.flocks) do
-    flock:update(dt)
+    if flock.respawnStep and (#flock.missingTypes > 0) then
+      flock:respawnStep(dt)
+    end
   end
 end
 

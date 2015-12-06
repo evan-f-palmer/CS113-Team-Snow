@@ -19,9 +19,6 @@ function Flock:update(dt)
   self:separation()
   self:cohesion()
 --  self:alignment()
-  if self.respawnStep and (#self.missingTypes > 0) then
-    self:respawnStep(dt)
-  end
 end
 
 function Flock:addBoid(boid)
