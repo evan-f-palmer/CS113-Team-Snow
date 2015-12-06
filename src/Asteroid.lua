@@ -104,9 +104,9 @@ function Asteroid:onDeath()
   end
   
   local offset = EntityParams.asteroid.fireOffset
-  for i=1, 3 do
+  for i = 1, (3 + math.random(5)) do
     local dir = Vector():randomize_inplace()
-    if math.random(2) == 1 then
+    if self.probability:of(0.5) then
       self.combat:fire(self.id .. 1, self.loc + (dir * offset), dir)
     else
       self.combat:fire(self.id .. 2, self.loc + (dir * offset), dir)
