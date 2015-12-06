@@ -22,10 +22,10 @@ return {
     health = 25,
     radius = 80,
     sightRadius = 2000,
-    maxSpeedScale = 1.65,
-    maxForceScale = 0.9,
+    maxSpeedScale = 1.8,
+    maxForceScale = 0.6,
     fireDebounce = 0.7,
-    closestProximity = 400,
+    closestProximity = 700,
     damageFrom = {
       playerBullet = 5,
       sinibomb = 15,
@@ -35,14 +35,13 @@ return {
   },
   warrior = {  
     health = 50,  
-    radius = 120, -- 180 should fit width
-    primaryFireOffset = 20,
-    sightRadius = 1000,
+    radius = 120,
+    sightRadius = 1400,
     maxSpeedScale = 1.55,
-    maxForceScale = 1.85,
-    maxDistanceFromFlock = 20,
+    maxForceScale = 0.35,
+    maxDistanceFromFlock = 800,
     fireDebounce = 1.5,
-    closestProximity = 1000,
+    closestProximity = 1100,
     damageFrom = {
       playerBullet = 5,
       sinibomb = 15,
@@ -96,19 +95,19 @@ return {
     chasingTime = 1.25,
   },
   playerBullet = {
-    speed = 2500, lifespan = 1.75, radius = 4,
+    speed = 2675, lifespan = 1.75, radius = 4,
   },
   sinibomb = {
-    speed = 650, lifespan = 1.5, radius = 40,
+    speed = 700, lifespan = 1.5, radius = 40,
   },
   sinibombBlast = {
     speed = 1, lifespan = 1, radius = 300,
   },
   workerBullet = {
-    speed = 1300, lifespan = 2, radius = 5,
+    speed = 2075, lifespan = 2, radius = 5,
   },
   warriorBullet = {
-    speed = 2200, lifespan = 3, radius = 5,
+    speed = 2525, lifespan = 3, radius = 5,
   },
   crystal = {
     speed = 180, lifespan = 8, radius = 45,
