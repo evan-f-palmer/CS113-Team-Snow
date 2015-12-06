@@ -51,8 +51,8 @@ function Game:start()
   
   self.soundSystem:playMusic("music/Closet_Face_128.ogg", 0.3)
 
-  self:newGameLoadLevel()
   self.previousLives = self.data.lives
+  self:newGameLoadLevel()
 end
 
 function Game:loadLevel()
@@ -66,6 +66,11 @@ function Game:loadLevel()
   self.data:resetSinistarCrystals()
   self.alertMachine:clear()
   self.alertMachine:set({message = levelFilePath .. ', Level: ' .. self.data.level, lifespan = 3})
+  
+  self:update(0)
+  local player = self.world:getByID("Player")
+  self.renderer:follow(player)
+  self.hud:setActor(player)
 end
 
 function Game:newGameLoadLevel()  
@@ -74,13 +79,11 @@ function Game:newGameLoadLevel()
 end
 
 function Game:load()
+  self.transition = self
   self.data:free()
   if self.data:isGameOver() then
     self:newGameLoadLevel()
   end
-  self.transition = self
-  self.renderer:follow()
-  self.hud:setActor()
 end
 
 function Game:unload()
