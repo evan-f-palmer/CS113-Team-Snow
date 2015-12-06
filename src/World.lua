@@ -43,7 +43,7 @@ function World:loadLevel(xLevelFileName)
   self:spawnAllFromAsType(layers["Asteroid"], "Asteroid")
   self:spawnSquads(layers["Squad"])
   self:spawnPlayer()
-  self:makeBody("SinistarConstruction", 1000, 1000, self.gameData, self)
+  self:makeBody("SinistarConstruction", 0, 1000, self.gameData, self)
   
   self:createRequestedBodies()
 end
