@@ -13,6 +13,7 @@ local EntityParams = require('EntityParams')
 local Animator = require('Animator')
 
 local Game = Class{}
+Game.levelNicknames = {"Spots", "Highways", "Alphabet Soup"}
 Game.levels = {"spots.lua", "highways.lua", "testing2.lua"}
 
 function Game:init()  
@@ -57,6 +58,7 @@ end
 
 function Game:loadLevel()
   local levelFileName = Game.levels[((self.data.level-1) % (#Game.levels)) + 1]  
+  local levelNickname = Game.levelNicknames[((self.data.level-1) % (#Game.levels)) + 1]  
   self.data:preserve()
   self.isLoading = true
   local levelFilePath = "src/levels/" .. levelFileName
@@ -64,8 +66,7 @@ function Game:loadLevel()
   self.isLoading = false
   self.data:free()
   self.data:resetSinistarCrystals()
-  self.alertMachine:clear()
-  self.alertMachine:set({message = levelFilePath .. ', Level: ' .. self.data.level, lifespan = 3})
+  self.alertMachine:set({message = levelNickname, lifespan = 5})
   
   self:update(0)
   local player = self.world:getByID("Player")
