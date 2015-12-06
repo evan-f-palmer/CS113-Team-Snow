@@ -1,0 +1,1050 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="45" height="45" tilewidth="32" tileheight="32" backgroundcolor="#000000">
+ <objectgroup name="Asteroid" width="45" height="45">
+  <object x="509" y="1048">
+   <ellipse/>
+  </object>
+  <object x="509" y="1078">
+   <ellipse/>
+  </object>
+  <object x="506" y="1103">
+   <ellipse/>
+  </object>
+  <object x="506" y="1124">
+   <ellipse/>
+  </object>
+  <object x="506" y="1150">
+   <ellipse/>
+  </object>
+  <object x="529" y="1151">
+   <ellipse/>
+  </object>
+  <object x="551" y="1153">
+   <ellipse/>
+  </object>
+  <object x="572" y="1157">
+   <ellipse/>
+  </object>
+  <object x="595" y="1155">
+   <ellipse/>
+  </object>
+  <object x="619" y="1152">
+   <ellipse/>
+  </object>
+  <object x="622" y="1127">
+   <ellipse/>
+  </object>
+  <object x="622" y="1100">
+   <ellipse/>
+  </object>
+  <object x="622" y="1074">
+   <ellipse/>
+  </object>
+  <object x="618" y="1045">
+   <ellipse/>
+  </object>
+  <object x="527" y="1038">
+   <ellipse/>
+  </object>
+  <object x="552" y="1045">
+   <ellipse/>
+  </object>
+  <object x="573" y="1042">
+   <ellipse/>
+  </object>
+  <object x="593" y="1042">
+   <ellipse/>
+  </object>
+  <object x="693" y="803">
+   <ellipse/>
+  </object>
+  <object x="677" y="820">
+   <ellipse/>
+  </object>
+  <object x="664" y="835">
+   <ellipse/>
+  </object>
+  <object x="653" y="847">
+   <ellipse/>
+  </object>
+  <object x="640" y="858">
+   <ellipse/>
+  </object>
+  <object x="630" y="876">
+   <ellipse/>
+  </object>
+  <object x="645" y="883">
+   <ellipse/>
+  </object>
+  <object x="662" y="889">
+   <ellipse/>
+  </object>
+  <object x="681" y="895">
+   <ellipse/>
+  </object>
+  <object x="702" y="899">
+   <ellipse/>
+  </object>
+  <object x="721" y="903">
+   <ellipse/>
+  </object>
+  <object x="706" y="819">
+   <ellipse/>
+  </object>
+  <object x="711" y="837">
+   <ellipse/>
+  </object>
+  <object x="716" y="858">
+   <ellipse/>
+  </object>
+  <object x="720" y="878">
+   <ellipse/>
+  </object>
+  <object x="924" y="945">
+   <ellipse/>
+  </object>
+  <object x="904" y="950">
+   <ellipse/>
+  </object>
+  <object x="888" y="963">
+   <ellipse/>
+  </object>
+  <object x="875" y="978">
+   <ellipse/>
+  </object>
+  <object x="864" y="999">
+   <ellipse/>
+  </object>
+  <object x="862" y="1020">
+   <ellipse/>
+  </object>
+  <object x="865" y="1047">
+   <ellipse/>
+  </object>
+  <object x="872" y="1066">
+   <ellipse/>
+  </object>
+  <object x="886" y="1080">
+   <ellipse/>
+  </object>
+  <object x="904" y="1089">
+   <ellipse/>
+  </object>
+  <object x="923" y="1094">
+   <ellipse/>
+  </object>
+  <object x="942" y="1091">
+   <ellipse/>
+  </object>
+  <object x="970" y="1085">
+   <ellipse/>
+  </object>
+  <object x="949" y="948">
+   <ellipse/>
+  </object>
+  <object x="968" y="955">
+   <ellipse/>
+  </object>
+  <object x="984" y="974">
+   <ellipse/>
+  </object>
+  <object x="990" y="993">
+   <ellipse/>
+  </object>
+  <object x="996" y="1012">
+   <ellipse/>
+  </object>
+  <object x="996" y="1032">
+   <ellipse/>
+  </object>
+  <object x="992" y="1051">
+   <ellipse/>
+  </object>
+  <object x="983" y="1066">
+   <ellipse/>
+  </object>
+  <object x="1064" y="597">
+   <ellipse/>
+  </object>
+  <object x="1041" y="617">
+   <ellipse/>
+  </object>
+  <object x="1029" y="639">
+   <ellipse/>
+  </object>
+  <object x="1020" y="655">
+   <ellipse/>
+  </object>
+  <object x="1015" y="682">
+   <ellipse/>
+  </object>
+  <object x="1004" y="703">
+   <ellipse/>
+  </object>
+  <object x="999" y="727">
+   <ellipse/>
+  </object>
+  <object x="991" y="752">
+   <ellipse/>
+  </object>
+  <object x="978" y="770">
+   <ellipse/>
+  </object>
+  <object x="962" y="784">
+   <ellipse/>
+  </object>
+  <object x="943" y="799">
+   <ellipse/>
+  </object>
+  <object x="927" y="822">
+   <ellipse/>
+  </object>
+  <object x="926" y="847">
+   <ellipse/>
+  </object>
+  <object x="924" y="870">
+   <ellipse/>
+  </object>
+  <object x="930" y="891">
+   <ellipse/>
+  </object>
+  <object x="957" y="908">
+   <ellipse/>
+  </object>
+  <object x="979" y="912">
+   <ellipse/>
+  </object>
+  <object x="1000" y="918">
+   <ellipse/>
+  </object>
+  <object x="1017" y="938">
+   <ellipse/>
+  </object>
+  <object x="1035" y="960">
+   <ellipse/>
+  </object>
+  <object x="1048" y="981">
+   <ellipse/>
+  </object>
+  <object x="1056" y="1002">
+   <ellipse/>
+  </object>
+  <object x="1072" y="1022">
+   <ellipse/>
+  </object>
+  <object x="1091" y="1040">
+   <ellipse/>
+  </object>
+  <object x="1096" y="1059">
+   <ellipse/>
+  </object>
+  <object x="1107" y="1079">
+   <ellipse/>
+  </object>
+  <object x="1119" y="1096">
+   <ellipse/>
+  </object>
+  <object x="1126" y="1117">
+   <ellipse/>
+  </object>
+  <object x="1008" y="375">
+   <ellipse/>
+  </object>
+  <object x="997" y="396">
+   <ellipse/>
+  </object>
+  <object x="989" y="414">
+   <ellipse/>
+  </object>
+  <object x="967" y="424">
+   <ellipse/>
+  </object>
+  <object x="945" y="430">
+   <ellipse/>
+  </object>
+  <object x="924" y="433">
+   <ellipse/>
+  </object>
+  <object x="911" y="448">
+   <ellipse/>
+  </object>
+  <object x="888" y="459">
+   <ellipse/>
+  </object>
+  <object x="879" y="478">
+   <ellipse/>
+  </object>
+  <object x="415" y="221">
+   <ellipse/>
+  </object>
+  <object x="433" y="203">
+   <ellipse/>
+  </object>
+  <object x="461" y="192">
+   <ellipse/>
+  </object>
+  <object x="488" y="185">
+   <ellipse/>
+  </object>
+  <object x="518" y="185">
+   <ellipse/>
+  </object>
+  <object x="536" y="168">
+   <ellipse/>
+  </object>
+  <object x="571" y="146">
+   <ellipse/>
+  </object>
+  <object x="404" y="242">
+   <ellipse/>
+  </object>
+  <object x="392" y="302">
+   <ellipse/>
+  </object>
+  <object x="413" y="284">
+   <ellipse/>
+  </object>
+  <object x="430" y="265">
+   <ellipse/>
+  </object>
+  <object x="638" y="113">
+   <ellipse/>
+  </object>
+  <object x="675" y="49">
+   <ellipse/>
+  </object>
+  <object x="115" y="514">
+   <ellipse/>
+  </object>
+  <object x="141" y="507">
+   <ellipse/>
+  </object>
+  <object x="165" y="494">
+   <ellipse/>
+  </object>
+  <object x="183" y="480">
+   <ellipse/>
+  </object>
+  <object x="205" y="464">
+   <ellipse/>
+  </object>
+  <object x="230" y="452">
+   <ellipse/>
+  </object>
+  <object x="258" y="443">
+   <ellipse/>
+  </object>
+  <object x="278" y="441">
+   <ellipse/>
+  </object>
+  <object x="302" y="445">
+   <ellipse/>
+  </object>
+  <object x="323" y="456">
+   <ellipse/>
+  </object>
+  <object x="339" y="475">
+   <ellipse/>
+  </object>
+  <object x="348" y="501">
+   <ellipse/>
+  </object>
+  <object x="351" y="521">
+   <ellipse/>
+  </object>
+  <object x="359" y="544">
+   <ellipse/>
+  </object>
+  <object x="375" y="558">
+   <ellipse/>
+  </object>
+  <object x="391" y="566">
+   <ellipse/>
+  </object>
+  <object x="415" y="570">
+   <ellipse/>
+  </object>
+  <object x="440" y="570">
+   <ellipse/>
+  </object>
+  <object x="461" y="557">
+   <ellipse/>
+  </object>
+  <object x="479" y="534">
+   <ellipse/>
+  </object>
+  <object x="495" y="509">
+   <ellipse/>
+  </object>
+  <object x="380" y="585">
+   <ellipse/>
+  </object>
+  <object x="392" y="604">
+   <ellipse/>
+  </object>
+  <object x="407" y="626">
+   <ellipse/>
+  </object>
+  <object x="421" y="647">
+   <ellipse/>
+  </object>
+  <object x="434" y="663">
+   <ellipse/>
+  </object>
+  <object x="442" y="690">
+   <ellipse/>
+  </object>
+  <object x="439" y="716">
+   <ellipse/>
+  </object>
+  <object x="426" y="735">
+   <ellipse/>
+  </object>
+  <object x="408" y="749">
+   <ellipse/>
+  </object>
+  <object x="385" y="761">
+   <ellipse/>
+  </object>
+  <object x="361" y="760">
+   <ellipse/>
+  </object>
+  <object x="336" y="749">
+   <ellipse/>
+  </object>
+  <object x="316" y="732">
+   <ellipse/>
+  </object>
+  <object x="304" y="707">
+   <ellipse/>
+  </object>
+  <object x="297" y="677">
+   <ellipse/>
+  </object>
+  <object x="281" y="660">
+   <ellipse/>
+  </object>
+  <object x="259" y="659">
+   <ellipse/>
+  </object>
+  <object x="238" y="675">
+   <ellipse/>
+  </object>
+  <object x="231" y="698">
+   <ellipse/>
+  </object>
+  <object x="241" y="723">
+   <ellipse/>
+  </object>
+  <object x="316" y="831">
+   <ellipse/>
+  </object>
+  <object x="329" y="849">
+   <ellipse/>
+  </object>
+  <object x="343" y="865">
+   <ellipse/>
+  </object>
+  <object x="341" y="887">
+   <ellipse/>
+  </object>
+  <object x="371" y="865">
+   <ellipse/>
+  </object>
+  <object x="332" y="967">
+   <ellipse/>
+  </object>
+  <object x="349" y="1045">
+   <ellipse/>
+  </object>
+  <object x="389" y="1110">
+   <ellipse/>
+  </object>
+  <object x="464" y="857">
+   <ellipse/>
+  </object>
+  <object x="545" y="822">
+   <ellipse/>
+  </object>
+  <object x="626" y="771">
+   <ellipse/>
+  </object>
+  <object x="429" y="1177">
+   <ellipse/>
+  </object>
+  <object x="278" y="774">
+   <ellipse/>
+  </object>
+  <object x="338" y="911">
+   <ellipse/>
+  </object>
+  <object x="394" y="863">
+   <ellipse/>
+  </object>
+  <object x="542" y="360">
+   <ellipse/>
+  </object>
+  <object x="709" y="699">
+   <ellipse/>
+  </object>
+  <object x="780" y="621">
+   <ellipse/>
+  </object>
+  <object x="839" y="542">
+   <ellipse/>
+  </object>
+  <object x="257" y="742">
+   <ellipse/>
+  </object>
+  <object x="268" y="760">
+   <ellipse/>
+  </object>
+  <object x="289" y="786">
+   <ellipse/>
+  </object>
+  <object x="301" y="808">
+   <ellipse/>
+  </object>
+  <object x="411" y="860">
+   <ellipse/>
+  </object>
+  <object x="438" y="861">
+   <ellipse/>
+  </object>
+  <object x="335" y="928">
+   <ellipse/>
+  </object>
+  <object x="333" y="946">
+   <ellipse/>
+  </object>
+  <object x="334" y="989">
+   <ellipse/>
+  </object>
+  <object x="335" y="1006">
+   <ellipse/>
+  </object>
+  <object x="344" y="1025">
+   <ellipse/>
+  </object>
+  <object x="439" y="1211">
+   <ellipse/>
+  </object>
+  <object x="419" y="1155">
+   <ellipse/>
+  </object>
+  <object x="380" y="1090">
+   <ellipse/>
+  </object>
+  <object x="363" y="1065">
+   <ellipse/>
+  </object>
+  <object x="529" y="833">
+   <ellipse/>
+  </object>
+  <object x="509" y="851">
+   <ellipse/>
+  </object>
+  <object x="532" y="851">
+   <ellipse/>
+  </object>
+  <object x="550" y="856">
+   <ellipse/>
+  </object>
+  <object x="567" y="863">
+   <ellipse/>
+  </object>
+  <object x="582" y="863">
+   <ellipse/>
+  </object>
+  <object x="486" y="852">
+   <ellipse/>
+  </object>
+  <object x="562" y="807">
+   <ellipse/>
+  </object>
+  <object x="853" y="525">
+   <ellipse/>
+  </object>
+  <object x="865" y="510">
+   <ellipse/>
+  </object>
+  <object x="533" y="388">
+   <ellipse/>
+  </object>
+  <object x="662" y="254">
+   <ellipse/>
+  </object>
+  <object x="679" y="268">
+   <ellipse/>
+  </object>
+  <object x="699" y="282">
+   <ellipse/>
+  </object>
+  <object x="722" y="295">
+   <ellipse/>
+  </object>
+  <object x="742" y="303">
+   <ellipse/>
+  </object>
+  <object x="762" y="310">
+   <ellipse/>
+  </object>
+  <object x="784" y="318">
+   <ellipse/>
+  </object>
+  <object x="806" y="326">
+   <ellipse/>
+  </object>
+  <object x="830" y="324">
+   <ellipse/>
+  </object>
+  <object x="853" y="324">
+   <ellipse/>
+  </object>
+  <object x="879" y="325">
+   <ellipse/>
+  </object>
+  <object x="904" y="324">
+   <ellipse/>
+  </object>
+  <object x="926" y="313">
+   <ellipse/>
+  </object>
+  <object x="953" y="299">
+   <ellipse/>
+  </object>
+  <object x="974" y="288">
+   <ellipse/>
+  </object>
+  <object x="782" y="355">
+   <ellipse/>
+  </object>
+  <object x="764" y="364">
+   <ellipse/>
+  </object>
+  <object x="748" y="377">
+   <ellipse/>
+  </object>
+  <object x="728" y="393">
+   <ellipse/>
+  </object>
+  <object x="708" y="408">
+   <ellipse/>
+  </object>
+  <object x="320" y="364">
+   <ellipse/>
+  </object>
+  <object x="344" y="375">
+   <ellipse/>
+  </object>
+  <object x="360" y="376">
+   <ellipse/>
+  </object>
+  <object x="382" y="386">
+   <ellipse/>
+  </object>
+  <object x="415" y="394">
+   <ellipse/>
+  </object>
+  <object x="436" y="399">
+   <ellipse/>
+  </object>
+  <object x="460" y="413">
+   <ellipse/>
+  </object>
+  <object x="479" y="421">
+   <ellipse/>
+  </object>
+  <object x="502" y="428">
+   <ellipse/>
+  </object>
+  <object x="527" y="447">
+   <ellipse/>
+  </object>
+  <object x="544" y="458">
+   <ellipse/>
+  </object>
+  <object x="558" y="472">
+   <ellipse/>
+  </object>
+  <object x="575" y="491">
+   <ellipse/>
+  </object>
+  <object x="595" y="501">
+   <ellipse/>
+  </object>
+  <object x="611" y="521">
+   <ellipse/>
+  </object>
+  <object x="619" y="540">
+   <ellipse/>
+  </object>
+  <object x="629" y="560">
+   <ellipse/>
+  </object>
+  <object x="644" y="582">
+   <ellipse/>
+  </object>
+  <object x="657" y="605">
+   <ellipse/>
+  </object>
+  <object x="692" y="427">
+   <ellipse/>
+  </object>
+  <object x="668" y="631">
+   <ellipse/>
+  </object>
+  <object x="681" y="653">
+   <ellipse/>
+  </object>
+  <object x="693" y="677">
+   <ellipse/>
+  </object>
+  <object x="734" y="712">
+   <ellipse/>
+  </object>
+  <object x="762" y="730">
+   <ellipse/>
+  </object>
+  <object x="790" y="742">
+   <ellipse/>
+  </object>
+  <object x="814" y="752">
+   <ellipse/>
+  </object>
+  <object x="838" y="758">
+   <ellipse/>
+  </object>
+  <object x="866" y="766">
+   <ellipse/>
+  </object>
+  <object x="904" y="638">
+   <ellipse/>
+  </object>
+  <object x="912" y="612">
+   <ellipse/>
+  </object>
+  <object x="934" y="580">
+   <ellipse/>
+  </object>
+  <object x="964" y="562">
+   <ellipse/>
+  </object>
+  <object x="1044" y="482">
+   <ellipse/>
+  </object>
+  <object x="1020" y="510">
+   <ellipse/>
+  </object>
+  <object x="806" y="839">
+   <ellipse/>
+  </object>
+  <object x="806" y="882">
+   <ellipse/>
+  </object>
+  <object x="794" y="912">
+   <ellipse/>
+  </object>
+  <object x="442" y="1006">
+   <ellipse/>
+  </object>
+  <object x="455" y="964">
+   <ellipse/>
+  </object>
+  <object x="488" y="948">
+   <ellipse/>
+  </object>
+  <object x="527" y="942">
+   <ellipse/>
+  </object>
+  <object x="570" y="958">
+   <ellipse/>
+  </object>
+  <object x="573" y="1267">
+   <ellipse/>
+  </object>
+  <object x="603" y="1306">
+   <ellipse/>
+  </object>
+  <object x="621" y="1336">
+   <ellipse/>
+  </object>
+  <object x="736" y="1261">
+   <ellipse/>
+  </object>
+  <object x="821" y="1236">
+   <ellipse/>
+  </object>
+  <object x="1045" y="1127">
+   <ellipse/>
+  </object>
+  <object x="733" y="1091">
+   <ellipse/>
+  </object>
+  <object x="758" y="1112">
+   <ellipse/>
+  </object>
+  <object x="776" y="1161">
+   <ellipse/>
+  </object>
+  <object x="788" y="1133">
+   <ellipse/>
+  </object>
+  <object x="1006" y="836">
+   <ellipse/>
+  </object>
+  <object x="1036" y="864">
+   <ellipse/>
+  </object>
+  <object x="1036" y="833">
+   <ellipse/>
+  </object>
+  <object x="1064" y="770">
+   <ellipse/>
+  </object>
+  <object x="1097" y="767">
+   <ellipse/>
+  </object>
+  <object x="1136" y="745">
+   <ellipse/>
+  </object>
+  <object x="1167" y="745">
+   <ellipse/>
+  </object>
+  <object x="1209" y="730">
+   <ellipse/>
+  </object>
+  <object x="912" y="773">
+   <ellipse/>
+  </object>
+  <object x="900" y="767">
+   <ellipse/>
+  </object>
+  <object x="994" y="782">
+   <ellipse/>
+  </object>
+  <object x="1027" y="782">
+   <ellipse/>
+  </object>
+  <object x="1067" y="800">
+   <ellipse/>
+  </object>
+  <object x="1109" y="821">
+   <ellipse/>
+  </object>
+  <object x="1139" y="821">
+   <ellipse/>
+  </object>
+  <object x="1179" y="830">
+   <ellipse/>
+  </object>
+  <object x="1145" y="861">
+   <ellipse/>
+  </object>
+  <object x="245" y="552">
+   <ellipse/>
+  </object>
+  <object x="515" y="630">
+   <ellipse/>
+  </object>
+  <object x="1100" y="918">
+   <ellipse/>
+  </object>
+  <object x="1073" y="945">
+   <ellipse/>
+  </object>
+  <object x="1109" y="530">
+   <ellipse/>
+  </object>
+  <object x="1130" y="509">
+   <ellipse/>
+  </object>
+  <object x="821" y="176">
+   <ellipse/>
+  </object>
+  <object x="848" y="197">
+   <ellipse/>
+  </object>
+  <object x="818" y="224">
+   <ellipse/>
+  </object>
+  <object x="603" y="667">
+   <ellipse/>
+  </object>
+  <object x="715" y="521">
+   <ellipse/>
+  </object>
+  <object x="879" y="1112">
+   <ellipse/>
+  </object>
+  <object x="894" y="1130">
+   <ellipse/>
+  </object>
+  <object x="906" y="1152">
+   <ellipse/>
+  </object>
+  <object x="918" y="1168">
+   <ellipse/>
+  </object>
+  <object x="935" y="1181">
+   <ellipse/>
+  </object>
+  <object x="870" y="1088">
+   <ellipse/>
+  </object>
+  <object x="953" y="1193">
+   <ellipse/>
+  </object>
+  <object x="972" y="1207">
+   <ellipse/>
+  </object>
+  <object x="994" y="1219">
+   <ellipse/>
+  </object>
+  <object x="935" y="911">
+   <ellipse/>
+  </object>
+  <object x="919" y="925">
+   <ellipse/>
+  </object>
+  <object x="907" y="933">
+   <ellipse/>
+  </object>
+  <object x="855" y="1060">
+   <ellipse/>
+  </object>
+  <object x="840" y="1048">
+   <ellipse/>
+  </object>
+  <object x="823" y="1030">
+   <ellipse/>
+  </object>
+  <object x="808" y="1010">
+   <ellipse/>
+  </object>
+  <object x="802" y="991">
+   <ellipse/>
+  </object>
+  <object x="797" y="968">
+   <ellipse/>
+  </object>
+  <object x="796" y="946">
+   <ellipse/>
+  </object>
+  <object x="807" y="860">
+   <ellipse/>
+  </object>
+  <object x="812" y="814">
+   <ellipse/>
+  </object>
+  <object x="815" y="788">
+   <ellipse/>
+  </object>
+  <object x="830" y="718">
+   <ellipse/>
+  </object>
+  <object x="835" y="694">
+   <ellipse/>
+  </object>
+  <object x="845" y="674">
+   <ellipse/>
+  </object>
+  <object x="832" y="562">
+   <ellipse/>
+  </object>
+  <object x="830" y="580">
+   <ellipse/>
+  </object>
+  <object x="835" y="601">
+   <ellipse/>
+  </object>
+  <object x="843" y="620">
+   <ellipse/>
+  </object>
+  <object x="845" y="639">
+   <ellipse/>
+  </object>
+  <object x="846" y="653">
+   <ellipse/>
+  </object>
+  <object x="601" y="865">
+   <ellipse/>
+  </object>
+  <object x="558" y="1238">
+   <ellipse/>
+  </object>
+  <object x="524" y="1207">
+   <ellipse/>
+  </object>
+  <object x="798" y="1028">
+   <ellipse/>
+  </object>
+  <object x="775" y="1026">
+   <ellipse/>
+  </object>
+  <object x="754" y="1025">
+   <ellipse/>
+  </object>
+  <object x="731" y="1025">
+   <ellipse/>
+  </object>
+  <object x="709" y="1033">
+   <ellipse/>
+  </object>
+  <object x="692" y="1046">
+   <ellipse/>
+  </object>
+  <object x="604" y="1190">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="Squad" width="45" height="45">
+  <object x="705" y="201">
+   <properties>
+    <property name="Warriors" value="1"/>
+    <property name="Workers" value="3"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object x="929" y="1018">
+   <properties>
+    <property name="Warriors" value="0"/>
+    <property name="Workers" value="5"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object x="394" y="1183">
+   <properties>
+    <property name="Warriors" value="0"/>
+    <property name="Workers" value="2"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object x="629" y="963">
+   <properties>
+    <property name="Warriors" value="1"/>
+    <property name="Workers" value="0"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object x="366" y="670">
+   <properties>
+    <property name="Warriors" value="0"/>
+    <property name="Workers" value="2"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object x="791" y="1281">
+   <properties>
+    <property name="Warriors" value="1"/>
+    <property name="Workers" value="0"/>
+   </properties>
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="Locale" width="45" height="45" visible="0">
+  <object name="C" x="736" y="736">
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>
