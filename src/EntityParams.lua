@@ -87,11 +87,11 @@ return {
     maxChasingSpeedScale = 1.1,
     
     maxWanderingForceScale = 0.3,
-    maxChargingForceScale = 1.0,
+    maxChargingForceScale = 0.6,
     maxChasingForceScale = 0.8,
     
     wanderingTime = 3.75,
-    chargingTime = 2,
+    chargingTime = 1.5,
     chasingTime = 1.25,
   },
   playerBullet = {
