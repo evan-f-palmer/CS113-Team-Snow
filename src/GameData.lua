@@ -40,6 +40,7 @@ function GameData:reset()
     self.sinistarCrystals = 0
     self.lastLifeUpScore = 0
     self.level = 1
+    self.playerBombs = 0
   end
 end
 

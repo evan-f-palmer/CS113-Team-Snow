@@ -43,7 +43,7 @@ function Player:init(gameData, playerInput, world)
   self.combat:addCombatant("Player", {health = EntityParams.player.health})
   self.combat:addWeapon("Player Primary R", {ammo = math.huge, projectileID = "Player Bullet", debounceTime = EntityParams.player.primaryFireDebounce})
   self.combat:addWeapon("Player Primary L", {ammo = math.huge, projectileID = "Player Bullet", debounceTime = EntityParams.player.primaryFireDebounce})
-  self.combat:addWeapon("Player Secondary", {ammo = 0, projectileID = "Sinibomb", debounceTime = EntityParams.player.secondaryFireDebounce, maxAmmo = EntityParams.player.secondaryMaxAmmo})  
+  self.combat:addWeapon("Player Secondary", {ammo = self.gameData.playerBombs, projectileID = "Sinibomb", debounceTime = EntityParams.player.secondaryFireDebounce, maxAmmo = EntityParams.player.secondaryMaxAmmo})  
   self.combat:addWeapon("Player Thruster", {ammo = math.huge, projectileID = "Player Thrust", debounceTime = 0.5})
     
   self.render = self.variations[math.random(#self.variations)]
@@ -91,6 +91,8 @@ function Player:update(dt)
 --    self.soundSystem:play("sound/marinealarm.ogg",0.25)
     self.soundSystem:play("sound/alarm.wav",0.5)
   end
+
+  self.gameData.playerBombs = self.combat:getAmmo("Player Secondary")
 
   self.combat:heal(self.id, dt * EntityParams.player.healpersec)
   self.isDead = self.combat:isDead("Player")
