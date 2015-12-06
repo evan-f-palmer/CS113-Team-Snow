@@ -28,7 +28,7 @@ function Renderer:init()
   self.TEXT_Y_OFFSET = 2 * self.GU.FONT_SIZE
   self.DEBUG_TEXT_COLOR = {80, 80, 200}
   
-  self.DRAW_ORDERING = {"Worker Bullet", "Player Bullet", "Asteroid", "Crystal", "Sinistar Construction", "Sinistar", "Warrior Bullet", "Sinibomb", "Worker", "Player", "Warrior", "Sinibomb Blast"}
+  self.DRAW_ORDERING = {"Worker Bullet", "Player Bullet", "Asteroid", "AsteroidFrag", "Crystal", "Sinistar Construction", "Sinistar", "Warrior Bullet", "Sinibomb", "Worker", "Player", "Warrior", "Sinibomb Blast"}
 end
 
 function Renderer:follow(xBody)
@@ -120,6 +120,10 @@ function Renderer:getObjectsInViewByType(xInView)
   local byType = {}
   for k, obj in pairs(xInView) do
     local type = obj.type
+    if type:find("AsteroidFrag") then
+      type = "AsteroidFrag"
+    end
+
     if not byType[type] then byType[type] = {} end
     table.insert(byType[type], obj)
   end

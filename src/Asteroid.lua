@@ -5,6 +5,7 @@ local Combat = require('Combat')
 local SoundSystem = require('SoundSystem')
 local EntityParams = require('EntityParams')
 local Probability = require('Probability')
+local Projectiles  = require('Projectiles')
 
 local Asteroid = Class{}
 Asteroid.type = "Asteroid"
@@ -27,7 +28,44 @@ Asteroid.variations = {
     color = {143,127,121},
     shouldRotate = true,
   },
+  {
+    image = love.graphics.newImage("assets/asteroid2.png"),
+    color = {165,165,165},
+    shouldRotate = true,
+  },
+  {
+    image = love.graphics.newImage("assets/asteroid2.png"),
+    color = {105,105,105},
+    shouldRotate = true,
+  },
+  {
+    image = love.graphics.newImage("assets/asteroid2.png"),
+    color = {143,127,121},
+    shouldRotate = true,
+  },
 }
+
+local projectiles = Projectiles()
+local asteroidFragCount = 0
+for _, obj in pairs(Asteroid.variations) do
+  projectiles:define("AsteroidFrag" .. asteroidFragCount , {
+    shouldRotate = true, 
+    image = love.graphics.newImage("assets/asteroidFrag1.png"), 
+    color = obj.color, 
+    speed = EntityParams.asteroidFrag.speed, 
+    lifespan = EntityParams.asteroidFrag.lifespan, 
+    radius = EntityParams.asteroidFrag.radius
+  })
+  projectiles:define("AsteroidFrag" .. (asteroidFragCount + #Asteroid.variations) , {
+    shouldRotate = true, 
+    image = love.graphics.newImage("assets/asteroidFrag2.png"), 
+    color = obj.color, 
+    speed = EntityParams.asteroidFrag.speed, 
+    lifespan = EntityParams.asteroidFrag.lifespan,
+    radius = EntityParams.asteroidFrag.radius
+  })
+  asteroidFragCount = asteroidFragCount + 1
+end
 
 function Asteroid:init(gameData)
   self.gameData = gameData
@@ -45,7 +83,10 @@ function Asteroid:init(gameData)
   self.combat:addWeapon(self.id, {ammo = EntityParams.asteroid.crystals, projectileID = "Crystal", debounceTime = EntityParams.asteroid.crystalDebounce})
   self.combat:recharge(self.id)
   
-  self.render = self.variations[math.random(#self.variations)]
+  local variation = math.random(#self.variations)
+  self.render = self.variations[variation]
+  self.combat:addWeapon(self.id .. 1, {ammo = 5, projectileID = "AsteroidFrag" .. (variation), debounceTime = 0})
+  self.combat:addWeapon(self.id .. 2, {ammo = 5, projectileID = "AsteroidFrag" .. (variation + #self.variations), debounceTime = 0})
   
   self.alertMachine = AlertMachine()
   self.soundSystem = SoundSystem()
@@ -60,6 +101,16 @@ end
 function Asteroid:onDeath()
   if self.wasPlayerCausedCollision then
     self.gameData:increaseScore(self.gameData.asteroidKillValue)
+  end
+  
+  local offset = EntityParams.asteroid.fireOffset
+  for i=1, 3 do
+    local dir = Vector():randomize_inplace()
+    if math.random(2) == 1 then
+      self.combat:fire(self.id .. 1, self.loc + (dir * offset), dir)
+    else
+      self.combat:fire(self.id .. 2, self.loc + (dir * offset), dir)
+    end
   end
 end
 

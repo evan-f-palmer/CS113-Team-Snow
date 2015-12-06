@@ -9,6 +9,7 @@ return {
     ["Player Bullet"] = 1.3, 
     ["Warrior Bullet"] = 2, 
     ["Asteroid"] = 1.4, 
+    ["AsteroidFrag"] = 1.4,
     ["Crystal"] = 0.5, 
     ["Sinistar"] = 0.4,
     ["Sinistar Construction"] = 0.4,

@@ -111,4 +111,7 @@ return {
   crystal = {
     speed = 180, lifespan = 8, radius = 45,
   },
+  asteroidFrag = {
+    speed = 180, lifespan = 2, radius = 45,
+  },
 }
