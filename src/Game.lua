@@ -13,8 +13,8 @@ local EntityParams = require('EntityParams')
 local Animator = require('Animator')
 
 local Game = Class{}
-Game.levelNicknames = {"Spots", "Highways", "Alphabet Soup"}
-Game.levels = {"spots.lua", "highways.lua", "testing2.lua"}
+Game.levelNicknames = {"Alphabet Soup", "Spots", "Highways"}
+Game.levels = {"testing2.lua", "spots.lua", "highways.lua"}
 
 function Game:init()  
   if not love.graphics.isSupported("canvas", "npot", "subtractive", "multicanvas") then

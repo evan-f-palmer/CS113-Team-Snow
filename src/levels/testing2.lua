@@ -832,13 +832,14 @@ return {
           name = "",
           type = "",
           shape = "ellipse",
-          x = 477,
-          y = 212,
+          x = 452,
+          y = 138,
           width = 0,
           height = 0,
           visible = true,
           properties = {
-            ["Warriors"] = "3",
+            ["Respawn Period"] = "14",
+            ["Warriors"] = "1",
             ["Workers"] = "3"
           }
         },
@@ -852,21 +853,38 @@ return {
           height = 0,
           visible = true,
           properties = {
-            ["Warriors"] = "1",
-            ["Workers"] = "6"
+            ["Respawn Period"] = "11",
+            ["Warriors"] = "0",
+            ["Workers"] = "4"
           }
         },
         {
           name = "",
           type = "",
           shape = "ellipse",
-          x = 103,
-          y = 833,
+          x = 328,
+          y = 639,
           width = 0,
           height = 0,
           visible = true,
           properties = {
-            ["Warriors"] = "3",
+            ["Respawn Period"] = "17",
+            ["Warriors"] = "1",
+            ["Workers"] = "2"
+          }
+        },
+        {
+          name = "",
+          type = "",
+          shape = "ellipse",
+          x = 282,
+          y = 378,
+          width = 0,
+          height = 0,
+          visible = true,
+          properties = {
+            ["Respawn Period"] = "9",
+            ["Warriors"] = "0",
             ["Workers"] = "2"
           }
         }
@@ -875,7 +893,7 @@ return {
     {
       type = "objectgroup",
       name = "Locale",
-      visible = true,
+      visible = false,
       opacity = 1,
       properties = {},
       objects = {
