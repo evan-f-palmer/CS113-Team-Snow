@@ -15,6 +15,7 @@ World.make = {
 World.levelScale = 15
 World.collider = CollisionSystem()
 World.DEFAULT_GET_NEIGHBORS = function() return {} end
+World.DEAFULT_RESPAWN_TIME = 5.0
 
 function World:init(playerInput, gameData, projectiles)
   self.gameData = gameData
@@ -170,7 +171,7 @@ function World:spawnSquads(xSquadLayer)
       flock:addBoid(body)
     end
     
-    local respawnTime = obj.properties["Respawn Period"] or 5.0
+    local respawnTime = obj.properties["Respawn Period"] or World.DEAFULT_RESPAWN_TIME
     
     local respawnTimer = 0
     flock.respawnStep = function(flock, dt)
