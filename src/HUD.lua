@@ -56,6 +56,7 @@ function HUD:draw(gameData)
   -- IMAGE CANVAS, DRAWING HUD FOREGROUND IMAGE WITH A CUTOUT
   self.imageCanvas:clear()
   love.graphics.setCanvas(self.imageCanvas)
+  love.graphics.setColor(255,255,255)
   self.GU:drawFullscreen(self.background)
   love.graphics.setBlendMode('subtractive')
   love.graphics.setColor(255,255,255)
