@@ -44,6 +44,7 @@ function Player:init(gameData, playerInput, world)
   self.combat:addWeapon("Player Primary R", {ammo = math.huge, projectileID = "Player Bullet", debounceTime = EntityParams.player.primaryFireDebounce})
   self.combat:addWeapon("Player Primary L", {ammo = math.huge, projectileID = "Player Bullet", debounceTime = EntityParams.player.primaryFireDebounce})
   self.combat:addWeapon("Player Secondary", {ammo = 0, projectileID = "Sinibomb", debounceTime = EntityParams.player.secondaryFireDebounce, maxAmmo = EntityParams.player.secondaryMaxAmmo})  
+  self.combat:addWeapon("Player Thruster", {ammo = math.huge, projectileID = "Player Thrust", debounceTime = 0.5})
     
   self.render = self.variations[math.random(#self.variations)]
   
@@ -59,19 +60,26 @@ function Player:update(dt)
   self.dir = self.playerInput.directionVec
   self.vel = self.playerInput.movementVec
   self.vel:trim_inplace(self.maxSpeed)
+  local speed = self.vel:len()
+  local speedPct = (speed / self.maxSpeed)
 
-  if self.playerInput.primaryWeaponFire and self.combat:canFire("Player Primary R") and self.combat:canFire("Player Primary L") then
+--  if speedPct > 0 and self.combat:canFire("Player Thruster") then
+--    self.combat:fire("Player Thruster", self.loc, self.dir)
+--  end
+
+  if self.playerInput.primaryWeaponFire and self.combat:canFire("Player Primary R") then
     local offset = self.dir:perpendicular()
     offset = offset:normalize_inplace()
     offset = offset:scale_inplace(self.primaryFireOffset)
+  
     self.combat:fire("Player Primary R", self.loc + offset, self.dir, self.vel)
     self.combat:fire("Player Primary L", self.loc - offset, self.dir, self.vel)
-    self.soundSystem:play("sound/playerShot.wav", 0.5)
+    self.soundSystem:play("sound/playerShot.wav", 0.5)  
   end
     
   if self.playerInput.secondaryWeaponFire and self.combat:canFire("Player Secondary") then
     self.soundSystem:play("sound/bombFire.wav", 0.5)
-    if self.vel.x == 0 and self.vel.y == 0 then
+    if speed == 0 then
       self.combat:fire("Player Secondary", self.loc, self.dir)
     else
       self.combat:fire("Player Secondary", self.loc, -self.dir, self.vel)

@@ -71,3 +71,11 @@ projectiles:define("Crystal", {
   lifespan = EntityParams.crystal.lifespan, 
   radius = EntityParams.crystal.radius
 }) 
+projectiles:define("Player Thrust", {
+  shouldRotate = true,
+  image = love.graphics.newImage("assets/player.png"), 
+  color = {255,255,255,32},
+  speed = 0, 
+  lifespan = 4,
+  radius = 1,
+})
