@@ -13,7 +13,7 @@ local EntityParams = require('EntityParams')
 local Animator = require('Animator')
 
 local Game = Class{}
-Game.levels = {"testing2.lua", "testing2.lua"}
+Game.levels = {"A.lua", "testing2.lua"}
 
 function Game:init()  
   if not love.graphics.isSupported("canvas", "npot", "subtractive", "multicanvas") then
@@ -56,7 +56,7 @@ function Game:start()
 end
 
 function Game:loadLevel()
-  local levelFileName = Game.levels[(self.data.level % (#Game.levels)) + 1]  
+  local levelFileName = Game.levels[((self.data.level-1) % (#Game.levels)) + 1]  
   self.data:preserve()
   self.isLoading = true
   local levelFilePath = "src/levels/" .. levelFileName

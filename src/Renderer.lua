@@ -28,7 +28,7 @@ function Renderer:init()
   self.TEXT_Y_OFFSET = 2 * self.GU.FONT_SIZE
   self.DEBUG_TEXT_COLOR = {80, 80, 200}
   
-  self.DRAW_ORDERING = {"Worker Bullet", "Player Bullet", "Asteroid", "AsteroidFrag", "Crystal", "Sinistar Construction", "Sinistar", "Warrior Bullet", "Sinibomb", "Worker", "Player", "Warrior", "Sinibomb Blast"}
+  self.DRAW_ORDERING = {"Worker Bullet", "Sinistar Construction", "Player Bullet", "Asteroid", "AsteroidFrag", "Crystal", "Sinistar", "Warrior Bullet", "Sinibomb", "Worker", "Player", "Warrior", "Sinibomb Blast"}
 end
 
 function Renderer:follow(xBody)

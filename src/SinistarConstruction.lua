@@ -22,7 +22,7 @@ local ANIMATOR = Animator()
 
 SinistarConstruction.render = {
   image = love.graphics.newImage("assets/sinistar.png"),
-  color = {50,200,200},
+  color = {127,127,127,127},
   shouldRotate = false,
 }
 
@@ -65,14 +65,6 @@ function SinistarConstruction:onCollision(other)
   local type = other.type
   
   if type == "Worker Bullet" then
-    other.isDead = true
-  end
-  
-  if type == "Player Bullet" then
-    other.isDead = true
-  end
-  
-  if type == "Sinibomb" then
     other.isDead = true
   end
 
