@@ -171,7 +171,7 @@ function World:spawnSquads(xSquadLayer)
       flock:addBoid(body)
     end
     
-    local respawnTime = obj.properties["Respawn Period"] or World.DEAFULT_RESPAWN_TIME
+    local respawnTime = tonumber(obj.properties["Respawn Period"]) or World.DEAFULT_RESPAWN_TIME
     
     local respawnTimer = 0
     flock.respawnStep = function(flock, dt)

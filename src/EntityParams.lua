@@ -22,8 +22,8 @@ return {
     health = 25,
     radius = 80,
     sightRadius = 2000,
-    maxSpeedScale = 1.8,
-    maxForceScale = 0.6,
+    maxSpeedScale = 1.6,
+    maxForceScale = 0.5,
     fireDebounce = 0.7,
     closestProximity = 700,
     damageFrom = {
@@ -34,12 +34,12 @@ return {
     crystalPickupHealthToSinistar = 0.01,
   },
   warrior = {  
-    health = 50,  
+    health = 70,  
     radius = 120,
-    sightRadius = 1400,
-    maxSpeedScale = 1.55,
-    maxForceScale = 0.35,
-    maxDistanceFromFlock = 800,
+    sightRadius = 1300,
+    maxSpeedScale = 1.40,
+    maxForceScale = 0.65,
+    maxDistanceFromFlock = 600,
     fireDebounce = 1.5,
     closestProximity = 1100,
     damageFrom = {
@@ -95,7 +95,7 @@ return {
     chasingTime = 1.25,
   },
   playerBullet = {
-    speed = 2675, lifespan = 1.75, radius = 4,
+    speed = 2775, lifespan = 1.55, radius = 4,
   },
   sinibomb = {
     speed = 700, lifespan = 1.5, radius = 40,

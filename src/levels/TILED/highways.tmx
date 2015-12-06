@@ -1001,13 +1001,15 @@
  <objectgroup name="Squad" width="45" height="45">
   <object x="705" y="201">
    <properties>
+    <property name="Respawn Period" value="18"/>
     <property name="Warriors" value="1"/>
-    <property name="Workers" value="3"/>
+    <property name="Workers" value="2"/>
    </properties>
    <ellipse/>
   </object>
   <object x="929" y="1018">
    <properties>
+    <property name="Respawn Period" value="13"/>
     <property name="Warriors" value="0"/>
     <property name="Workers" value="5"/>
    </properties>
@@ -1015,6 +1017,7 @@
   </object>
   <object x="394" y="1183">
    <properties>
+    <property name="Respawn Period" value="9"/>
     <property name="Warriors" value="0"/>
     <property name="Workers" value="2"/>
    </properties>
@@ -1022,6 +1025,7 @@
   </object>
   <object x="629" y="963">
    <properties>
+    <property name="Respawn Period" value="25"/>
     <property name="Warriors" value="1"/>
     <property name="Workers" value="0"/>
    </properties>
@@ -1029,15 +1033,17 @@
   </object>
   <object x="366" y="670">
    <properties>
+    <property name="Respawn Period" value="10"/>
     <property name="Warriors" value="0"/>
     <property name="Workers" value="2"/>
    </properties>
    <ellipse/>
   </object>
-  <object x="791" y="1281">
+  <object x="925" y="519">
    <properties>
-    <property name="Warriors" value="1"/>
-    <property name="Workers" value="0"/>
+    <property name="Respawn Period" value="18"/>
+    <property name="Warriors" value="0"/>
+    <property name="Workers" value="2"/>
    </properties>
    <ellipse/>
   </object>

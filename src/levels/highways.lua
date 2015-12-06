@@ -3687,8 +3687,9 @@ return {
           height = 0,
           visible = true,
           properties = {
+            ["Respawn Period"] = "18",
             ["Warriors"] = "1",
-            ["Workers"] = "3"
+            ["Workers"] = "2"
           }
         },
         {
@@ -3701,6 +3702,7 @@ return {
           height = 0,
           visible = true,
           properties = {
+            ["Respawn Period"] = "13",
             ["Warriors"] = "0",
             ["Workers"] = "5"
           }
@@ -3715,6 +3717,7 @@ return {
           height = 0,
           visible = true,
           properties = {
+            ["Respawn Period"] = "9",
             ["Warriors"] = "0",
             ["Workers"] = "2"
           }
@@ -3729,6 +3732,7 @@ return {
           height = 0,
           visible = true,
           properties = {
+            ["Respawn Period"] = "25",
             ["Warriors"] = "1",
             ["Workers"] = "0"
           }
@@ -3743,6 +3747,7 @@ return {
           height = 0,
           visible = true,
           properties = {
+            ["Respawn Period"] = "10",
             ["Warriors"] = "0",
             ["Workers"] = "2"
           }
@@ -3751,14 +3756,15 @@ return {
           name = "",
           type = "",
           shape = "ellipse",
-          x = 791,
-          y = 1281,
+          x = 925,
+          y = 519,
           width = 0,
           height = 0,
           visible = true,
           properties = {
-            ["Warriors"] = "1",
-            ["Workers"] = "0"
+            ["Respawn Period"] = "18",
+            ["Warriors"] = "0",
+            ["Workers"] = "2"
           }
         }
       }
