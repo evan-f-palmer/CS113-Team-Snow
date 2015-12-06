@@ -64,6 +64,9 @@ end
 function Warrior:onDeath()
   self.soundSystem:play("sound/explosion.wav", 0.5)    
   self.gameData:increaseScore(self.gameData.warriorKillValue)
+  if self.flock then
+    self.flock:removeBoid(self)
+  end
 end
 
 function Warrior:damage(xAmount)

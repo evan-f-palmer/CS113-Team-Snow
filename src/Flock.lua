@@ -10,17 +10,27 @@ function Flock:init(boids, maxSeparation, separationScale, cohesionScale)
   self.cohesionScale = cohesionScale
   self.avgAcc = Vector(0, 0)
   self.avgLoc = Vector(0, 0)
+  self.missingTypes = {}
+  self.respawnStep = nil
 end
 
-function Flock:update()
+function Flock:update(dt)
   self:calcAvgs()
   self:separation()
   self:cohesion()
 --  self:alignment()
+  if self.respawnStep and (#self.missingTypes > 0) then
+    self:respawnStep(dt)
+  end
 end
 
 function Flock:addBoid(boid)
-  self.boids[#self.boids + 1] = boid
+  self.boids[boid.id] = boid
+end
+
+function Flock:removeBoid(boid)
+  self.boids[boid.id] = nil
+  self.missingTypes[#self.missingTypes + 1] = boid.type
 end
 
 function Flock:calcAvgs()

@@ -65,6 +65,9 @@ end
 function Worker:onDeath()
   self.soundSystem:play("sound/explosion.wav", 0.5)    
   self.gameData:increaseScore(self.gameData.workerKillValue)
+  if self.flock then
+    self.flock:removeBoid(self)
+  end
 end
 
 function Worker:damage(xAmount)

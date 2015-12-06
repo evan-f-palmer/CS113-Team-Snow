@@ -54,6 +54,7 @@ end
 
 function World:update(dt)
   self:createRequestedBodies()
+  self:updateFlocks(dt)
   self:updateAllWorldObjects(dt)  
   self:moveAllWorldObjects(dt)
   self.collider:update()
@@ -79,6 +80,12 @@ end
 
 function World:getByID(id)
   return self.bodies:getByID(id)
+end
+
+function World:updateFlocks(dt)
+  for k, flock in pairs(self.flocks) do
+    flock:update(dt)
+  end
 end
 
 -- private
@@ -149,7 +156,7 @@ function World:spawnSquads(xSquadLayer)
     
     local numWorkers = obj.properties["Workers"] or 0
     for i = 1, numWorkers do
-      local x, y = self:translateX(obj.x + i), self:translateY(obj.y + i)
+      local x, y = self:translateX(obj.x), self:translateY(obj.y)
       local body = self:makeBody("Worker", x, y, self.gameData)
       body:setFlock(flock)
       flock:addBoid(body)
@@ -157,11 +164,26 @@ function World:spawnSquads(xSquadLayer)
     
     local numWarriors = obj.properties["Warriors"] or 0
     for i = 1, numWarriors do
-      local x, y = self:translateX(obj.x + i), self:translateY(obj.y + i)
+      local x, y = self:translateX(obj.x), self:translateY(obj.y)
       local body = self:makeBody("Warrior", x, y, self.gameData)
       body:setFlock(flock)
       flock:addBoid(body)
     end
+    
+    local respawnTime = obj.properties["Respawn Period"] or 5.0
+    
+    local respawnTimer = 0
+    flock.respawnStep = function(flock, dt)
+      respawnTimer = respawnTimer + dt
+      if respawnTimer >= respawnTime then
+        local type = table.remove(flock.missingTypes)
+        local body = self:makeBody(type, obj.x, obj.y, self.gameData)
+        body:setFlock(flock)
+        flock:addBoid(body)
+        respawnTimer = 0
+      end
+    end
+    
     table.insert(self.flocks, flock)
   end
 end

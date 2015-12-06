@@ -96,11 +96,12 @@ function Renderer:draw(xWorld)
           self.GU:BEGIN_SCALE(x, y, self.drawScale[layerToDraw])
           self.GU:drawRotatedImage(image, x, y, angle)
           self.GU:END()
-  
-  --        if obj.radius then
-  --          love.graphics.circle("line", x, y, obj.radius)
-  --        end
+
         end
+        
+--        if obj.radius then
+--          love.graphics.circle("line", x, y, obj.radius)
+--        end
     
   --      local inverseCameraScale = 1/self.camera.scale
   --      love.graphics.setColor(self.DEBUG_TEXT_COLOR[1], self.DEBUG_TEXT_COLOR[2], self.DEBUG_TEXT_COLOR[3], self.DEBUG_TEXT_COLOR[4])
