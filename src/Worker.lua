@@ -5,6 +5,7 @@ local Heap   = require('Heap')
 local Combat = require('Combat')
 local EntityParams = require('EntityParams')
 local SoundSystem = require('SoundSystem')
+local Probability = require('Probability')
 
 local Worker = Class{__includes = Boid}
 Worker.count = 0
@@ -14,6 +15,7 @@ Worker.MAX_FORCE = 100000 * EntityParams.worker.maxForceScale
 Worker.sightRadius = EntityParams.worker.sightRadius
 Worker.radius = EntityParams.worker.radius
 Worker.minDistance2 = math.pow(EntityParams.worker.closestProximity, 2)
+Worker.probability = Probability()
 
 Worker.render = {
   image = love.graphics.newImage("assets/worker.png"),
@@ -35,6 +37,9 @@ function Worker:init(gameData)
   self.combat = Combat()
   self.combat:addCombatant(self.id, {health = EntityParams.worker.health})
   self.combat:addWeapon(self.id, {ammo = math.huge, projectileID = "Worker Bullet", debounceTime = EntityParams.worker.fireDebounce})
+  self.crystalsWeaponID = self.id .. 'Crystals'
+  self.combat:addWeapon(self.crystalsWeaponID, {ammo = 1, maxAmmo = 3, projectileID = "Crystal", debounceTime = 0})
+
   self.soundSystem = SoundSystem()    
 end
 
@@ -68,6 +73,13 @@ function Worker:onDeath()
   if self.flock then
     self.flock:removeBoid(self)
   end
+  
+  if Worker.probability:of(0.25) then
+    while not self.combat:isOutOfAmmo(self.crystalsWeaponID) do
+      local dir = Vector():randomize_inplace()
+      self.combat:fire(self.crystalsWeaponID, self.loc + dir, dir)
+    end
+  end
 end
 
 function Worker:damage(xAmount)
@@ -78,6 +90,9 @@ function Worker:onCollision(other)
   local type = other.type
 
   if type == "Crystal" then
+    if Worker.probability:of(0.05) then
+      self.combat:supplyAmmo(self.crystalsWeaponID, 1)
+    end
     self.gameData:incrementSinistarCrystals()
     self.combat:heal("Sinistar", EntityParams.worker.crystalPickupHealthToSinistar)
     other.isDead = true
