@@ -13,6 +13,7 @@ local EntityParams = require('EntityParams')
 local Animator = require('Animator')
 
 local Game = Class{}
+Game.levels = {"testing2.lua", "testing2.lua"}
 
 function Game:init()  
   if not love.graphics.isSupported("canvas", "npot", "subtractive", "multicanvas") then
@@ -50,27 +51,31 @@ function Game:start()
   
   self.soundSystem:playMusic("music/Closet_Face_128.ogg", 0.3)
 
-  self:newGameLoadLevel("testing2.lua")  
+  self:newGameLoadLevel()
   self.previousLives = self.data.lives
 end
 
-function Game:loadLevel(xLevelFileName)
+function Game:loadLevel()
+  local levelFileName = Game.levels[(self.data.level % (#Game.levels)) + 1]  
+  self.data:preserve()
   self.isLoading = true
-  local levelFilePath = "src/levels/" .. xLevelFileName
+  local levelFilePath = "src/levels/" .. levelFileName
   self.world:loadLevel(levelFilePath)
-  self.alertMachine:clear()
-  self.alertMachine:set({message = levelFilePath, lifespan = 3})
   self.isLoading = false
+  self.data:free()
+  self.alertMachine:clear()
+  self.alertMachine:set({message = levelFilePath .. ', Level: ' .. self.data.level, lifespan = 3})
 end
 
-function Game:newGameLoadLevel(xLevelFileName)
-  self:loadLevel(xLevelFileName)
+function Game:newGameLoadLevel()  
   self.data:reset()
+  self:loadLevel()
 end
 
 function Game:load()
+  self.data:free()
   if self.data:isGameOver() then
-    self:newGameLoadLevel("testing2.lua")
+    self:newGameLoadLevel()
   end
   
   local player = self.world:getByID("Player")
@@ -81,15 +86,10 @@ function Game:load()
 end
 
 function Game:unload()
-  if not self.combat:isDead("Player") then
-    local player = self.world:getByID("Player")
-    self.renderer:follow(player)
-    self.hud:setActor(player)
-  elseif not self.combat:isDead("Sinistar") then
-    local sinistar = self.world:getByID("Sinistar")
-    self.renderer:follow(sinistar)
-    self.hud:setActor(sinistar)
-  end
+  self.data:preserve()
+  local player = self.world:getByID("Player")
+  self.renderer:follow(player)
+  self.hud:setActor(player)
 end
 
 function Game:update(dt)
@@ -97,20 +97,28 @@ function Game:update(dt)
   
   if (not self.isPaused) or self.step then
     self.step = false
+    self.sinistarWasAliveLastStep = not self.combat:isDead("Sinistar")
     
     self.playerInput:update(dt)
-    self.alertMachine:update(dt)
+    self.alertMachine:update(dt)    
     self.combat:update(dt)
-    self.world:update(dt)
+    self.world:update(dt) 
+    self.data:updateAlertData(self.alertMachine)
+    self.hud:update(dt)
+    
+    if self.combat:isDead("Sinistar") and self.sinistarWasAliveLastStep then
+      self.data:increaseLevel()
+      self:loadLevel()
+    end
+    
     if self.data:isGameOver() then
-      self.gameOverScreen:setFinalScore(self.data.score)
+      self.data:preserve()
       self.world:unload()
+      self.data:free()
       self.transition = self.gameOverScreen
     elseif self.data.lives < self.previousLives then
       self.transition = self.deathScreen
     end
-    self.data:updateAlertData(self.alertMachine)
-    self.hud:update(dt)
   end
   
   self.animator:update(dt)

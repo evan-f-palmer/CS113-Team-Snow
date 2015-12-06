@@ -50,11 +50,14 @@ function Renderer:draw(xWorld)
     local actor = self.toFollow
     local actorX, actorY = actor.loc.x, actor.loc.y
     local actorAngle = self.GU:getAngle(actor.dir)
-    local inCDView = actor.getNeighbors(self.captureRadius)
-    local inViewByType = self:getObjectsInViewByType(inCDView)
-    local inRDView = actor.getNeighbors(self.radarRadius)
-    local inRadarViewByType = self:getObjectsInViewByType(inRDView)  
-    xWorld.gameData.forRadar = inRadarViewByType
+    local inViewByType = {}
+    if actor.getNeighbors then
+      local inCDView = actor.getNeighbors(self.captureRadius)
+      inViewByType = self:getObjectsInViewByType(inCDView)
+      local inRDView = actor.getNeighbors(self.radarRadius)
+      local inRadarViewByType = self:getObjectsInViewByType(inRDView)  
+      xWorld.gameData.forRadar = inRadarViewByType
+    end
 
     self.camera:lookAt(actorX, actorY)
     self.camera:attach()  

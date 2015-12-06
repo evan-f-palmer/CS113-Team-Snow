@@ -176,7 +176,7 @@ function World:spawnSquads(xSquadLayer)
     flock.respawnStep = function(flock, dt)
       respawnTimer = respawnTimer + dt
       if respawnTimer >= respawnTime then
-        local type = table.remove(flock.missingTypes)
+        local type = flock:claimRespawn()
         local body = self:makeBody(type, obj.x, obj.y, self.gameData)
         body:setFlock(flock)
         flock:addBoid(body)

@@ -20,11 +20,6 @@ function GameOverScreen:load()
   self.lifetime = 0
   self.currentKey = ' '
   self.username = ''
-  self.score = self.score or 0
-end
-
-function GameOverScreen:setFinalScore(xScore)
-  self.score = xScore
 end
 
 function GameOverScreen:unload()
@@ -37,7 +32,7 @@ function GameOverScreen:update(dt)
   if (love.mouse.isDown('l') or love.mouse.isDown('r')) and self.lifetime > 0.25 then
     if self.currentKey == 'OK' and (#self.username > 0) then
       local f = assert(io.open('src/scores/history', 'a'))
-      f:write('{name = \'' .. self.username .. '\', score = ' .. self.score .. '}, ')
+      f:write('{name = \'' .. self.username .. '\', score = ' .. self.game.data.score .. '}, ')
       f:close()
       return self.transition
     else
@@ -66,7 +61,7 @@ function GameOverScreen:draw()
   love.graphics.rectangle("line", x, y, width*(1/4), 1)  
  
   graphics:centeredText("Score:" , width*(13/32), height*(4/32))
-  graphics:centeredText("" .. self.score , width*(19/32), height*(4/32))
+  graphics:centeredText("" .. self.game.data.score , width*(19/32), height*(4/32))
   
   love.graphics.setColor(WHITE[1], WHITE[2], WHITE[3], WHITE[4])  
   x, y = width*(1/2)-width*(1/8), height*(30/32)

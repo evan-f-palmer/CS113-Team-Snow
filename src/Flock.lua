@@ -33,6 +33,10 @@ function Flock:removeBoid(boid)
   self.missingTypes[#self.missingTypes + 1] = boid.type
 end
 
+function Flock:claimRespawn()
+  return table.remove(self.missingTypes)
+end
+
 function Flock:calcAvgs()
   self.avgAcc = Vector(0, 0)
   self.avgLoc = Vector(0, 0)
