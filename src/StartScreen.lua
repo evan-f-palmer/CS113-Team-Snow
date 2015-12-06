@@ -39,7 +39,7 @@ function StartScreen:draw()
   love.graphics.rectangle("line", x, y, width*(1/4), 1)
   local color = blinker:blink(WHITE, DIMWHITE)
   love.graphics.setColor(color[1],color[2],color[3],color[4])
-  graphics:centeredText("Click Mouse to Start", width*(1/2), height*(3/4))
+  graphics:centeredText("Click Mouse to Play", width*(1/2), height*(3/4))
 end
 
 return StartScreen

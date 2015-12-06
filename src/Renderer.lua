@@ -66,17 +66,17 @@ function Renderer:draw(xWorld)
     self.camera:lookAt(actorX, actorY)
     self.camera:attach()  
     
-    -- TEMP --
-    local worldW, worldH = xWorld.width, xWorld.height
-    local worldXT, worldYT = worldW / 2, worldH / 2
-    love.graphics.setColor(255, 0, 0)
-    love.graphics.rectangle("line", -worldXT, -worldYT, worldW, worldH)
-    love.graphics.setColor(255, 120, 0)
-    love.graphics.line(0, worldYT, worldXT, 0)
-    love.graphics.line(0, worldYT, -worldXT, 0)
-    love.graphics.line(0, -worldYT, worldXT, 0)
-    love.graphics.line(0, -worldYT, -worldXT, 0)
-    -- END TEMP --
+--    -- TEMP --
+--    local worldW, worldH = xWorld.width, xWorld.height
+--    local worldXT, worldYT = worldW / 2, worldH / 2
+--    love.graphics.setColor(255, 0, 0)
+--    love.graphics.rectangle("line", -worldXT, -worldYT, worldW, worldH)
+--    love.graphics.setColor(255, 120, 0)
+--    love.graphics.line(0, worldYT, worldXT, 0)
+--    love.graphics.line(0, worldYT, -worldXT, 0)
+--    love.graphics.line(0, -worldYT, worldXT, 0)
+--    love.graphics.line(0, -worldYT, -worldXT, 0)
+--    -- END TEMP --
     
     for i = 1, #self.DRAW_ORDERING do
       local layerToDraw = self.DRAW_ORDERING[i]
