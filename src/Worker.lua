@@ -79,6 +79,7 @@ function Worker:onCollision(other)
 
   if type == "Crystal" then
     self.gameData:incrementSinistarCrystals()
+    self.combat:heal("Sinistar", EntityParams.worker.crystalPickupHealthToSinistar)
     other.isDead = true
   end
   

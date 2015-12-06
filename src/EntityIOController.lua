@@ -4,7 +4,7 @@ local InputDeviceLayout = require("InputDeviceLayout")
 local ViewportParams = require("ViewportParams")
 
 local EntityIOController = Class{}
-EntityIOController.inputAmplifier = (1750 / ViewportParams.r) * (3/2) -- (Player speed / Viewport radius) * (Magic throttle constant)
+EntityIOController.inputAmplifier = (1750 / ViewportParams.r) * (7/4) -- (Player speed / Viewport radius) * (Magic throttle constant)
 
 function EntityIOController:init()
   self.movementVec = Vector(0, 0)

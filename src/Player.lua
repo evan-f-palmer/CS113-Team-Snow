@@ -139,6 +139,7 @@ function Player:onCollision(other)
   if type == "Crystal" then
     self.gameData:increaseScore(self.gameData.crystalValue)
     self.combat:supplyAmmo("Player Secondary", EntityParams.player.bombAmmoFromCrystalPickup)
+    self.combat:heal("Player", EntityParams.player.crystalPickupHealth)
     other.isDead = true
     self.soundSystem:play("sound/crystalPickup.wav", 0.2)
     self.alertMachine:set(GOT_CRYSTAL_MESSAGE)

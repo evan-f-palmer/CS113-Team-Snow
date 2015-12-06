@@ -64,6 +64,9 @@ function Sinistar:init(gameData, world)
   
   self.alertMachine = AlertMachine()
   self.probability = Probability()
+  
+  self.hasLivedForThreeMinutes = false
+  self.aliveTime = 0
 end
 
 function Sinistar:setMode(xMode)
@@ -116,6 +119,14 @@ function Sinistar:update(dt)
     end
   end
   
+  local prevCheck = self.hasLivedForThreeMinutes
+  self.aliveTime = self.aliveTime + dt
+  self.hasLivedForThreeMinutes = (self.aliveTime >= 180)
+  local hasLivedForExactlyThreeMinutes = (not prevCheck) and self.hasLivedForThreeMinutes
+  if hasLivedForExactlyThreeMinutes then
+    self.gameData:increaseScore(self.gameData.survivedSinistarForThreeMinutesValue)
+  end
+  
   self.isDead = self.combat:isDead(self.id)
 end
 
@@ -134,16 +145,19 @@ function Sinistar:onCollision(other)
   
   if type == "Player Bullet" then
     self:damage(EntityParams.sinistar.damageFrom.playerBullet)
+    self.gameData:increaseScore(self.gameData.sinistarHitWithPlayerBulletValue)
     other.isDead = true
   end
   
   if type == "Sinibomb" then
     self:damage(EntityParams.sinistar.damageFrom.sinibomb)
+    self.gameData:increaseScore(self.gameData.sinistarHitWithSinibombValue)
     other.isDead = true
   end
   
   if type == "Sinibomb Blast" then
     self:damage(EntityParams.sinistar.damageFrom.sinibombBlast)
+    self.gameData:increaseScore(self.gameData.sinistarHitWithSinibombBlastValue)
   end
 end
 

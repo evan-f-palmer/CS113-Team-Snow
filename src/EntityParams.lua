@@ -16,6 +16,7 @@ return {
     },
     bombAmmoFromCrystalPickup = 1,
     healpersec = (1/3),
+    crystalPickupHealth = 1.5,
   },
   worker = {
     health = 25,
@@ -29,7 +30,8 @@ return {
       playerBullet = 5,
       sinibomb = 15,
       sinibombBlast = 1000,
-    }
+    },
+    crystalPickupHealthToSinistar = 0.01,
   },
   warrior = {  
     health = 50,  
@@ -76,7 +78,7 @@ return {
     health = 100,
     radius = 230,
     damageFrom = {
-      playerBullet = 0.001,
+      playerBullet = 0.01,
       sinibomb = 5,
       sinibombBlast = 1,
     },

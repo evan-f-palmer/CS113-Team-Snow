@@ -4,6 +4,11 @@ local SoundSystem  = require('SoundSystem')
 local GameData = Class{}
 
 GameData.sinistarKillValue = 20000
+GameData.survivedSinistarForThreeMinutesValue = 10000
+GameData.sinistarHitWithPlayerBulletValue = 10
+GameData.sinistarHitWithSinibombValue = 200
+GameData.sinistarHitWithSinibombBlastValue = 1
+
 GameData.warriorKillValue = 500
 GameData.workerKillValue = 300
 GameData.crystalValue = 100

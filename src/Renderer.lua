@@ -103,7 +103,16 @@ function Renderer:draw(xWorld)
           self.GU:BEGIN_SCALE(x, y, self.drawScale[layerToDraw])
           self.GU:drawRotatedImage(image, x, y, angle)
           self.GU:END()
-
+          
+          if layerToDraw == 'Sinistar' or layerToDraw == 'Asteroid' then
+            local healthPct = self.combat:getHealthPercent(obj.id)
+            if healthPct < 1.0 then
+              local w, h = image:getWidth() * self.drawScale[layerToDraw], image:getHeight() * self.drawScale[layerToDraw]
+              local color = self.colorer:getHealthBarColor(healthPct)
+              love.graphics.setColor(color[1], color[2], color[3], color[4])
+              love.graphics.rectangle("fill", x - w/2, y + h/2, w * healthPct, 20)
+            end
+          end
         end
         
 --        if obj.radius then
