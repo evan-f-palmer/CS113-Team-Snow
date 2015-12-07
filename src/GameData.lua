@@ -56,6 +56,12 @@ function GameData:isGameOver()
   return self.lives <= 0
 end
 
+function GameData:forceGameOver()
+  if self.CAN_MODIFY then
+    self.lives = 0
+  end
+end
+
 function GameData:increaseScore(xAmount)
   if self.CAN_MODIFY then
     if not self:isGameOver() then

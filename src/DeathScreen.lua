@@ -19,7 +19,9 @@ end
 
 function DeathScreen:update(dt)
   self.lifetime = self.lifetime + dt
-  if (self.lifetime > self.maxLifetime) then
+  if love.keyboard.isDown('escape') and self.lifetime > 0.25 then    
+    return self.esc
+  elseif (self.lifetime > self.maxLifetime) then
     return self.transition
   else
     return DeathScreen

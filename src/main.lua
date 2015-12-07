@@ -22,11 +22,15 @@ function love.load(arg)
   game.deathScreen = deathScreen
   game.gameOverScreen = gameOverScreen
   
-  scoresScreen.transition = game
   startScreen.transition = game  
+  scoresScreen.transition = game
+  scoresScreen.esc = startScreen
   pausedScreen.transition = game
+  pausedScreen.esc = scoresScreen
   deathScreen.transition = game
+  deathScreen.esc = deathScreen
   gameOverScreen.transition = scoresScreen
+  gameOverScreen.esc = gameOverScreen
   
   gameOverScreen.game = game
   deathScreen.game = game
@@ -37,10 +41,6 @@ function love.load(arg)
 end
 
 function love.update(dt)
-  if love.keyboard.isDown('escape') then
-    love.event.quit()
-  end
-
   isGamePaused = game.isPaused
   local previous = current
   current = current:update(dt)

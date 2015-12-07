@@ -30,6 +30,11 @@ function World:init(playerInput, gameData, projectiles)
   self.playerY = 0
 end
 
+function World:setPlayerSpawnAtOrigin()
+  self.playerX = 0
+  self.playerY = 0
+end
+
 function World:loadLevel(xLevelFileName)
   local level = dofile(xLevelFileName)  
   local layers = self:getLayers(level)  

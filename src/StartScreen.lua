@@ -21,7 +21,10 @@ end
 function StartScreen:update(dt)
   blinker:update(dt)
   self.lifetime = self.lifetime + dt
-  if (love.mouse.isDown('l') or love.mouse.isDown('r')) and self.lifetime > 0.25 then
+  
+  if love.keyboard.isDown('escape') and self.lifetime > 0.25 then    
+    love.event.quit()
+  elseif (love.mouse.isDown('l') or love.mouse.isDown('r')) and self.lifetime > 0.25 then
     return self.transition
   else
     return StartScreen

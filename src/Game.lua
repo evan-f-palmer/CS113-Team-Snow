@@ -53,6 +53,8 @@ function Game:start()
   self.soundSystem:playMusic("music/Closet_Face_128.ogg", 0.3)
 
   self.previousLives = self.data.lives
+  
+  self.world:setPlayerSpawnAtOrigin()
   self:newGameLoadLevel()
 end
 
@@ -83,6 +85,7 @@ function Game:load()
   self.transition = self
   self.data:free()
   if self.data:isGameOver() then
+    self.world:setPlayerSpawnAtOrigin()
     self:newGameLoadLevel()
   end
 end

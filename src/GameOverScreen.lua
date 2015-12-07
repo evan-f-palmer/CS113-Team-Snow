@@ -20,6 +20,9 @@ function GameOverScreen:load()
   self.lifetime = 0
   self.currentKey = ' '
   self.username = ''
+  self.game.data:free()
+  self.game.data:forceGameOver()
+  self.game.data:preserve()
 end
 
 function GameOverScreen:unload()
@@ -29,7 +32,10 @@ end
 function GameOverScreen:update(dt)
   blinker:update(dt)
   self.lifetime = self.lifetime + dt
-  if (love.mouse.isDown('l') or love.mouse.isDown('r')) and self.lifetime > 0.25 then
+  
+  if love.keyboard.isDown('escape') and self.lifetime > 0.25 then    
+    return self.esc
+  elseif (love.mouse.isDown('l') or love.mouse.isDown('r')) and self.lifetime > 0.25 then
     if self.currentKey == 'OK' and (#self.username > 0) then
       local f = assert(io.open('src/scores/history', 'a'))
       f:write('{name = \'' .. self.username .. '\', score = ' .. self.game.data.score .. '}, ')

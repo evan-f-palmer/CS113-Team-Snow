@@ -44,7 +44,7 @@ function GameIOController:update(dt)
     self.game.hud:setActor(obj)
   end
   
-  if love.keyboard.isDown("p") then
+  if love.keyboard.isDown('escape') or love.keyboard.isDown('p') then
     self.game.transition = self.game.pausedScreen
   end
   
