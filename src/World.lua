@@ -23,8 +23,8 @@ function World:init(playerInput, gameData, projectiles)
   self.bodies = Bodies()
   self.projectiles:setCollider(self.collider)
   self.bodies:setCollider(self.collider)  
-  self.flocks = {}
   self.playerInput = playerInput
+  self.flocks = {}
   self.bodyAdditionQueue = {}
 end
 
@@ -38,6 +38,7 @@ function World:loadLevel(xLevelFileName)
   self.collider:setWidth(self.width)
   self.collider:setHeight(self.height)
   
+  self.flocks = {}
   self.bodyAdditionQueue = {}
   
   self:spawnAllFromAsType(layers["Asteroid"], "Asteroid")
