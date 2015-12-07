@@ -3,7 +3,7 @@ local Vector = require('hump.vector')
 local Bodies = require("Bodies")
 
 local Projectiles = Class{__includes = Bodies}
-Projectiles.MAX = 300
+Projectiles.MAX = 10000
 
 Projectiles.DEFAULT_LIFESPAN = 0
 Projectiles.DEFAULT_RADIUS = 1
