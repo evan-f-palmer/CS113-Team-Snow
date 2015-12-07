@@ -26,6 +26,8 @@ function World:init(playerInput, gameData, projectiles)
   self.playerInput = playerInput
   self.flocks = {}
   self.bodyAdditionQueue = {}
+  self.playerX = 0
+  self.playerY = 0
 end
 
 function World:loadLevel(xLevelFileName)
@@ -60,10 +62,14 @@ function World:update(dt)
   self:updateAllWorldObjects(dt)  
   self:moveAllWorldObjects(dt)
   self.collider:update()
+  if self.player then
+    self.playerX = self.player.loc.x
+    self.playerY = self.player.loc.y
+  end
 end
 
 function World:spawnPlayer()
-  self.player = self:makeBody("Player", 0, 0, self.gameData, self.playerInput, self)
+  self.player = self:makeBody("Player", self.playerX, self.playerY, self.gameData, self.playerInput, self)
 end
 
 function World:makeBody(type, x, y, ...)
