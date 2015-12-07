@@ -27,6 +27,11 @@ local INFO_MESSAGE = {message = "", lifespan = 0.5, priority = 1}
 function GameIOController:update(dt)
   self:updateDebounce(dt)
   
+  if self:isDown('d') then self:press('d')
+    self.game.data:increaseLevel()
+    self.game:loadLevel()
+  end
+  
   if self:isDown('a') then self:press('a')
     local toView = "Player"    
     if self.game.renderer:isFollowing("Player") then
