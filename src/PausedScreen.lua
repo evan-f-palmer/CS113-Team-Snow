@@ -15,10 +15,12 @@ PausedScreen.lifetime = 0
 function PausedScreen:load()
   self.background = love.graphics.newImage("assets/screens/HUD1.JPG")
   self.lifetime = 0
+  self.game.hud:setActor(self.game.world:getByID("Player"))
 end
 
 function PausedScreen:unload()
   self.background = nil
+  self.game.hud:setActor(nil)
 end
 
 function PausedScreen:update(dt)
