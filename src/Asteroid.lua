@@ -46,7 +46,7 @@ Asteroid.variations = {
 }
 
 local projectiles = Projectiles()
-local asteroidFragCount = 0
+local asteroidFragCount = 1
 for _, obj in pairs(Asteroid.variations) do
   projectiles:define("AsteroidFrag" .. asteroidFragCount , {
     shouldRotate = true, 

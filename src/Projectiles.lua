@@ -5,9 +5,9 @@ local Bodies = require("Bodies")
 local Projectiles = Class{__includes = Bodies}
 Projectiles.MAX = 300
 
-Projectiles.DEFAULT_LIFESPAN = 10
+Projectiles.DEFAULT_LIFESPAN = 0
 Projectiles.DEFAULT_RADIUS = 1
-Projectiles.DEFAULT_SPEED = 1000
+Projectiles.DEFAULT_SPEED = 0
 
 Projectiles.DEFAULT_DEF = {
   lifespan = Projectiles.DEFAULT_LIFESPAN,
