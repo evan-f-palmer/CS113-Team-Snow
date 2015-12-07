@@ -79,6 +79,9 @@ end
 function Game:newGameLoadLevel()  
   self.data:reset()
   self:loadLevel()
+  self.alertMachine:clear()
+  local levelNickname = Game.levelNicknames[((self.data.level-1) % (#Game.levels)) + 1]  
+  self.alertMachine:set({message = levelNickname, lifespan = 3})
 end
 
 function Game:load()
