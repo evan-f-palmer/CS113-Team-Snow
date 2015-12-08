@@ -24,7 +24,7 @@ local SINISTAR_DEATH_MESSAGE = {message = "[Sinistar Destroyed]", lifespan = 3, 
 local ANIMATOR = Animator()
 
 Sinistar.render = {
-  image = love.graphics.newImage("assets/sinistar.png"),
+  image = love.graphics.newImage("assets/sinistar/sinistarMouthOpen.png"),
   color = {255,255,255},
   shouldRotate = false,
 }
@@ -47,6 +47,14 @@ Sinistar.modeMaxForces = {
   ["CHASE"]  = Sinistar.MAX_FORCE * EntityParams.sinistar.maxChasingForceScale,
 }
 
+Sinistar.sounds = {
+  "sound/Beware_Coward.ogg",
+  "sound/I_am_Sinistar.ogg",
+  "sound/I_Hunger_Coward.ogg",
+  "sound/I_Hunger.ogg",
+  "sound/Run_Coward.ogg",
+}
+
 function Sinistar:init(gameData, world)
   self.gameData = gameData
   self.world = world
@@ -60,38 +68,71 @@ function Sinistar:init(gameData, world)
   self.combat:addCombatant(self.id, {health = EntityParams.sinistar.health})
   self.soundSystem = SoundSystem()  
 
-  self:setMode("WANDER")
-  
   self.alertMachine = AlertMachine()
   self.probability = Probability()
   
   self.hasLivedForThreeMinutes = false
   self.aliveTime = 0
+  self.soundTimer = 3
+  self.slowTimer = 0
+
+  self:setMode("WANDER")  
 end
 
 function Sinistar:setMode(xMode)
   self.mode = xMode
-  self.maxSpeed = Sinistar.modeMaxSpeeds[xMode]
-  self.maxForce = Sinistar.modeMaxForces[xMode]
+  local scale = 1
+  if self.slowTimer > 0 then
+    scale = 0.4
+  end
+  self.maxSpeed = Sinistar.modeMaxSpeeds[xMode] * scale
+  self.maxForce = Sinistar.modeMaxForces[xMode] * scale
   self.timer = Sinistar.modeTimePeriods[xMode]
+  self.soundTimer = 3
 end
 
 function Sinistar:update(dt)
   Boid.update(self, dt)
   self.player = self.world.player
   
+  self.soundTimer = self.soundTimer - dt
+  self.slowTimer = self.slowTimer   - dt
+  
+  
   if self.mode == "WANDER" then
     self.alertMachine:set(WANDERING_ALERT)
     self.acc = self:wander()
+    
+    if self.soundTimer <= 0 then
+      self.soundSystem:play(Sinistar.sounds[math.random(#Sinistar.sounds)],0.5)
+      self.soundTimer = 3
+    end
     
   elseif self.mode == "CHASE" then
     self.alertMachine:set(CHASING_ALERT)
     local x, y = self.getRelativeLoc(self.player)
     local loc = Vector(self.loc.x + x, self.loc.y + y)
-    self.acc = self:pursue(loc, self.player.vel)
+    self.acc = self:seek(loc)
+    
+    if self.soundTimer <= 0 then
+      if math.random(5) < 1 then
+        self.soundSystem:play(Sinistar.sounds[math.random(#Sinistar.sounds)],0.5)
+      else
+        self.soundSystem:play("sound/Argh.ogg", 1)
+      end
+      self.soundTimer = 3
+    end
     
   elseif self.mode == "CHARGE" then
     self.alertMachine:set(CHARGING_ALERT)
+    if self.soundTimer <= 0 then
+      if math.random(2) > 1 then
+        self.soundSystem:play(Sinistar.sounds[math.random(#Sinistar.sounds)],0.5)
+      else
+        self.soundSystem:play("sound/Run_Run_Run.ogg", 0.7)
+      end
+      self.soundTimer = 3
+    end
     
     if not self.charge then
       local x, y = self.getRelativeLoc(self.player)
@@ -99,7 +140,7 @@ function Sinistar:update(dt)
       if self.probability:of(0.5) then
         self.charge = self:seek(loc)
       else
-        self.charge = self:pursue(loc, self.player.vel)
+        self.charge = self:seek(loc)
       end
     end
     
@@ -153,11 +194,15 @@ function Sinistar:onCollision(other)
     self:damage(EntityParams.sinistar.damageFrom.sinibomb)
     self.gameData:increaseScore(self.gameData.sinistarHitWithSinibombValue)
     other.isDead = true
+    self.slowTimer = 2
+    self:setMode(self.mode)
   end
   
   if type == "Sinibomb Blast" then
     self:damage(EntityParams.sinistar.damageFrom.sinibombBlast)
     self.gameData:increaseScore(self.gameData.sinistarHitWithSinibombBlastValue)
+    self.slowTimer = 2
+    self:setMode(self.mode)
   end
 end
 
