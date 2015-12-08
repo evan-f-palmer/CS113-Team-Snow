@@ -12,13 +12,18 @@ function Flock:init(boids, maxSeparation, separationScale, cohesionScale)
   self.avgLoc = Vector(0, 0)
   self.missingTypes = {}
   self.respawnStep = nil
+  self.recalcTimer = 0.5
 end
 
 function Flock:update(dt)
-  self:calcAvgs()
-  self:separation()
-  self:cohesion()
---  self:alignment()
+  self.recalcTimer = self.recalcTimer - dt
+  if self.recalcTimer <= 0 then
+    self:calcAvgs()
+    self:separation()
+    self:cohesion()
+  --  self:alignment()
+    self.recalcTimer = 0.5
+  end
 end
 
 function Flock:addBoid(boid)
@@ -37,14 +42,41 @@ end
 function Flock:calcAvgs()
   self.avgAcc = Vector(0, 0)
   self.avgLoc = Vector(0, 0)
+  local mainLocBoid = self.boids[1]
+  self.mainLocBoid = mainLocBoid
+  self.avgAcc:add_inplace(mainLocBoid.acc)
+  self.avgLoc:add_inplace(mainLocBoid.loc)
   
-  for _, boid in ipairs(self.boids) do
+  for i = 2, #self.boids do
+    local boid = self.boids[i]
+    local x, y = mainLocBoid.getRelativeLoc(boid)
+    local loc = Vector(mainLocBoid.loc.x + x, mainLocBoid.loc.y + y)
     self.avgAcc:add_inplace(boid.acc)
-    self.avgLoc:add_inplace(boid.loc)
+    self.avgLoc:add_inplace(loc)
   end
   
   self.avgAcc:scale_inplace(1 / #self.boids)
   self.avgLoc:scale_inplace(1 / #self.boids)
+  
+  self.sd = Vector(0, 0)
+  local diff = self.avgLoc - mainLocBoid.loc
+  self.sd:add_inplace(diff * diff)
+  for i = 2, #self.boids do
+    local boid = self.boids[i]
+    local x, y = mainLocBoid.getRelativeLoc(boid)
+    local loc = Vector(mainLocBoid.loc.x + x, mainLocBoid.loc.y + y)
+    diff = self.avgLoc - loc
+    self.sd:add_inplace(diff * diff)
+  end
+  self.sd:scale_inplace(1 / #self.boids)
+  
+  self.twoSD    = self.avgLoc + (2 * self.sd)
+  self.negTwoSD = self.avgLoc - (2 * self.sd)
+end
+
+function Flock:getLoc(boid)
+  local x, y = self.mainLocBoid.getRelativeLoc(boid)
+  return Vector(self.mainLocBoid.loc.x + x, self.mainLocBoid.loc.y + y)
 end
 
 function Flock:separation()
@@ -62,7 +94,7 @@ function Flock:separation()
         boid1.acc:add_inplace(separationForce)
         
         separationForce:scale_inplace(-1)
-        boid2.acc:add_inplace(separationForce)
+        boid2.acc:add_inplace(separationForce)        
       end
     end
   end
@@ -72,9 +104,15 @@ function Flock:cohesion()
   for _, boid in ipairs(self.boids) do
     local cohesionForce = boid:seek(self.avgLoc)
     cohesionForce:scale_inplace(self.cohesionScale)
-    
+    local loc = self:getLoc(boid)
+    if loc.x < self.negTwoSD.x or loc.y < self.negTwoSD.y or loc.x > self.twoSD.x or loc.y > self.twoSD.y then
+      cohesionForce:scale_inplace(100000000)      
+    else
+      cohesionForce:scale_inplace(self.cohesionScale)  
+    end
     boid.acc:add_inplace(cohesionForce)
-  end  
+    
+  end
 end
 
 --function Flock:alignment()

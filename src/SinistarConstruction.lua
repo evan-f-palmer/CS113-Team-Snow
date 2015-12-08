@@ -79,12 +79,13 @@ function SinistarConstruction:update(dt)
   elseif self.gameData:shouldSinistarBeCompleted() then
     self.alertMachine:set(COMPLETED_ALERT)
     self.soundSystem:play("sound/Beware_I_Live.ogg",0.5)
+    self.soundSystem:playMusic("music/You_Can_Not_Believe_It.ogg", 0.7)
     self.isDead = true
   end
 end
 
 function SinistarConstruction:onDeath()
-  self.world:makeBody("Sinistar", self.loc.x, self.loc.y, self.gameData, self.world)
+  self.world.sinistar = self.world:makeBody("Sinistar", self.loc.x, self.loc.y, self.gameData, self.world)
 end
 
 function SinistarConstruction:onCollision(other)

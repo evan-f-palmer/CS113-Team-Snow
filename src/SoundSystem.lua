@@ -20,6 +20,10 @@ function SoundSystem:play(xSoundFileName, xVolume)
 end
 
 function SoundSystem:playMusic(xMusicFileName, xVolume)
+  if self.currentMusic then
+    self:stop(self.currentMusic)
+  end
+
   if not self.musicSources[xMusicFileName] then
     self:loadMusic(xMusicFileName)
   end
@@ -27,6 +31,7 @@ function SoundSystem:playMusic(xMusicFileName, xVolume)
   src:setVolume(xVolume or 1)
   love.audio.play(src)
   self.status[xMusicFileName] = "Playing"
+  self.currentMusic = xMusicFileName
 end
 
 function SoundSystem:getStateOf(xFileName)

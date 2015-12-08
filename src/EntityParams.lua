@@ -40,7 +40,7 @@ return {
     maxSpeedScale = 1.40,
     maxForceScale = 0.65,
     maxDistanceFromFlock = 600,
-    fireDebounce = 1.5,
+    fireDebounce = 1.2,
     closestProximity = 1100,
     damageFrom = {
       playerBullet = 5,
@@ -74,21 +74,21 @@ return {
     }
   },
   sinistar = {
-    health = 100,
+    health = 1000,
     radius = 230,
     damageFrom = {
-      playerBullet = 0.01,
+      playerBullet = 0.0,
       sinibomb = 5,
       sinibombBlast = 1,
     },
 
     maxWanderingSpeedScale = 0.35,
-    maxChargingSpeedScale = 5.1,
-    maxChasingSpeedScale = 4.1,
+    maxChargingSpeedScale = 1.4,
+    maxChasingSpeedScale = 0.8,
     
-    maxWanderingForceScale = 0.3,
-    maxChargingForceScale = 0.6,
-    maxChasingForceScale = 0.8,
+    maxWanderingForceScale = 1.0,
+    maxChargingForceScale = 1.2,
+    maxChasingForceScale = 1.4,
     
     wanderingTime = 3.75,
     chargingTime = 1.5,
@@ -114,5 +114,8 @@ return {
   },
   asteroidFrag = {
     speed = 180, lifespan = 2, radius = 45,
+  },
+  explosion = {
+    speed = 0, lifespan = 3, radius = 0.1,
   },
 }

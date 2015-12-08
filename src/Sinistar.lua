@@ -53,6 +53,8 @@ Sinistar.sounds = {
   "sound/I_Hunger_Coward.ogg",
   "sound/I_Hunger.ogg",
   "sound/Run_Coward.ogg",
+  "sound/Argh.ogg",
+  "sound/Run_Run_Run.ogg"
 }
 
 function Sinistar:init(gameData, world)
@@ -88,8 +90,9 @@ function Sinistar:setMode(xMode)
   self.maxSpeed = Sinistar.modeMaxSpeeds[xMode] * scale
   self.maxForce = Sinistar.modeMaxForces[xMode] * scale
   self.timer = Sinistar.modeTimePeriods[xMode]
-  self.soundTimer = 3
 end
+
+Sinistar.maxDistanceFromPlayer = 1000000
 
 function Sinistar:update(dt)
   Boid.update(self, dt)
@@ -98,6 +101,8 @@ function Sinistar:update(dt)
   self.soundTimer = self.soundTimer - dt
   self.slowTimer = self.slowTimer   - dt
   
+  local x, y = self.getRelativeLoc(self.player)
+  local loc = Vector(self.loc.x + x, self.loc.y + y)
   
   if self.mode == "WANDER" then
     self.alertMachine:set(WANDERING_ALERT)
@@ -108,6 +113,10 @@ function Sinistar:update(dt)
       self.soundTimer = 3
     end
     
+    if self.loc:dist2(loc) > Sinistar.maxDistanceFromPlayer then
+      self:setMode("CHARGE")  
+    end
+    
   elseif self.mode == "CHASE" then
     self.alertMachine:set(CHASING_ALERT)
     local x, y = self.getRelativeLoc(self.player)
@@ -115,22 +124,14 @@ function Sinistar:update(dt)
     self.acc = self:seek(loc)
     
     if self.soundTimer <= 0 then
-      if math.random(5) < 1 then
-        self.soundSystem:play(Sinistar.sounds[math.random(#Sinistar.sounds)],0.5)
-      else
-        self.soundSystem:play("sound/Argh.ogg", 1)
-      end
+      self.soundSystem:play(Sinistar.sounds[math.random(#Sinistar.sounds)],0.5)
       self.soundTimer = 3
     end
     
   elseif self.mode == "CHARGE" then
     self.alertMachine:set(CHARGING_ALERT)
     if self.soundTimer <= 0 then
-      if math.random(2) > 1 then
-        self.soundSystem:play(Sinistar.sounds[math.random(#Sinistar.sounds)],0.5)
-      else
-        self.soundSystem:play("sound/Run_Run_Run.ogg", 0.7)
-      end
+      self.soundSystem:play(Sinistar.sounds[math.random(#Sinistar.sounds)],0.5)
       self.soundTimer = 3
     end
     

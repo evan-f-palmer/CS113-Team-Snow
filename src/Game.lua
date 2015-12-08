@@ -50,8 +50,6 @@ function Game:start()
   self.projectiles = Projectiles()  
   self.gameInput = GameIOController(self)
   
-  self.soundSystem:playMusic("music/Closet_Face_128.ogg", 0.3)
-
   self.previousLives = self.data.lives
   
   self.world:setPlayerSpawnAtOrigin()

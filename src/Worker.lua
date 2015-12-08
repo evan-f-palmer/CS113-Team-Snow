@@ -39,6 +39,7 @@ function Worker:init(gameData)
   self.combat:addWeapon(self.id, {ammo = math.huge, projectileID = "Worker Bullet", debounceTime = EntityParams.worker.fireDebounce})
   self.crystalsWeaponID = self.id .. 'Crystals'
   self.combat:addWeapon(self.crystalsWeaponID, {ammo = 1, maxAmmo = 3, projectileID = "Crystal", debounceTime = 0})
+  self.combat:addWeapon("Explosion", {ammo = math.huge, projectileID = "Explosion", debounceTime = 0})
 
   self.soundSystem = SoundSystem()    
 end
@@ -67,6 +68,8 @@ function Worker:onDeath()
   if self.flock then
     self.flock:removeBoid(self)
   end
+  
+  self.combat:fire("Explosion", self.loc, Vector(0, 0))
   
   if Worker.probability:of(0.25) then
     while not self.combat:isOutOfAmmo(self.crystalsWeaponID) do

@@ -1,6 +1,7 @@
 local Class  = require('hump.class')
 local CollisionSystem = require('CollisionSystem')
 local Bodies = require('Bodies')
+local SoundSystem = require('SoundSystem')
 
 local World = Class{}
 World.make = {
@@ -28,6 +29,7 @@ function World:init(playerInput, gameData, projectiles)
   self.bodyAdditionQueue = {}
   self.playerX = 0
   self.playerY = 0
+  self.soundSystem = SoundSystem()
 end
 
 function World:setPlayerSpawnAtOrigin()
@@ -51,7 +53,8 @@ function World:loadLevel(xLevelFileName)
   self:spawnAllFromAsType(layers["Asteroid"], "Asteroid")
   self:spawnSquads(layers["Squad"])
   self:spawnPlayer()
-  self:makeBody("SinistarConstruction", 0, 1000, self.gameData, self)
+  self.sinstar =  self:makeBody("SinistarConstruction", 0, 1000, self.gameData, self)
+  self.soundSystem:playMusic("music/Closet_Face_128.ogg", 0.3)
   
   self:createRequestedBodies()
 end
