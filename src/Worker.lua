@@ -52,16 +52,10 @@ function Worker:update(dt)
   Boid.update(self, dt)
   
   if self.currentTarget and self.shouldFire then 
-    if self.currentTarget.type == "Player" then
-      local x, y = self.getRelativeLoc(self.currentTarget)
-      local loc = Vector(x + self.loc.x, y + self.loc.y)
-      local angle = self:pursue(loc, self.currentTarget.vel)
-      self.combat:fire(self.id, self.loc, angle, self.vel)
-    else
-      -- Need more logic here for asteroid mining
-      local angle = self:seek(self.currentTarget.loc)
-      self.combat:fire(self.id, self.loc, angle, self.vel)
-    end
+    local x, y = self.getRelativeLoc(self.currentTarget)
+    local loc = Vector(x + self.loc.x, y + self.loc.y)
+    local angle = self:seek(loc, self..vel)
+    self.combat:fire(self.id, self.loc, angle, self.vel)
   end
   
   self.isDead = self.combat:isDead(self.id)

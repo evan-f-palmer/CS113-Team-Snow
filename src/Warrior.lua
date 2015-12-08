@@ -54,7 +54,7 @@ function Warrior:update(dt)
     local x, y = self.getRelativeLoc(self.currentTarget)
     local loc = Vector(x + self.loc.x, y + self.loc.y)
     
-    local angle = self:pursue(loc, self.currentTarget.vel)
+    local angle = self:seek(loc)
     self.combat:fire(self.id, self.loc, angle, self.vel)
   end
   
