@@ -14,7 +14,7 @@ local Animator = require('Animator')
 
 local Game = Class{}
 Game.levelNicknames = {"Alphabet Soup", "Spots", "Highways"}
-Game.levels = {"testing2.lua", "spots.lua", "highways.lua"}
+Game.levels = {"testing2", "spots", "highways"}
 
 function Game:init()  
   if not love.graphics.isSupported("canvas", "npot", "subtractive", "multicanvas") then
@@ -61,7 +61,7 @@ function Game:loadLevel()
   local levelNickname = Game.levelNicknames[((self.data.level-1) % (#Game.levels)) + 1]  
   self.data:preserve()
   self.isLoading = true
-  local levelFilePath = "src/levels/" .. levelFileName
+  local levelFilePath = "levels/" .. levelFileName
   self.world:loadLevel(levelFilePath)
   self.isLoading = false
   self.data:free()

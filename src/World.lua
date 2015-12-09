@@ -39,7 +39,7 @@ function World:setPlayerSpawnAtOrigin()
 end
 
 function World:loadLevel(xLevelFileName)
-  local level = dofile(xLevelFileName)  
+  local level = require(xLevelFileName)  
   local layers = self:getLayers(level)  
   self:unload()
     
