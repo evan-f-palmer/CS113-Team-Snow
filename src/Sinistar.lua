@@ -191,18 +191,22 @@ function Sinistar:onCollision(other)
     other.isDead = true
   end
   
+  if type == "Asteroid" or type == "Worker" or type == "Warrior" then
+    other.isDead = true
+  end
+  
   if type == "Sinibomb" then
     self:damage(EntityParams.sinistar.damageFrom.sinibomb)
     self.gameData:increaseScore(self.gameData.sinistarHitWithSinibombValue)
     other.isDead = true
-    self.slowTimer = 2
+    self.slowTimer = 0.25
     self:setMode(self.mode)
   end
   
   if type == "Sinibomb Blast" then
     self:damage(EntityParams.sinistar.damageFrom.sinibombBlast)
     self.gameData:increaseScore(self.gameData.sinistarHitWithSinibombBlastValue)
-    self.slowTimer = 2
+    self.slowTimer = 0.25
     self:setMode(self.mode)
   end
 end

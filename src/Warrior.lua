@@ -95,6 +95,10 @@ function Warrior:onCollision(other)
   if type == "Sinibomb Blast" then
     self:damage(EntityParams.warrior.damageFrom.sinibombBlast)
   end
+  
+  if type == "Sinistar" then
+    self:damage(EntityParams.warrior.damageFrom.sinistar)
+  end
 end
 
 function Warrior:updateAI()

@@ -1,11 +1,14 @@
 return {
   version = "1.1",
   luaversion = "5.1",
+  tiledversion = "0.13.1",
   orientation = "orthogonal",
   width = 30,
   height = 30,
   tilewidth = 32,
   tileheight = 32,
+  nextobjectid = 79,
+  backgroundcolor = { 0, 0, 0 },
   properties = {},
   tilesets = {},
   layers = {
@@ -17,6 +20,7 @@ return {
       properties = {},
       objects = {
         {
+          id = 1,
           name = "",
           type = "",
           shape = "ellipse",
@@ -24,10 +28,12 @@ return {
           y = 356,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 2,
           name = "",
           type = "",
           shape = "ellipse",
@@ -35,10 +41,12 @@ return {
           y = 328,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 3,
           name = "",
           type = "",
           shape = "ellipse",
@@ -46,10 +54,12 @@ return {
           y = 293,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 4,
           name = "",
           type = "",
           shape = "ellipse",
@@ -57,10 +67,12 @@ return {
           y = 280,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 5,
           name = "",
           type = "",
           shape = "ellipse",
@@ -68,10 +80,12 @@ return {
           y = 306,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 6,
           name = "",
           type = "",
           shape = "ellipse",
@@ -79,10 +93,12 @@ return {
           y = 334,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 7,
           name = "",
           type = "",
           shape = "ellipse",
@@ -90,10 +106,12 @@ return {
           y = 357,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 8,
           name = "",
           type = "",
           shape = "ellipse",
@@ -101,10 +119,12 @@ return {
           y = 383,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 9,
           name = "",
           type = "",
           shape = "ellipse",
@@ -112,10 +132,12 @@ return {
           y = 387,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 10,
           name = "",
           type = "",
           shape = "ellipse",
@@ -123,10 +145,12 @@ return {
           y = 336,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 11,
           name = "",
           type = "",
           shape = "ellipse",
@@ -134,10 +158,12 @@ return {
           y = 334,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 12,
           name = "",
           type = "",
           shape = "ellipse",
@@ -145,10 +171,12 @@ return {
           y = 255,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 13,
           name = "",
           type = "",
           shape = "ellipse",
@@ -156,10 +184,12 @@ return {
           y = 287,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 14,
           name = "",
           type = "",
           shape = "ellipse",
@@ -167,10 +197,12 @@ return {
           y = 309,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 15,
           name = "",
           type = "",
           shape = "ellipse",
@@ -178,10 +210,12 @@ return {
           y = 333,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 16,
           name = "",
           type = "",
           shape = "ellipse",
@@ -189,10 +223,12 @@ return {
           y = 363,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 17,
           name = "",
           type = "",
           shape = "ellipse",
@@ -200,10 +236,12 @@ return {
           y = 383,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 18,
           name = "",
           type = "",
           shape = "ellipse",
@@ -211,10 +249,12 @@ return {
           y = 396,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 19,
           name = "",
           type = "",
           shape = "ellipse",
@@ -222,10 +262,12 @@ return {
           y = 404,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 20,
           name = "",
           type = "",
           shape = "ellipse",
@@ -233,10 +275,12 @@ return {
           y = 353,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 21,
           name = "",
           type = "",
           shape = "ellipse",
@@ -244,10 +288,12 @@ return {
           y = 331,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 22,
           name = "",
           type = "",
           shape = "ellipse",
@@ -255,10 +301,12 @@ return {
           y = 324,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 23,
           name = "",
           type = "",
           shape = "ellipse",
@@ -266,10 +314,12 @@ return {
           y = 320,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 24,
           name = "",
           type = "",
           shape = "ellipse",
@@ -277,10 +327,12 @@ return {
           y = 289,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 25,
           name = "",
           type = "",
           shape = "ellipse",
@@ -288,10 +340,12 @@ return {
           y = 260,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 26,
           name = "",
           type = "",
           shape = "ellipse",
@@ -299,10 +353,12 @@ return {
           y = 232,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 27,
           name = "",
           type = "",
           shape = "ellipse",
@@ -310,10 +366,12 @@ return {
           y = 222,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 28,
           name = "",
           type = "",
           shape = "ellipse",
@@ -321,10 +379,12 @@ return {
           y = 248,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 29,
           name = "",
           type = "",
           shape = "ellipse",
@@ -332,10 +392,12 @@ return {
           y = 377,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 30,
           name = "",
           type = "",
           shape = "ellipse",
@@ -343,10 +405,12 @@ return {
           y = 402,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 31,
           name = "",
           type = "",
           shape = "ellipse",
@@ -354,10 +418,12 @@ return {
           y = 588,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 32,
           name = "",
           type = "",
           shape = "ellipse",
@@ -365,10 +431,12 @@ return {
           y = 581,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 33,
           name = "",
           type = "",
           shape = "ellipse",
@@ -376,10 +444,12 @@ return {
           y = 585,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 34,
           name = "",
           type = "",
           shape = "ellipse",
@@ -387,10 +457,12 @@ return {
           y = 599,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 35,
           name = "",
           type = "",
           shape = "ellipse",
@@ -398,10 +470,12 @@ return {
           y = 620,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 36,
           name = "",
           type = "",
           shape = "ellipse",
@@ -409,10 +483,12 @@ return {
           y = 646,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 37,
           name = "",
           type = "",
           shape = "ellipse",
@@ -420,10 +496,12 @@ return {
           y = 670,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 38,
           name = "",
           type = "",
           shape = "ellipse",
@@ -431,10 +509,12 @@ return {
           y = 691,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 39,
           name = "",
           type = "",
           shape = "ellipse",
@@ -442,10 +522,12 @@ return {
           y = 701,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 40,
           name = "",
           type = "",
           shape = "ellipse",
@@ -453,10 +535,12 @@ return {
           y = 701,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 41,
           name = "",
           type = "",
           shape = "ellipse",
@@ -464,10 +548,12 @@ return {
           y = 692,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 42,
           name = "",
           type = "",
           shape = "ellipse",
@@ -475,10 +561,12 @@ return {
           y = 551,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 43,
           name = "",
           type = "",
           shape = "ellipse",
@@ -486,10 +574,12 @@ return {
           y = 571,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 44,
           name = "",
           type = "",
           shape = "ellipse",
@@ -497,10 +587,12 @@ return {
           y = 589,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 45,
           name = "",
           type = "",
           shape = "ellipse",
@@ -508,10 +600,12 @@ return {
           y = 605,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 46,
           name = "",
           type = "",
           shape = "ellipse",
@@ -519,10 +613,12 @@ return {
           y = 631,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 47,
           name = "",
           type = "",
           shape = "ellipse",
@@ -530,10 +626,12 @@ return {
           y = 650,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 48,
           name = "",
           type = "",
           shape = "ellipse",
@@ -541,10 +639,12 @@ return {
           y = 675,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 49,
           name = "",
           type = "",
           shape = "ellipse",
@@ -552,10 +652,12 @@ return {
           y = 696,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 50,
           name = "",
           type = "",
           shape = "ellipse",
@@ -563,10 +665,12 @@ return {
           y = 702,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 51,
           name = "",
           type = "",
           shape = "ellipse",
@@ -574,10 +678,12 @@ return {
           y = 700,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 52,
           name = "",
           type = "",
           shape = "ellipse",
@@ -585,10 +691,12 @@ return {
           y = 693,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 53,
           name = "",
           type = "",
           shape = "ellipse",
@@ -596,10 +704,12 @@ return {
           y = 677,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 54,
           name = "",
           type = "",
           shape = "ellipse",
@@ -607,10 +717,12 @@ return {
           y = 653,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 55,
           name = "",
           type = "",
           shape = "ellipse",
@@ -618,10 +730,12 @@ return {
           y = 546,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 56,
           name = "",
           type = "",
           shape = "ellipse",
@@ -629,10 +743,12 @@ return {
           y = 562,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 57,
           name = "",
           type = "",
           shape = "ellipse",
@@ -640,10 +756,12 @@ return {
           y = 575,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 58,
           name = "",
           type = "",
           shape = "ellipse",
@@ -651,10 +769,12 @@ return {
           y = 598,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 59,
           name = "",
           type = "",
           shape = "ellipse",
@@ -662,10 +782,12 @@ return {
           y = 624,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 60,
           name = "",
           type = "",
           shape = "ellipse",
@@ -673,10 +795,12 @@ return {
           y = 259,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         },
         {
+          id = 61,
           name = "",
           type = "",
           shape = "ellipse",
@@ -684,138 +808,7 @@ return {
           y = 408,
           width = 0,
           height = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          name = "",
-          type = "",
-          shape = "ellipse",
-          x = 951,
-          y = 485,
-          width = 0,
-          height = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          name = "",
-          type = "",
-          shape = "ellipse",
-          x = 955,
-          y = 500,
-          width = 0,
-          height = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          name = "",
-          type = "",
-          shape = "ellipse",
-          x = 955,
-          y = 465,
-          width = 0,
-          height = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          name = "",
-          type = "",
-          shape = "ellipse",
-          x = 7,
-          y = 456,
-          width = 0,
-          height = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          name = "",
-          type = "",
-          shape = "ellipse",
-          x = 8,
-          y = 472,
-          width = 0,
-          height = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          name = "",
-          type = "",
-          shape = "ellipse",
-          x = 7,
-          y = 487,
-          width = 0,
-          height = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          name = "",
-          type = "",
-          shape = "ellipse",
-          x = 488,
-          y = 9,
-          width = 0,
-          height = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          name = "",
-          type = "",
-          shape = "ellipse",
-          x = 501,
-          y = 7,
-          width = 0,
-          height = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          name = "",
-          type = "",
-          shape = "ellipse",
-          x = 467,
-          y = 7,
-          width = 0,
-          height = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          name = "",
-          type = "",
-          shape = "ellipse",
-          x = 469,
-          y = 949,
-          width = 0,
-          height = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          name = "",
-          type = "",
-          shape = "ellipse",
-          x = 485,
-          y = 949,
-          width = 0,
-          height = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          name = "",
-          type = "",
-          shape = "ellipse",
-          x = 504,
-          y = 949,
-          width = 0,
-          height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         }
@@ -824,11 +817,12 @@ return {
     {
       type = "objectgroup",
       name = "Squad",
-      visible = true,
+      visible = false,
       opacity = 1,
       properties = {},
       objects = {
         {
+          id = 74,
           name = "",
           type = "",
           shape = "ellipse",
@@ -836,6 +830,7 @@ return {
           y = 138,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {
             ["Respawn Period"] = "14",
@@ -844,6 +839,7 @@ return {
           }
         },
         {
+          id = 75,
           name = "",
           type = "",
           shape = "ellipse",
@@ -851,6 +847,7 @@ return {
           y = 635,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {
             ["Respawn Period"] = "11",
@@ -859,6 +856,7 @@ return {
           }
         },
         {
+          id = 76,
           name = "",
           type = "",
           shape = "ellipse",
@@ -866,6 +864,7 @@ return {
           y = 639,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {
             ["Respawn Period"] = "17",
@@ -874,6 +873,7 @@ return {
           }
         },
         {
+          id = 77,
           name = "",
           type = "",
           shape = "ellipse",
@@ -881,6 +881,7 @@ return {
           y = 378,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {
             ["Respawn Period"] = "9",
@@ -898,6 +899,7 @@ return {
       properties = {},
       objects = {
         {
+          id = 78,
           name = "C",
           type = "",
           shape = "ellipse",
@@ -905,6 +907,7 @@ return {
           y = 480,
           width = 0,
           height = 0,
+          rotation = 0,
           visible = true,
           properties = {}
         }

@@ -162,6 +162,10 @@ function Asteroid:onCollision(other)
     other.isDead = true
     self.wasPlayerCausedCollision = false
   end
+  
+  if type == "Sinistar" then
+    self:damage(EntityParams.asteroid.damageFrom.sinistar)
+  end
 end
 
 return Asteroid

@@ -30,6 +30,7 @@ return {
       playerBullet = 5,
       sinibomb = 15,
       sinibombBlast = 1000,
+      sinistar = 10000,
     },
     crystalPickupHealthToSinistar = 0.01,
   },
@@ -46,6 +47,7 @@ return {
       playerBullet = 5,
       sinibomb = 15,
       sinibombBlast = 1000,
+      sinistar = 10000,
     }
   },
   asteroid = {
@@ -60,6 +62,7 @@ return {
       warriorBullet = 0,
       sinibomb = 15,
       sinibombBlast = 1000,
+      sinistar = 10000,
     },
     crystalProductionProbabilityFor = {
       playerBullet = 0.08,
