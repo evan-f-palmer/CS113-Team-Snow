@@ -7,7 +7,8 @@ function love.load(arg)
   io.stdout:setvbuf('no')
   love.window.setTitle(" ")
   love.window.setFullscreen(true, 'desktop')
-
+  love.window.setIcon(love.image.newImageData("assets/sinistar/sinistarMouthOpen.png")) 
+  love.window.setTitle("Infinistar")
   local Game = require('Game')
   game = Game()  
   
