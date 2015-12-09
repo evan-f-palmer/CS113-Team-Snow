@@ -14,7 +14,7 @@ World.make = {
   SinistarConstruction = require('SinistarConstruction'),
   Explosion = require('Explosion')
 }
-World.levelScale = 15
+World.levelScale = 20
 World.collider = CollisionSystem()
 World.DEFAULT_GET_NEIGHBORS = function() return {} end
 World.DEAFULT_RESPAWN_TIME = 5.0

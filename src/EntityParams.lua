@@ -22,8 +22,8 @@ return {
     health = 25,
     radius = 80,
     sightRadius = 2000,
-    maxSpeedScale = 1.6,
-    maxForceScale = 0.5,
+    maxSpeedScale = 1.3,
+    maxForceScale = 0.6,
     fireDebounce = 0.7,
     closestProximity = 700,
     damageFrom = {
@@ -38,7 +38,7 @@ return {
     health = 70,  
     radius = 120,
     sightRadius = 1300,
-    maxSpeedScale = 1.40,
+    maxSpeedScale = 1.30,
     maxForceScale = 0.65,
     maxDistanceFromFlock = 600,
     fireDebounce = 1.2,
@@ -51,7 +51,7 @@ return {
     }
   },
   asteroid = {
-    health = 120,
+    health = 11,
     radius = 120,
     crystals = 6,
     crystalDebounce = 2.25,
@@ -65,7 +65,7 @@ return {
       sinistar = 10000,
     },
     crystalProductionProbabilityFor = {
-      playerBullet = 0.08,
+      playerBullet = 0.05,
       workerBullet = 0.1,
       warriorBullet = 0,
     },
@@ -86,14 +86,14 @@ return {
     },
 
     maxWanderingSpeedScale = 0.35,
-    maxChargingSpeedScale = 1.4,
-    maxChasingSpeedScale = 0.8,
+    maxChargingSpeedScale = 1.7,
+    maxChasingSpeedScale = 0.7,
     
     maxWanderingForceScale = 1.0,
     maxChargingForceScale = 1.2,
     maxChasingForceScale = 1.4,
     
-    wanderingTime = 3.75,
+    wanderingTime = 2.0,
     chargingTime = 1.5,
     chasingTime = 1.25,
   },

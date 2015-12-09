@@ -27,3 +27,8 @@ animator:define("WarriorLights", {
   love.graphics.newImage("assets/warrior/warrior8.png"),
 })
 
+animator:define("Sinistar", {
+  love.graphics.newImage("assets/sinistar/sinistarMouthOpen.png"),
+  love.graphics.newImage("assets/sinistar/sinistarMouthClosed.png"),
+})
+
