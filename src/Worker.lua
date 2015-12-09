@@ -23,7 +23,7 @@ Worker.render = {
   shouldRotate = false,
 }
 
-function Worker:init(gameData)
+function Worker:init(gameData, xWorld)
   self.gameData = gameData
 
   Boid.init(self, Worker.MAX_SPEED, Worker.MAX_FORCE)
@@ -39,8 +39,7 @@ function Worker:init(gameData)
   self.combat:addWeapon(self.id, {ammo = math.huge, projectileID = "Worker Bullet", debounceTime = EntityParams.worker.fireDebounce})
   self.crystalsWeaponID = self.id .. 'Crystals'
   self.combat:addWeapon(self.crystalsWeaponID, {ammo = 1, maxAmmo = 3, projectileID = "Crystal", debounceTime = 0})
-  self.combat:addWeapon("Explosion", {ammo = math.huge, projectileID = "Explosion", debounceTime = 0})
-
+  self.world = xWorld
   self.soundSystem = SoundSystem()    
 end
 
@@ -49,7 +48,6 @@ function Worker:setFlock(xFlock)
 end
 
 function Worker:update(dt)
---  print(self.id, self.loc)
   Boid.update(self, dt)
   
   if self.currentTarget and self.shouldFire then 
@@ -63,14 +61,13 @@ function Worker:update(dt)
 end
 
 function Worker:onDeath()
-  self.soundSystem:play("sound/explosion.wav", 0.5)    
   self.gameData:increaseScore(self.gameData.workerKillValue)
   if self.flock then
     self.flock:removeBoid(self)
   end
-  
-  self.combat:fire("Explosion", self.loc, Vector(0, 0))
-  
+ 
+  self.world:makeBody("Explosion", self.loc.x, self.loc.y, "workerExplosion")
+    
   if Worker.probability:of(0.25) then
     while not self.combat:isOutOfAmmo(self.crystalsWeaponID) do
       local dir = Vector():randomize_inplace()

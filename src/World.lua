@@ -12,6 +12,7 @@ World.make = {
   Sinistar = require('Sinistar'),
   Flock    = require('Flock'),
   SinistarConstruction = require('SinistarConstruction'),
+  Explosion = require('Explosion')
 }
 World.levelScale = 15
 World.collider = CollisionSystem()
@@ -163,7 +164,7 @@ end
 function World:spawnAllFromAsType(xSpawnLayer, xType)
   for k, obj in pairs(xSpawnLayer.objects) do
     local x, y = self:translateX(obj.x), self:translateY(obj.y)
-    local body = self:makeBody(xType, x, y, self.gameData)
+    local body = self:makeBody(xType, x, y, self.gameData, self)
   end
 end
 
@@ -175,7 +176,7 @@ function World:spawnSquads(xSquadLayer)
     local numWorkers = obj.properties["Workers"] or 0
     for i = 1, numWorkers do
       local x, y = self:translateX(obj.x), self:translateY(obj.y)
-      local body = self:makeBody("Worker", x, y, self.gameData)
+      local body = self:makeBody("Worker", x, y, self.gameData, self)
       body:setFlock(flock)
       flock:addBoid(body)
     end
@@ -183,7 +184,7 @@ function World:spawnSquads(xSquadLayer)
     local numWarriors = obj.properties["Warriors"] or 0
     for i = 1, numWarriors do
       local x, y = self:translateX(obj.x), self:translateY(obj.y)
-      local body = self:makeBody("Warrior", x, y, self.gameData)
+      local body = self:makeBody("Warrior", x, y, self.gameData, self)
       body:setFlock(flock)
       flock:addBoid(body)
     end
@@ -195,7 +196,7 @@ function World:spawnSquads(xSquadLayer)
       respawnTimer = respawnTimer + dt
       if respawnTimer >= respawnTime then
         local type = flock:claimRespawn()
-        local body = self:makeBody(type, obj.x, obj.y, self.gameData)
+        local body = self:makeBody(type, obj.x, obj.y, self.gameData, self)
         body:setFlock(flock)
         flock:addBoid(body)
         respawnTimer = 0

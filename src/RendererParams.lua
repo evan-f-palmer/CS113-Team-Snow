@@ -19,5 +19,7 @@ return {
     ["Player"] = 1.2, 
     ["Sinibomb Blast"] = 5,
     ["Player Thrust"] = 1.2,
+    ["workerExplosion"] = 1.0,
+    ["warriorExplosion"] = 3.0,
   },
 }

@@ -22,8 +22,7 @@ end
 local animator = Animator()
 local sinibombBlastAnimation = animator:newAnimation("Sinibomb Explosion", 3)
 sinibombBlastAnimation.start()
-local explosion = animator:newAnimation("Explosion", 2)
-explosion.start()
+local explosion 
   
 local projectiles = Projectiles()
 projectiles:define("Player Bullet", {
@@ -80,12 +79,4 @@ projectiles:define("Player Thrust", {
   speed = 0, 
   lifespan = 4,
   radius = 1,
-})
-projectiles:define("Explosion", {
-  shouldRotate = true,
-  animation = explosion,
-  color = {255,255,255,32},
-  speed = EntityParams.explosion.speed, 
-  lifespan = EntityParams.explosion.lifespan, 
-  radius = EntityParams.explosion.radius
 })

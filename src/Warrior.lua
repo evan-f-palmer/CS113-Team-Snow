@@ -24,9 +24,9 @@ Warrior.render = {
   shouldRotate = false,
 }
 
-function Warrior:init(gameData)
+function Warrior:init(gameData, xWorld)
   self.gameData = gameData
-
+  self.world = xWorld
   Boid.init(self, Warrior.MAX_SPEED, Warrior.MAX_FORCE)
   self.currentTarget  = nil
   self.previousTarget = nil
@@ -62,11 +62,12 @@ function Warrior:update(dt)
 end
 
 function Warrior:onDeath()
-  self.soundSystem:play("sound/explosion.wav", 0.5)    
   self.gameData:increaseScore(self.gameData.warriorKillValue)
   if self.flock then
     self.flock:removeBoid(self)
   end
+  
+  self.world:makeBody("Explosion", self.loc.x, self.loc.y, "warriorExplosion")
 end
 
 function Warrior:damage(xAmount)

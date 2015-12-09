@@ -7,7 +7,7 @@ return {
     primaryFireOffset = 30,
     primaryFireDebounce = 0.18,
     secondaryFireDebounce = 1,
-    secondaryMaxAmmo = 20,
+    secondaryMaxAmmo = 16,
     damageFrom = {
       sinistarCollision = 100,
       warriorBullet = 7.5,
@@ -74,7 +74,7 @@ return {
     }
   },
   sinistar = {
-    health = 1000,
+    health = 200,
     radius = 230,
     damageFrom = {
       playerBullet = 0.0,
@@ -116,6 +116,6 @@ return {
     speed = 180, lifespan = 2, radius = 45,
   },
   explosion = {
-    speed = 0, lifespan = 3, radius = 0.1,
+    speed = 0, lifespan = 3, radius = 45,
   },
 }
