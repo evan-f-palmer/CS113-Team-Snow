@@ -77,7 +77,9 @@ function Renderer:draw(xWorld)
       local inRDView = actor.getNeighbors(self.radarRadius)
       local inRadarViewByType = self:getObjectsInViewByType(inRDView)  
       xWorld.gameData.forRadar = inRadarViewByType
-      xWorld.gameData.forRadar[#xWorld.gameData.forRadar + 1] = xWorld.sinistar
+      xWorld.gameData.forRadar["Player"] = {xWorld:getByID("Player")}
+      xWorld.gameData.forRadar["Sinistar Construction"] = {xWorld:getByID("Sinistar Construction")}
+      xWorld.gameData.forRadar["Sinistar"] = {xWorld:getByID("Sinistar")}
     end
 
     self.camera:lookAt(actorX, actorY)

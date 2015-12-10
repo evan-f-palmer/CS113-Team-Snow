@@ -120,13 +120,13 @@ function Sinistar:update(dt)
       self.soundTimer = Sinistar.soundTime
     end
     
-  if self.loc:dist2(loc) > Sinistar.maxDistanceFromPlayer * Sinistar.maxDistanceFromPlayer then
-    print("far away")
-    self.loc = loc - self.loc
-    self.loc:normalize_inplace()
-    self.loc:scale_inplace(Sinistar.maxDistanceFromPlayer)
-    self.loc:add_inplace(loc)
-  end
+    if self.loc:dist2(loc) > Sinistar.maxDistanceFromPlayer * Sinistar.maxDistanceFromPlayer then
+      print("far away")
+      self.loc = loc - self.loc
+      self.loc:normalize_inplace()
+      self.loc:scale_inplace(Sinistar.maxDistanceFromPlayer)
+      self.loc:add_inplace(loc)
+    end
     
   elseif self.mode == "CHASE" then
     self.alertMachine:set(CHASING_ALERT)

@@ -6,13 +6,13 @@ local animator = Animator()
 local soundSystem = SoundSystem()
 local Explosion = Class{}
 
-function Explosion:init(name)
-  self.ttl = 0.9
+function Explosion:init(type)
+  self.ttl = 1
   self.loc = Vector(0, 0)
   self.vel = Vector(0, 0)
-  self.type = name
+  self.type = type
   self.render = {
-    animation = animator:newAnimation("Explosion", (self.ttl + 0.1) * 4),
+    animation = animator:newAnimation("Explosion", (self.ttl) * 4),
   }
   soundSystem:play("sound/explosion.wav", 0.5)    
   
