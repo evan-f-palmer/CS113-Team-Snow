@@ -28,23 +28,7 @@ function Renderer:init()
   self.TEXT_Y_OFFSET = 2 * self.GU.FONT_SIZE
   self.DEBUG_TEXT_COLOR = {80, 80, 200}
   
-  self.DRAW_ORDERING = {
-    "Worker Bullet", 
-    "Sinistar Construction", 
-    "Player Bullet", 
-    "Asteroid",
-    "AsteroidFrag", 
-    "Crystal", 
-    "Sinistar", 
-    "Warrior Bullet", 
-    "Sinibomb", 
-    "Worker", 
-    "Player Thrust", 
-    "Player", 
-    "Warrior",
-    "workerExplosion", 
-    "warriorExplosion", 
-    "Sinibomb Blast"}
+  self.DRAW_ORDERING = RendererParams.drawOrdering
 end
 
 function Renderer:follow(xBody)
@@ -60,6 +44,10 @@ function Renderer:isFollowing(xID)
 end
 
 function Renderer:draw(xWorld)
+  self.camera.scale = RendererParams.cameraScale
+  self.captureRadius = RendererParams.captureRadius / (self.camera.scale)
+  self.radarRadius = RendererParams.radarRadius / (self.camera.scale)
+  
   local color = self.colorer:getCurrentAlertColor()
   love.graphics.setColor(color[1], color[2], color[3])
 

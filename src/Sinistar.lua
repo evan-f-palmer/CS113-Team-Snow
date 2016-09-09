@@ -64,7 +64,7 @@ Sinistar.soundTime = 5
 function Sinistar:init(gameData, world)
   self.gameData = gameData
   self.world = world
-  self.player = self.world.player
+  --self.player = self.world.player
   
   Boid.init(self, Sinistar.MAX_SPEED, Sinistar.MAX_FORCE)
   self.render = Sinistar.render
@@ -103,12 +103,14 @@ Sinistar.maxDistanceFromPlayer = 100000
 
 function Sinistar:update(dt)
   Boid.update(self, dt)
-  self.player = self.world.player
-  
+  local player = self.world.player
+  self.lastplayer = player or self.lastplayer
+  player = self.lastplayer  
+
   self.soundTimer = self.soundTimer - dt
   self.slowTimer = self.slowTimer   - dt
   
-  local x, y = self.getRelativeLoc(self.player)
+  local x, y = self.getRelativeLoc(player)
   local loc = Vector(self.loc.x + x, self.loc.y + y)
   
   if self.mode == "WANDER" then

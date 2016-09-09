@@ -2,6 +2,7 @@ local Class = require('hump.class')
 local Vector = require('hump.vector')
 local Combat = require("Combat")
 local SoundSystem = require('SoundSystem')
+local RendererParams = require('RendererParams')
 
 local LEFT_MOUSE_BUTTON = 'l'
 local RIGHT_MOUSE_BUTTON = 'r'
@@ -88,7 +89,14 @@ function GameIOController:update(dt)
   if self:isDown('w') then self:press('w')
     self.game.step = true
   end
-  
+ 
+  if self:isDown('9') then self:press('9')
+    RendererParams.cameraScale = math.min(RendererParams.cameraScale + 1/48, 1)
+  end
+  if self:isDown('0') then self:press('0')
+    RendererParams.cameraScale = math.max(RendererParams.cameraScale - 1/48, 1/48)
+  end
+ 
   if love.keyboard.isDown('1') then
     ALERT_TEST.priority = 1
     alertMachine:set(ALERT_TEST)

@@ -64,7 +64,11 @@ function Combat:fire(xWeaponID, xPosition, xDirection, xMomentum)
     local loc, dir, vel = xPosition:clone(), xDirection:clone(), (xMomentum and xMomentum:clone())
     local weapon = self.weapons[xWeaponID]
     weapon.ammo = weapon.ammo - 1
-    weapon.timer = 0
+    if (weapon.timer < 2*weapon.debounceTime) then -- makes rapid fire more smooth
+      weapon.timer = weapon.timer - weapon.debounceTime -- 0
+    else -- ensures that fire after a long idle period still requires charge
+      weapon.timer = 0
+    end
     table.insert(self.actions, {type = "FIRE", weapon = weapon, startPos = loc, direction = dir, momentum = vel})
   end
 end

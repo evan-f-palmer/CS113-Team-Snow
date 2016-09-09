@@ -63,9 +63,9 @@ function Player:update(dt)
   local speed = self.vel:len()
   local speedPct = (speed / self.maxSpeed)
 
---  if speedPct > 0 and self.combat:canFire("Player Thruster") then
---    self.combat:fire("Player Thruster", self.loc, self.dir)
---  end
+  --if speedPct > 0 and self.combat:canFire("Player Thruster") then
+  --  self.combat:fire("Player Thruster", self.loc, self.dir)
+  --end
 
   if self.playerInput.primaryWeaponFire and self.combat:canFire("Player Primary R") then
     local offset = self.dir:perpendicular()

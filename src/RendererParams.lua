@@ -22,4 +22,24 @@ return {
     ["workerExplosion"] = 1.0,
     ["warriorExplosion"] = 3.0,
   },
+  drawOrdering = {
+    -- DRAW FIRST (ON BOTTOM)
+    "Worker Bullet", 
+    "Sinistar Construction", 
+    "Player Bullet", 
+    "Asteroid",
+    "AsteroidFrag", 
+    "Crystal", 
+    "Sinistar", 
+    "Warrior Bullet", 
+    "Sinibomb", 
+    "Worker", 
+    "Player Thrust", 
+    "Player", 
+    "Warrior",
+    "workerExplosion", 
+    "warriorExplosion", 
+    "Sinibomb Blast",
+    -- DRAW LAST (ON TOP)
+  },
 }
